@@ -1,0 +1,4 @@
+node_modules/
+quiz.db
+.env
+*.log

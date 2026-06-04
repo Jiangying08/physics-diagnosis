@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诊断测试 · 题目与判型逻辑</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+    background:#F7FAFC;color:#2D3748;padding:32px 16px;
+    -webkit-font-smoothing:antialiased
+  }
+  .container{max-width:800px;margin:0 auto}
+
+  /* 导航标签 */
+  .tabs{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap}
+  .tab{
+    padding:10px 20px;border-radius:10px;border:1px solid #E2E8F0;
+    font-size:13px;font-weight:600;cursor:pointer;background:#fff;
+    transition:all .2s;color:#4A5568
+  }
+  .tab:hover{background:#EBF8FF;border-color:#90CDF4}
+  .tab.active{background:#2B6CB0;color:#fff;border-color:#2B6CB0}
+
+  .panel{display:none}
+  .panel.active{display:block;animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  .page-title{font-size:24px;font-weight:800;margin-bottom:4px;color:#1A202C}
+  .page-sub{font-size:13px;color:#718096;margin-bottom:24px}
+  .page-sub strong{color:#2B6CB0}
+
+  /* 维度卡片 */
+  .dim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:28px}
+  .dim-card{
+    background:#fff;border-radius:12px;padding:16px;text-align:center;
+    border:1px solid #EDF2F7;box-shadow:0 1px 4px rgba(0,0,0,.04)
+  }
+  .dim-card .icon{font-size:28px;margin-bottom:4px}
+  .dim-card .name{font-size:14px;font-weight:700;margin-bottom:2px}
+  .dim-card .desc{font-size:11px;color:#A0AEC0}
+
+  /* 区块标题 */
+  .section-title{
+    font-size:16px;font-weight:700;margin:24px 0 12px;padding:8px 0 4px;
+    border-bottom:2px solid #E2E8F0;display:flex;align-items:center;gap:8px
+  }
+  .section-title .badge{
+    font-size:11px;background:#2B6CB0;color:#fff;padding:2px 8px;border-radius:6px;font-weight:600
+  }
+
+  /* 题目卡片 */
+  .q-card{
+    background:#fff;border-radius:12px;padding:16px 18px;
+    border:1px solid #EDF2F7;margin-bottom:10px;
+    box-shadow:0 1px 3px rgba(0,0,0,.03)
+  }
+  .q-card .q-header{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px
+  }
+  .q-card .q-num{font-size:12px;color:#A0AEC0;font-weight:600}
+  .q-card .q-dim-tag{
+    font-size:11px;padding:2px 10px;border-radius:6px;color:#fff;font-weight:600
+  }
+  .q-card .q-text{font-size:14px;font-weight:600;color:#1A202C;margin-bottom:8px;line-height:1.6}
+  .q-card .opts{display:flex;flex-direction:column;gap:4px}
+  .q-card .opt{
+    display:flex;align-items:center;gap:8px;padding:7px 10px;
+    border-radius:8px;font-size:13px;line-height:1.5;
+    border:1px solid #EDF2F7
+  }
+  .q-card .opt .lb{
+    font-weight:700;color:#2B6CB0;flex-shrink:0;width:20px
+  }
+  .q-card .opt .sc{
+    margin-left:auto;font-size:11px;font-weight:600;flex-shrink:0
+  }
+  .q-card .opt .sc.correct{color:#38A169}
+  .q-card .opt .sc.partial{color:#D69E2E}
+  .q-card .opt .sc.wrong{color:#E53E3E}
+  .q-card .opt .wk{font-size:11px;color:#A0AEC0;margin-left:4px;flex-shrink:0;max-width:200px;text-align:right}
+
+  /* 类型卡片 */
+  .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:20px}
+  .type-card{
+    background:#fff;border-radius:12px;padding:16px 18px;
+    border:1px solid #EDF2F7;box-shadow:0 1px 4px rgba(0,0,0,.04)
+  }
+  .type-card .type-emoji{font-size:28px;margin-bottom:2px}
+  .type-card .type-name{font-size:15px;font-weight:700;margin-bottom:2px}
+  .type-card .type-key{font-size:11px;color:#2B6CB0;font-weight:600;margin-bottom:6px}
+  .type-card .type-slogan{font-size:12px;color:#4A5568;line-height:1.6;margin-bottom:6px}
+  .type-card .type-detail{font-size:11px;color:#A0AEC0;line-height:1.5}
+
+  /* 算法框 */
+  .algo-box{
+    background:#1A202C;border-radius:12px;padding:18px 20px;
+    font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+    font-size:13px;line-height:1.8;color:#E2E8F0;overflow-x:auto;
+    margin-bottom:16px
+  }
+  .algo-box .comment{color:#68D391}
+  .algo-box .keyword{color:#63B3ED}
+  .algo-box .string{color:#F6AD55}
+  .algo-box .number{color:#FC8181}
+  .algo-box .operator{color:#D53F8C}
+
+  /* 流程图 */
+  .flow-box{
+    background:#fff;border-radius:12px;padding:20px;
+    border:1px solid #EDF2F7;margin-bottom:16px
+  }
+  .flow-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+  .flow-step:last-child{margin-bottom:0}
+  .flow-step .step-num{
+    width:26px;height:26px;border-radius:50%;background:#2B6CB0;color:#fff;
+    font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0
+  }
+  .flow-step .step-num.green{background:#38A169}
+  .flow-step .step-num.orange{background:#D69E2E}
+  .flow-step .step-num.purple{background:#805AD5}
+  .flow-step .step-content{flex:1}
+  .flow-step .step-content .step-title{font-size:14px;font-weight:600;margin-bottom:2px}
+  .flow-step .step-content .step-desc{font-size:12px;color:#718096;line-height:1.6}
+
+  .highlight{background:#EBF8FF;padding:1px 6px;border-radius:4px;color:#2B6CB0;font-weight:600}
+  .code-inline{
+    background:#EDF2F7;padding:1px 6px;border-radius:4px;
+    font-family:monospace;font-size:12px;color:#2D3748
+  }
+
+  @media(max-width:600px){
+    body{padding:16px 10px}
+    .dim-grid{grid-template-columns:repeat(3,1fr)}
+    .type-grid{grid-template-columns:1fr}
+    .q-card{padding:12px 14px}
+    .q-card .opt{padding:6px 8px;flex-wrap:wrap}
+    .q-card .opt .wk{max-width:100%;text-align:left;margin-left:28px}
+    .algo-box{font-size:12px;padding:14px 16px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1 class="page-title">📋 诊断测试 · 题目与判型逻辑</h1>
+  <p class="page-sub">高途初三物理 · 共 <strong>12</strong> 道题 · <strong>5</strong> 个能力维度 · <strong>5</strong> 种学员类型</p>
+
+  <!-- tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('questions',this)">📝 题目列表</div>
+    <div class="tab" onclick="switchTab('dimensions',this)">📊 维度定义</div>
+    <div class="tab" onclick="switchTab('types',this)">🏷️ 学员类型</div>
+    <div class="tab" onclick="switchTab('algorithm',this)">⚙️ 判型算法</div>
+  </div>
+
+  <!-- ===== Panel: 题目列表 ===== -->
+  <div id="panel-questions" class="panel active">
+    <div class="section-title">📝 题目与评分标准 <span class="badge">12 题</span></div>
+    <p style="font-size:13px;color:#718096;margin-bottom:16px">
+      每题 4 个选项：<span class="highlight">3 分</span> = 正确（理解到位）、<span class="highlight">1 分</span> = 部分正确（有思路但不够严谨）、<span class="highlight">0 分</span> = 错误（概念/方法有误）
+    </p>
+    <div id="questionList"></div>
+  </div>
+
+  <!-- ===== Panel: 维度定义 ===== -->
+  <div id="panel-dimensions" class="panel">
+    <div class="section-title">📊 五大能力维度 <span class="badge">5 个</span></div>
+    <p style="font-size:13px;color:#718096;margin-bottom:14px">
+      每个维度得分 = 该维度所有题得分之和 ÷ 该维度满分 × 100，映射到 0~100 区间。
+    </p>
+    <div class="dim-grid" id="dimGrid"></div>
+    <div class="section-title">📐 各维度对应题目分布</div>
+    <div style="background:#fff;border-radius:12px;padding:16px 18px;border:1px solid #EDF2F7">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="border-bottom:2px solid #E2E8F0">
+          <th style="padding:6px 8px;text-align:left;color:#4A5568">维度</th>
+          <th style="padding:6px 8px;text-align:center;color:#4A5568">题号</th>
+          <th style="padding:6px 8px;text-align:center;color:#4A5568">题数</th>
+          <th style="padding:6px 8px;text-align:center;color:#4A5568">满分</th>
+        </tr></thead>
+        <tbody id="dimTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== Panel: 学员类型 ===== -->
+  <div id="panel-types" class="panel">
+    <div class="section-title">🏷️ 五种学员类型 <span class="badge">5 种</span></div>
+    <p style="font-size:13px;color:#718096;margin-bottom:14px">
+      根据五大维度得分，通过判型算法匹配最合适的学员类型。每种类型对应不同的优势、薄弱点和暑期学习方案。
+    </p>
+    <div class="type-grid" id="typeGrid"></div>
+
+    <div class="section-title">🎯 建议与行动清单生成方式</div>
+    <div class="flow-box">
+      <div class="flow-step">
+        <div class="step-num purple">1</div>
+        <div class="step-content">
+          <div class="step-title">判型 → 匹配类型模板</div>
+          <div class="step-desc"><span class="code-inline">detType(scores)</span> 返回类型 A~E，直接从 <span class="code-inline">TYPES[typeKey]</span> 中取出该类型预定义的 <span class="highlight">优势(strength)</span>、<span class="highlight">薄弱点(weakness)</span>、<span class="highlight">行动清单(todo)</span>。建议内容为固定模板，不随具体得分波动。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num green">2</div>
+        <div class="step-content">
+          <div class="step-title">补充：错题薄弱点</div>
+          <div class="step-desc">遍历 12 道题，对每道选错的题（<span class="code-inline">score &lt; 3</span>），记录该题的 <span class="code-inline">weakness</span> 描述。这些个性化的薄弱点会追加到"需要加强"部分，<strong>这是整个系统中唯一与具体答题情况相关的个性化内容</strong>。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num orange">3</div>
+        <div class="step-content">
+          <div class="step-title">报告输出示例</div>
+          <div class="step-desc" style="font-size:12px;color:#4A5568;background:#F7FAFC;padding:8px 12px;border-radius:8px;margin-top:4px">
+            <strong>✅ 你的优势</strong> = TYPES[type].strength[] 逐条渲染<br>
+            <strong>📌 需要加强</strong> = TYPES[type].weakness[] + 本次错题weakness[]<br>
+            <strong>🎯 暑期学习行动清单</strong> = TYPES[type].todo[] 逐条渲染（含行动目标）
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Panel: 判型算法 ===== -->
+  <div id="panel-algorithm" class="panel">
+    <div class="section-title">⚙️ 计分逻辑 <span class="badge">Step 1</span></div>
+    <div class="flow-box">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">收集原始得分</div>
+          <div class="step-desc">遍历 12 道题，将每道题所选选项的 <span class="code-inline">score</span> 累加到对应维度的原始分 <span class="code-inline">v</span> 中，同时该维度满分 <span class="code-inline">cnt</span> 加 3。每道题仅贡献 1 个选项的分数。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num green">2</div>
+        <div class="step-content">
+          <div class="step-title">换算为百分制</div>
+          <div class="step-desc">每个维度得分 = <span class="code-inline">Math.round( v / cnt × 100 )</span>，取值范围 0~100。其中 <span class="code-inline">v</span> 为原始得分总和，<span class="code-inline">cnt</span> 为该维度满分（题数 × 3）。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num orange">3</div>
+        <div class="step-content">
+          <div class="step-title">判定类型</div>
+          <div class="step-desc">将 5 个维度得分传入 <span class="code-inline">detType(scores)</span> 函数，按优先级顺序依次匹配，返回学员类型 A~E。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">⚙️ 判型算法 <span class="badge">Step 2</span></div>
+    <p style="font-size:13px;color:#718096;margin-bottom:10px">下面是完整的判型逻辑代码，按优先级从上到下依次判断：</p>
+    <div class="algo-box">
+      <span class="comment">// 输入：5 个维度得分 { concept, model, math, reading, flexible }</span><br>
+      <span class="comment">// 输出：类型 A / B / C / D / E</span><br><br>
+      <span class="keyword">function</span> detType(scores) {<br>
+      <span style="padding-left:20px;display:inline-block">const { concept, model, math, reading, flexible } = scores;</span><br>
+      <span style="padding-left:20px;display:inline-block">const avg = (concept + model + math + reading + flexible) / 5;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 1 优先级：全面薄弱 → E 缓慢建构者</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (avg &lt; 45) <span class="keyword">return</span> <span class="string">'E'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 2 优先级：灵活但概念/建模偏低 → C 快速扫描者</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (flexible &gt;= <span class="number">60</span> &amp;&amp; concept &lt;= flexible - <span class="number">15</span> &amp;&amp; model &lt;= flexible - <span class="number">15</span>)</span><br>
+      <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'C'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 3 优先级：概念+建模突出，审题偏低 → A 直觉建构者</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (concept &gt;= <span class="number">55</span> &amp;&amp; model &gt;= <span class="number">55</span> &amp;&amp; concept + model &gt;= <span class="number">120</span> &amp;&amp; reading &lt;= concept - <span class="number">10</span>)</span><br>
+      <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'A'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 4 优先级：数学+审题突出，灵活偏低 → B 规范执行者</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (math &gt;= <span class="number">55</span> &amp;&amp; reading &gt;= <span class="number">55</span> &amp;&amp; math + reading &gt;= <span class="number">120</span> &amp;&amp; flexible &lt;= math - <span class="number">10</span>)</span><br>
+      <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'B'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 5 优先级：数学偏高，概念偏低 → D 记忆驱动者</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (math &gt;= <span class="number">50</span> &amp;&amp; concept &lt;= math - <span class="number">15</span>)</span><br>
+      <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'D'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥈 备选：概念+建模突出（不限审题）→ A</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (concept &gt;= <span class="number">50</span> &amp;&amp; model &gt;= <span class="number">50</span> &amp;&amp; concept + model &gt;= math + reading + flexible)</span><br>
+      <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'A'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥈 备选：数学+审题突出 → B</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (math &gt;= <span class="number">50</span> &amp;&amp; reading &gt;= <span class="number">50</span>)</span><br>
+      <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'B'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥈 备选：灵活突出 → C</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (flexible &gt;= <span class="number">55</span>)</span><br>
+      <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'C'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥈 备选：数学最高 → D</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (math &gt;= Math.max(concept, model, reading, flexible))</span><br>
+      <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'D'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥉 兜底：平均分低于 55 → E，否则 → A</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (avg &lt; <span class="number">55</span>) <span class="keyword">return</span> <span class="string">'E'</span>;</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">return</span> <span class="string">'A'</span>;</span><br>
+      }
+    </div>
+
+    <div class="section-title">📊 判型决策流程图</div>
+    <div class="flow-box">
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.8">
+        <div>🥇 <strong>主规则</strong>（按顺序匹配，命中即返回）</div>
+        <div style="padding-left:20px">① <span class="code-inline">avg &lt; 45</span> → <span class="highlight">E 缓慢建构者</span></div>
+        <div style="padding-left:20px">② <span class="code-inline">flexible ≥ 60</span> 且概念/模型都 ≤ flexible−15 → <span class="highlight">C 快速扫描者</span></div>
+        <div style="padding-left:20px">③ <span class="code-inline">concept ≥ 55</span>、<span class="code-inline">model ≥ 55</span>、concept+model ≥ 120、reading ≤ concept−10 → <span class="highlight">A 直觉建构者</span></div>
+        <div style="padding-left:20px">④ <span class="code-inline">math ≥ 55</span>、<span class="code-inline">reading ≥ 55</span>、math+reading ≥ 120、flexible ≤ math−10 → <span class="highlight">B 规范执行者</span></div>
+        <div style="padding-left:20px">⑤ <span class="code-inline">math ≥ 50</span> 且 concept ≤ math−15 → <span class="highlight">D 记忆驱动者</span></div>
+        <br>
+        <div>🥈 <strong>备选规则</strong>（主规则未命中时）</div>
+        <div style="padding-left:20px">⑥ concept+model 之和最大 → <span class="highlight">A</span></div>
+        <div style="padding-left:20px">⑦ math+reading 均 ≥ 50 → <span class="highlight">B</span></div>
+        <div style="padding-left:20px">⑧ flexible ≥ 55 → <span class="highlight">C</span></div>
+        <div style="padding-left:20px">⑨ math 是五项最高 → <span class="highlight">D</span></div>
+        <br>
+        <div>🥉 <strong>兜底</strong></div>
+        <div style="padding-left:20px">⑩ <span class="code-inline">avg &lt; 55</span> → <span class="highlight">E</span>；否则 → <span class="highlight">A</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ======================== 数据来源 ========================
+const DIMS = [
+  {key:'concept',label:'概念理解',color:'#4299E1',icon:'🧠',desc:'对物理定义、定理、规律的本质理解，而非死记硬背'},
+  {key:'model',label:'模型建构',color:'#48BB78',icon:'🔧',desc:'将实际问题抽象为物理模型，画出受力图、光路图等'},
+  {key:'math',label:'数学运用',color:'#ED8936',icon:'📐',desc:'用数学工具（公式、比例、单位换算等）解决物理问题'},
+  {key:'reading',label:'审题习惯',color:'#9F7AEA',icon:'🔍',desc:'从题干中提取关键条件，排除无关信息的干扰'},
+  {key:'flexible',label:'思维灵活',color:'#FC8181',icon:'💡',desc:'面对新情境、新问法时灵活调用知识，不拘泥于固定套路'},
+];
+
+const QUESTIONS = [
+  {dim:'concept',text:'关于声音的产生与传播，以下说法正确的是？',
+    opts:[{label:'A',text:'声音在真空中传播速度最快',score:0,weak:'声学概念错误——真空不能传声'},{label:'B',text:'声音是由物体振动产生的',score:3,weak:null},{label:'C',text:'只要物体振动，我们就一定能听到声音',score:0,weak:'忽略了人耳听觉频率范围和传声介质'},{label:'D',text:'声音在固体中传播比在空气中慢',score:1,weak:'混淆了不同介质中的声速——固体传声比空气快'}]},
+  {dim:'concept',text:'关于物态变化，以下说法正确的是？',
+    opts:[{label:'A',text:'晶体在熔化过程中吸收热量，但温度保持不变',score:3,weak:null},{label:'B',text:'液体蒸发需要达到一定温度才能发生',score:0,weak:'混淆了蒸发和沸腾——蒸发在任何温度下都能发生'},{label:'C',text:'冰在熔化过程中温度会逐渐升高',score:0,weak:'晶体熔化特点理解错误——冰是晶体，熔化时吸热但温度不变'},{label:'D',text:'夏天冰箱拿出饮料瓶外壁"出汗"，是瓶子漏了',score:0,weak:'对液化现象不理解——是水蒸气遇冷瓶壁液化'}]},
+  {dim:'concept',text:'关于光的反射和折射，以下说法正确的是？',
+    opts:[{label:'A',text:'光在发生漫反射时，不遵循光的反射定律',score:0,weak:'漫反射的每一条光线都遵循反射定律'},{label:'B',text:'光从空气斜射入水中时，折射角小于入射角',score:3,weak:null},{label:'C',text:'光在真空中的传播速度是 3×10⁵m/s',score:1,weak:'数量级记错——光速是 3×10⁸m/s'},{label:'D',text:'凸透镜对光有发散作用',score:0,weak:'凸透镜会聚、凹透镜发散'}]},
+  {dim:'model',text:'用水平推力推地面上的木箱，木箱没动。木箱在水平方向受力情况是？',
+    opts:[{label:'A',text:'推力 > 静摩擦力',score:0,weak:'若推力大于摩擦力，木箱会加速运动'},{label:'B',text:'推力 = 静摩擦力',score:3,weak:null},{label:'C',text:'推力 < 静摩擦力',score:0,weak:'若推力小于摩擦力，物体会反向运动'},{label:'D',text:'木箱没动所以不受摩擦力',score:1,weak:'有推力且静止，必有静摩擦力平衡'}]},
+  {dim:'model',text:'一块木块静止在粗糙斜面上，它受到的摩擦力方向是？',
+    opts:[{label:'A',text:'沿斜面向上',score:3,weak:null},{label:'B',text:'沿斜面向下',score:0,weak:'木块有下滑趋势，摩擦阻碍下滑应向上'},{label:'C',text:'垂直斜面向上',score:1,weak:'混淆了支持力和摩擦力'},{label:'D',text:'水平向左',score:0,weak:'无法建立斜面模型'}]},
+  {dim:'model',text:'在"探究凸透镜成像规律"实验中，当物距 u > 2f 时，成像情况是？',
+    opts:[{label:'A',text:'成正立、放大的虚像',score:0,weak:'u>2f时成倒立缩小实像'},{label:'B',text:'成倒立、缩小的实像',score:3,weak:null},{label:'C',text:'成倒立、放大的实像',score:1,weak:'混淆了 f<u<2f 和 u>2f'},{label:'D',text:'不成像',score:0,weak:'不同物距成像性质不同，但都能成像'}]},
+  {dim:'math',text:'一个质量为 500g 的物体，体积为 200cm³，它的密度是？',
+    opts:[{label:'A',text:'2.5 g/cm³',score:3,weak:null},{label:'B',text:'0.4 g/cm³',score:1,weak:'公式记反了——ρ=m/V'},{label:'C',text:'250 g/cm³',score:0,weak:'单位处理失误'},{label:'D',text:'100,000 g/cm³',score:0,weak:'计算能力严重不足'}]},
+  {dim:'math',text:'一个 60kg 的人站立，每只脚与地面接触约 200cm²，g=10N/kg。他对地面的压强约为？',
+    opts:[{label:'A',text:'1.5×10⁴ Pa',score:3,weak:null},{label:'B',text:'3.0×10⁴ Pa',score:1,weak:'只算了一只脚的面积'},{label:'C',text:'1.5×10³ Pa',score:0,weak:'单位换算错误'},{label:'D',text:'3.0×10³ Pa',score:0,weak:'对压强公式理解有误'}]},
+  {dim:'math',text:'甲速是乙的 2 倍，乙时间是甲的 3 倍。甲、乙路程之比是？',
+    opts:[{label:'A',text:'2 : 3',score:3,weak:null},{label:'B',text:'3 : 2',score:1,weak:'比例推导不严谨'},{label:'C',text:'1 : 6',score:0,weak:'未正确运用 s=vt 推导'},{label:'D',text:'6 : 1',score:0,weak:'错误理解"乙时间是甲的3倍"'}]},
+  {dim:'reading',text:'题目："质量为 2kg 的物体放在水平桌面上，用 5N 的拉力使其做匀速直线运动"，求摩擦力。解题关键是什么？',
+    opts:[{label:'A',text:'质量 2kg',score:0,weak:'被数字吸引忽略关键信息'},{label:'B',text:'"匀速直线运动"意味着合力为零',score:3,weak:null},{label:'C',text:'水平拉力 5N',score:1,weak:'匀速条件下才能推出摩擦力'},{label:'D',text:'水平桌面',score:0,weak:'被无关背景信息干扰'}]},
+  {dim:'reading',text:'题目："1kg 物体从高处由静止开始下落，不计空气阻力，g=10N/kg"，求 2s 后下落距离。解题关键是什么？',
+    opts:[{label:'A',text:'质量 1kg',score:0,weak:'质量不影响下落快慢'},{label:'B',text:'"由静止开始"即初速度为零',score:3,weak:null},{label:'C',text:'g=10N/kg',score:1,weak:'不是本题的"关键条件"'},{label:'D',text:'不计空气阻力',score:1,weak:'漏了更关键的初速度条件'}]},
+  {dim:'flexible',text:'冬天室外说话呼出"白气"而夏天看不到。以下解释最合理的是？',
+    opts:[{label:'A',text:'冬天温度低，呼出的水蒸气遇冷液化成小水滴',score:3,weak:null},{label:'B',text:'冬天呼出的气体温度比夏天高',score:0,weak:'人体体温恒定，呼出气体温度差异不大'},{label:'C',text:'夏天没有水蒸气呼出',score:0,weak:'人呼吸时都会呼出水蒸气'},{label:'D',text:'冬天呼出的气体成分与夏天不同',score:1,weak:'成分没变，变化的是外部环境温度'}]},
+];
+
+const TYPES = {
+  A:{name:'直觉建构者',emoji:'🔮',key:'A',slogan:'你有很好的物理直觉和概念理解力，但有时"太快"而漏掉题目的关键条件。',
+    strengths:[{t:'概念理解力强',d:'你对物理概念的本质有很好的直觉。学新知识时"就是能懂"。'},{t:'建模能力好',d:'你能在脑中构建清晰的物理模型，快速抓住框架。'}],
+    weaknesses:[{t:'审题容易跳步',d:'做题时因"觉得太简单"而漏读条件。不是不会，是没看到。'},{t:'步骤不够规范',d:'习惯在脑子里想清楚就直接写答案，跳过中间步骤。'}],
+    todo:[{t:'"三步审题法"锁住跳步',d:'①圈出所有已知条件 ②画出对应图景 ③标出问题。做完再动笔。',target:'坚持 3 周养成习惯'},{t:'每道题写出完整步骤',d:'公式→代入→结果→单位，一步不缺。',target:'连续 10 道题步骤完整'},{t:'用"讲题法"检验理解',d:'学完一个概念后从头到尾讲一遍，能脱稿讲通才算真懂。',target:'脱稿讲 3 分钟不卡壳'}]},
+  B:{name:'规范执行者',emoji:'📋',key:'B',slogan:'你做题规范、步骤完整，这是很好的基础。但遇到新题型时需要更灵活一些。',
+    strengths:[{t:'做题规范严谨',d:'步骤完整、审题仔细，综合计算中准确率很高。'},{t:'公式运用准确',d:'对物理公式掌握扎实，知道不同场景如何选用。'}],
+    weaknesses:[{t:'遇到新题型容易慌',d:'题目换了问法或场景陌生时，可能不知从何下手。'},{t:'思维灵活性不足',d:'习惯用一种固定方式解题，面对非常规问题需更多变通。'}],
+    todo:[{t:'"陌生题拆解三步法"',d:'①圈出所有已知条件 ②问"这和哪类题相似" ③大问题拆小问题。',target:'独立完成 5 道陌生题型'},{t:'一题多解拓展思路',d:'找一道题用两种不同方法求解。',target:'累计 15 道一题多解'},{t:'做自己的"错题教练"',d:'每道错题旁写一句"我当时为什么会想错"。',target:'积累 20 道有反思的错题'}]},
+  C:{name:'快速扫描者',emoji:'⚡',key:'C',slogan:'你反应快、信息抓取快，但要当心知识"碎片化"，物理需要连成网。',
+    strengths:[{t:'信息处理快',d:'读题快、反应快，考试中能快速过一遍全卷。'},{t:'思维灵活',d:'脑子转得快，能在不同思路间灵活切换。'}],
+    weaknesses:[{t:'知识体系碎片化',d:'每个知识点都懂一些，但串不起来。环环相扣掉一个后面就吃力。'},{t:'概念深度不够',d:'可能停留在"知道是什么"层面，"为什么"没深究。'}],
+    todo:[{t:'每讲画一张"知识网图"',d:'用 A4 纸画出本节所有概念、公式、关系图。',target:'累计 8 张知识网图'},{t:'用"教别人"检验深度',d:'假装给完全不懂的同学讲原理，讲不清楚说明不够深。',target:'每模块脱稿讲通'},{t:'慢下来做"思维复盘"',d:'做完题想：①考了什么 ②用了什么方法 ③还有别的解法吗？',target:'连续 15 道有复盘记录'}]},
+  D:{name:'记忆驱动者',emoji:'📝',key:'D',slogan:'你下功夫记公式和结论，但物理不是记忆学科——"为什么"才是拿高分的关键。',
+    strengths:[{t:'公式记得牢',d:'你花功夫记公式和题型，这是解题的"武器库"。'},{t:'学习态度认真',d:'愿意花时间去记去背，努力不会白费。'}],
+    weaknesses:[{t:'不追问"为什么"',d:'习惯"记住结论"而非"理解来源"。题目一变就懵。'},{t:'概念理解薄弱',d:'在"这是什么"层面还行，"为什么是这样"有待加强。'}],
+    todo:[{t:'每个概念"追根溯源"',d:'写在纸上→写出来源推导→用自己的话解释意义。',target:'前 10 个核心概念完成溯源卡'},{t:'做完题问自己"为什么"',d:'不只满足于做对，多问"为什么这个解法对？"',target:'连续 15 道有"为什么"标注'},{t:'做概念辨析对比表',d:'用表格写出易混概念的定义、区别和联系。',target:'至少 4 次概念辨析'}]},
+  E:{name:'缓慢建构者',emoji:'🌱',key:'E',slogan:'你学物理可能需要多花点时间，但一旦真正理解了就不会忘。坚持住！',
+    strengths:[{t:'理解后不会忘',d:'学得慢但扎实，真正理解了的就不会忘记。'},{t:'愿意下功夫',d:'即使暂时不理想仍然在坚持——这是最稀缺的天赋。'}],
+    weaknesses:[{t:'基础概念有漏洞',d:'声光热力中有部分概念理解不透彻，需要补上。'},{t:'缺乏信心',d:'长期不理想可能让你觉得"学不好物理"——实际上需要换一种方法。'}],
+    todo:[{t:'从最薄弱的概念开始补',d:'找出最没把握的 1-2 个知识点，从课本原话→例题→复述。',target:'每周补透 1 个薄弱概念'},{t:'用实验视频辅助理解',d:'去 B 站看物理实验视频，边看边画过程。',target:'看完 5 个物理实验视频'},{t:'"每日一题"培养节奏',d:'每天只做一道，但步骤写清楚。不贪多，要精。',target:'连续 20 天每日一题打卡'}]},
+};
+
+// ======================== 渲染 ========================
+
+// 题目列表
+function renderQuestions() {
+  const el = document.getElementById('questionList');
+  el.innerHTML = QUESTIONS.map((q, i) => {
+    const dim = DIMS.find(d => d.key === q.dim);
+    return `<div class="q-card">
+      <div class="q-header">
+        <span class="q-num">第 ${i + 1} 题 / 共 12 题</span>
+        <span class="q-dim-tag" style="background:${dim.color}">${dim.icon} ${dim.label}</span>
+      </div>
+      <div class="q-text">${q.text}</div>
+      <div class="opts">${q.opts.map(o => {
+        let cls = 'wrong', label = '0 分 ✘';
+        if (o.score === 3) { cls = 'correct'; label = '3 分 ✓'; }
+        else if (o.score === 1) { cls = 'partial'; label = '1 分 △'; }
+        const wk = o.weak ? `<span class="wk">↳ ${o.weak}</span>` : '';
+        return `<div class="opt"><span class="lb">${o.label}.</span><span>${o.text}</span><span class="sc ${cls}">${label}</span>${wk}</div>`;
+      }).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+// 维度定义
+function renderDims() {
+  const grid = document.getElementById('dimGrid');
+  grid.innerHTML = DIMS.map(d => `
+    <div class="dim-card">
+      <div class="icon">${d.icon}</div>
+      <div class="name" style="color:${d.color}">${d.label}</div>
+      <div class="desc">${d.desc}</div>
+    </div>
+  `).join('');
+
+  // 维度-题目分布表
+  const tbody = document.getElementById('dimTableBody');
+  tbody.innerHTML = DIMS.map(d => {
+    const qs = QUESTIONS.map((q,i) => q.dim === d.key ? i+1 : null).filter(x => x);
+    return `<tr style="border-bottom:1px solid #EDF2F7">
+      <td style="padding:8px;color:${d.color};font-weight:600">${d.icon} ${d.label}</td>
+      <td style="padding:8px;text-align:center">${qs.join(', ')}</td>
+      <td style="padding:8px;text-align:center">${qs.length}</td>
+      <td style="padding:8px;text-align:center;font-weight:600">${qs.length * 3}</td>
+    </tr>`;
+  }).join('');
+}
+
+// 学员类型
+function renderTypes() {
+  const grid = document.getElementById('typeGrid');
+  grid.innerHTML = Object.values(TYPES).map(t => `
+    <div class="type-card">
+      <div class="type-emoji">${t.emoji}</div>
+      <div class="type-name">${t.name} <span class="type-key">(${t.key})</span></div>
+      <div class="type-slogan">${t.slogan}</div>
+      <hr style="border:none;border-top:1px solid #EDF2F7;margin:8px 0">
+      <div style="font-size:12px;font-weight:600;color:#38A169;margin-bottom:4px">✅ 优势</div>
+      ${t.strengths.map(s => `<div class="type-detail" style="margin-bottom:3px"><strong>${s.t}：</strong>${s.d}</div>`).join('')}
+      <div style="font-size:12px;font-weight:600;color:#E53E3E;margin-top:8px;margin-bottom:4px">📌 需要加强</div>
+      ${t.weaknesses.map(s => `<div class="type-detail" style="margin-bottom:3px"><strong>${s.t}：</strong>${s.d}</div>`).join('')}
+      <div style="font-size:12px;font-weight:600;color:#2B6CB0;margin-top:8px;margin-bottom:4px">🎯 暑期行动清单</div>
+      ${t.todo.map(s => `<div class="type-detail" style="margin-bottom:4px;background:#F7FAFC;padding:6px 8px;border-radius:6px;border-left:3px solid #4299E1"><strong>${s.t}</strong><br><span style="color:#4A5568">${s.d}</span><br><span style="color:#2B6CB0;font-size:11px">🎯 ${s.target}</span></div>`).join('')}
+    </div>
+  `).join('');
+}
+
+// tab 切换
+function switchTab(id, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+// 页面加载时渲染全部
+renderQuestions();
+renderDims();
+renderTypes();
+</script>
+</body>
+</html>

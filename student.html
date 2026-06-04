@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>初三物理·学科能力诊断 - 高途课堂</title>
+<meta name="description" content="高途课堂初三物理学科能力诊断，12道题快速定位物理学习类型，生成专属能力画像与暑期学习建议。">
+<meta name="keywords" content="初三物理,物理诊断,物理测试,高途课堂,暑期物理">
+
+<!-- 微信分享 / QQ 分享卡片 -->
+<meta property="og:title" content="初三物理·学科能力诊断">
+<meta property="og:description" content="12道题快速定位你的物理学习特点，生成专属能力画像与学习建议。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><rect width='400' height='400' fill='%232B6CB0' rx='20'/><text x='200' y='220' font-size='180' text-anchor='middle' fill='white'>🔬</text><text x='200' y='300' font-size='36' text-anchor='middle' fill='white' font-weight='bold'>物理诊断</text></svg>">
+
+<!-- iOS 添加到主屏幕 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="物理诊断">
+
+<!-- 主题色 -->
+<meta name="theme-color" content="#2B6CB0">
+<meta name="color-scheme" content="light">
+
+<!-- 图标：SVG favicon（兼容所有现代浏览器） -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+  background:#F7FAFC;color:#2D3748;overflow:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale
+}
+
+.page{display:none;position:fixed;top:0;left:0;right:0;bottom:0;animation:fadeIn .35s ease}
+.page.active{display:flex;flex-direction:column}
+@keyframes fadeIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* -------- 品牌横幅 -------- */
+.brand-bar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:#fff;padding:8px 16px;display:flex;
+  justify-content:space-between;align-items:center;
+  border-bottom:1px solid #E2E8F0;font-size:12px;font-weight:600;color:#2B6CB0
+}
+.brand-bar .bb-logo{display:flex;align-items:center;gap:6px}
+.brand-bar .bb-logo span{background:linear-gradient(135deg,#2B6CB0,#48BB78);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800}
+.brand-bar .bb-close{background:none;border:none;color:#A0AEC0;font-size:16px;cursor:pointer;padding:4px}
+.brand-bar .bb-close:hover{color:#4A5568}
+
+/* -------- 欢迎页 (MBTI 卡片式) -------- */
+.welcome-overlay{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100%;padding:20px
+}
+.welcome-card{
+  background:#fff;border-radius:20px;
+  max-width:440px;width:100%;padding:40px 36px 32px;
+  text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.06),0 1px 4px rgba(0,0,0,.04);
+  border:1px solid rgba(226,232,240,.6)
+}
+#welcome{
+  justify-content:center;align-items:center;text-align:center;
+  background:#F7FAFC
+}
+#welcome .logo{font-size:42px;margin-bottom:2px}
+#welcome h1{font-size:22px;font-weight:700;margin-bottom:2px;color:#1A202C;letter-spacing:1px}
+#welcome .sub{font-size:13px;color:#718096;margin-bottom:20px;line-height:1.5;font-weight:400}
+.purpose-box{
+  background:#F7FAFC;border-radius:12px;padding:16px 18px;
+  margin:0 0 18px;text-align:left;
+  border:1px solid #EDF2F7
+}
+.purpose-box .purpose-intro{
+  font-size:15px;font-weight:700;color:#1A202C;margin-bottom:6px;line-height:1.5
+}
+.purpose-box .purpose-intro strong{color:#E53E3E}
+.purpose-box p{font-size:13px;color:#4A5568;line-height:1.8;margin-bottom:3px}
+.purpose-box p:last-child{margin-bottom:0}
+.purpose-box p strong{color:#2B6CB0}
+.meta{display:flex;gap:10px;justify-content:center;margin-bottom:18px}
+.meta-item{
+  background:#F7FAFC;border-radius:10px;padding:10px 20px;
+  text-align:center;flex:1;max-width:120px;
+  border:1px solid #EDF2F7
+}
+.meta-item .mv{font-size:22px;font-weight:700;color:#2B6CB0;line-height:1.2}
+.meta-item .ml{font-size:11px;color:#A0AEC0;margin-top:2px}
+.form-card{
+  border:1px solid #EDF2F7;border-radius:10px;padding:10px 16px;
+  margin-bottom:14px;background:#FAFBFC;transition:border-color .2s
+}
+.form-card:focus-within{border-color:#2B6CB0;background:#fff}
+.form-row{display:flex;align-items:center;gap:8px;text-align:left}
+.form-row label{font-size:13px;font-weight:600;color:#4A5568;min-width:48px;flex-shrink:0}
+.form-row input{
+  flex:1;padding:8px 10px;border:1px solid transparent;border-radius:6px;
+  font-size:14px;outline:none;background:transparent;
+  transition:border-color .2s;-webkit-appearance:none
+}
+.form-row input:focus{border-color:transparent}
+
+.btn{
+  display:inline-flex;align-items:center;gap:6px;border:none;
+  border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;
+  -webkit-tap-highlight-color:transparent
+}
+.btn-primary{
+  padding:12px 36px;background:linear-gradient(135deg,#2B6CB0,#4299E1);
+  color:#fff;box-shadow:0 4px 14px rgba(43,108,176,.3)
+}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-primary:active{transform:translateY(0)}
+.btn-sm{padding:8px 16px;font-size:12px;border-radius:8px}
+.btn-ghost{
+  background:transparent;color:#2B6CB0;border:2px solid #2B6CB0;
+  padding:8px 16px;font-size:12px;border-radius:8px
+}
+.btn-ghost:hover{background:#EBF4FF}
+.btn-warning{
+  background:#FFFAF0;color:#7B5E2E;border:1px solid #FEEBC8;
+  padding:8px 16px;font-size:12px;border-radius:8px
+}
+.btn-warning:hover{background:#FEFCBF}
+
+/* -------- 测试页 -------- */
+#quiz{overflow-y:auto;background:#fff;padding-top:36px}
+#quiz::-webkit-scrollbar{display:none}
+.quiz-inner{
+  min-height:calc(100vh - 36px);display:flex;flex-direction:column;
+  max-width:640px;margin:0 auto;padding:32px 20px 16px;width:100%
+}
+.q-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.q-top .qn{font-size:12px;color:#A0AEC0;font-weight:600}
+.q-top .qd{font-size:11px;padding:3px 10px;border-radius:10px;color:#fff;font-weight:600}
+.q-pbar{height:3px;background:#E2E8F0;border-radius:2px;overflow:hidden;margin-bottom:20px}
+.q-pbar-f{height:100%;background:linear-gradient(90deg,#2B6CB0,#48BB78);border-radius:2px;transition:width .4s}
+.q-area{flex:1;display:flex;flex-direction:column;justify-content:center}
+.q-text{font-size:19px;font-weight:700;line-height:1.6;margin-bottom:18px;color:#1A202C}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{
+  display:flex;align-items:center;gap:10px;padding:14px 16px;
+  border:2px solid #E2E8F0;border-radius:12px;cursor:pointer;
+  transition:all .2s;font-size:15px;line-height:1.5;
+  -webkit-tap-highlight-color:transparent
+}
+.opt:hover{border-color:#90CDF4;background:#EBF8FF}
+.opt.sel{border-color:#2B6CB0;background:#EBF4FF;box-shadow:0 0 0 3px rgba(43,108,176,.12)}
+.opt .dot{
+  width:20px;height:20px;border-radius:50%;border:2px solid #CBD5E0;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center
+}
+.opt.sel .dot{border-color:#2B6CB0;background:#2B6CB0}
+.opt.sel .dot::after{content:'';width:8px;height:8px;background:#fff;border-radius:50%}
+.opt .lb2{font-weight:700;color:#2B6CB0;flex-shrink:0}
+.q-nav{display:flex;justify-content:space-between;margin-top:16px;padding-bottom:4px}
+.q-nav button{
+  padding:10px 28px;border-radius:10px;border:none;
+  font-size:14px;font-weight:600;cursor:pointer;
+  -webkit-tap-highlight-color:transparent
+}
+.q-nav .prev{background:#EDF2F7;color:#4A5568}
+.q-nav .prev:hover{background:#E2E8F0}
+.q-nav .next{background:linear-gradient(135deg,#2B6CB0,#4299E1);color:#fff}
+.q-nav .next:disabled{opacity:.4;cursor:not-allowed}
+.q-nav .sub{background:linear-gradient(135deg,#48BB78,#68D391);color:#fff}
+
+/* -------- 加载 -------- */
+#loading{justify-content:center;align-items:center;text-align:center}
+.spinner{
+  width:44px;height:44px;border:3px solid #E2E8F0;
+  border-top-color:#2B6CB0;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* -------- 报告页 -------- */
+#result{overflow-y:auto;padding:20px 14px 24px;padding-top:44px}
+#result::-webkit-scrollbar{width:4px}
+#result::-webkit-scrollbar-thumb{background:#CBD5E0;border-radius:2px}
+.r-inner{max-width:680px;margin:0 auto}
+
+.success-banner{
+  background:#F0FFF4;border:1px solid #C6F6D5;border-radius:10px;
+  padding:10px 14px;text-align:center;margin-bottom:12px;
+  font-size:13px;color:#276749;font-weight:600
+}
+
+.share-section{
+  background:#FFFAF0;border:1px solid #FEEBC8;border-radius:10px;
+  padding:14px 16px;text-align:center;margin-bottom:12px
+}
+.share-section .share-label{font-size:13px;font-weight:600;color:#7B5E2E;margin-bottom:6px}
+.share-section .share-code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,"Consolas",monospace;
+  font-size:24px;font-weight:800;color:#2B6CB0;letter-spacing:3px;
+  background:#fff;padding:8px 20px;border-radius:8px;
+  border:1px dashed #CBD5E0;display:inline-block;margin:4px 0;cursor:pointer;
+  -webkit-user-select:all;user-select:all
+}
+.share-section .share-hint{font-size:12px;color:#A0AEC0}
+
+.type-box{text-align:center;margin-bottom:12px}
+.type-box .emoji{font-size:44px;margin-bottom:2px}
+.type-box .tname{font-size:20px;font-weight:800;margin-bottom:3px}
+.type-box .tdesc{font-size:13px;color:#4A5568;line-height:1.6;max-width:480px;margin:0 auto}
+
+.card{
+  background:#fff;border-radius:12px;padding:14px 16px;
+  box-shadow:0 1px 6px rgba(0,0,0,.04);margin-bottom:10px
+}
+.card h3{font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.chart-wrap{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap}
+#radarChart{width:220px;height:220px}
+.dims{flex:1;min-width:160px}
+.di{margin-bottom:5px}
+.di-h{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:2px}
+.di-b{height:5px;background:#EDF2F7;border-radius:3px;overflow:hidden}
+.di-f{height:100%;border-radius:3px;transition:width 1s}
+
+.sw-item{
+  background:#F7FAFC;border-radius:8px;padding:9px 12px;margin-bottom:5px
+}
+.sw-item.s{border-left:4px solid #48BB78}
+.sw-item.w{border-left:4px solid #FC8181}
+.sw-item .swt{font-weight:700;font-size:13px;margin-bottom:2px}
+.sw-item .swd{font-size:12px;color:#4A5568;line-height:1.6}
+
+.todo-item{
+  background:#F7FAFC;border-radius:8px;padding:9px 12px;
+  margin-bottom:5px;border-left:4px solid #4299E1
+}
+.todo-item .tt{font-weight:700;font-size:13px;margin-bottom:2px}
+.todo-item .td{font-size:12px;color:#4A5568;line-height:1.6}
+.todo-item .tl{
+  display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;
+  background:#48BB78;color:#fff;font-weight:600;margin-top:3px
+}
+
+.act-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+
+.footer-brand{
+  text-align:center;font-size:11px;color:#A0AEC0;margin-top:16px;padding-bottom:8px
+}
+.footer-brand strong{color:#4A5568}
+
+@media(max-width:600px){
+  .welcome-overlay{padding:12px}
+  .welcome-card{padding:28px 20px 24px;border-radius:16px}
+  #welcome .logo{font-size:36px}
+  #welcome h1{font-size:20px}
+  #welcome .sub{font-size:12px;margin-bottom:16px}
+  .purpose-box{padding:14px 16px}
+  .purpose-box .purpose-intro{font-size:14px}
+  .purpose-box p{font-size:12px}
+  .meta{gap:8px;margin-bottom:16px}
+  .meta-item{padding:8px 14px;max-width:100px}
+  .meta-item .mv{font-size:20px}
+  .quiz-inner{padding:24px 14px 12px;min-height:calc(100vh - 36px)}
+  .q-text{font-size:17px}
+  .opt{padding:12px 14px;font-size:14px}
+  .chart-wrap{flex-direction:column}
+  .q-nav button{padding:8px 20px;font-size:13px}
+  .btn-primary{padding:10px 28px;font-size:14px}
+}
+
+@media(max-width:400px){
+  .q-text{font-size:16px}
+  .opt{padding:10px 12px;font-size:13px;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<!-- 品牌横幅 -->
+<div class="brand-bar">
+  <div class="bb-logo">
+    <span style="font-size:16px">🔬</span>
+    <span>初三物理 · 学科诊断</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <span style="font-size:11px;color:#A0AEC0;font-weight:400">高途课堂</span>
+  </div>
+</div>
+
+<!-- 欢迎页 -->
+<div id="welcome" class="page active">
+  <div class="welcome-overlay">
+    <div class="welcome-card">
+      <div class="logo">🔬</div>
+      <h1>初三物理 · 学科诊断</h1>
+      <p class="sub">15分钟 · 帮你了解自己的物理学习特质</p>
+
+      <div class="purpose-box">
+        <div class="purpose-intro">这15分钟，<strong>不是考试</strong>。</div>
+        <p>你不需要做任何准备——它只是一次帮你<strong>了解自己</strong>的小探索。</p>
+        <p>看清自己物理学习上的优势与特点，找到更适合你的学习方式。<strong>比盲目努力更重要的，是先认识自己</strong>。</p>
+      </div>
+
+      <div class="meta">
+        <div class="meta-item"><div class="mv">12</div><div class="ml">题量</div></div>
+        <div class="meta-item"><div class="mv">≈15</div><div class="ml">分钟</div></div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-row">
+          <label>👤 姓名</label>
+          <input type="text" id="studentName" placeholder="输入你的真实姓名" maxlength="10" autocomplete="off">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="startQuiz()">开始探索 →</button>
+      <p style="margin-top:6px;font-size:11px;color:#CBD5E0">覆盖声、光、热、力 · 不涉及九年级电学内容 ✓</p>
+    </div>
+  </div>
+</div>
+
+<!-- 测试页 -->
+<div id="quiz" class="page">
+  <div class="quiz-inner" id="quizInner">
+    <div class="q-top">
+      <span class="qn" id="qNum">第 1 / 12 题</span>
+      <span class="qd" id="qDim" style="background:#4299E1">概念理解</span>
+    </div>
+    <div class="q-pbar"><div class="q-pbar-f" id="pFill" style="width:0%"></div></div>
+    <div class="q-area" id="qArea"></div>
+    <div class="q-nav">
+      <button class="prev" id="prevBtn" onclick="goQ(state.q-1)" style="visibility:hidden">← 上一题</button>
+      <div style="flex:1"></div>
+      <button class="next" id="nextBtn" onclick="goQ(state.q+1)" disabled>下一题 →</button>
+      <button class="sub" id="subBtn" onclick="submitQuiz()" style="display:none">查看报告 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 加载 -->
+<div id="loading" class="page">
+  <div class="spinner"></div>
+  <p id="loadMsg">正在生成你的物理学习画像…</p>
+</div>
+
+<!-- 报告页 -->
+<div id="result" class="page">
+  <div class="r-inner">
+    <div class="success-banner">✅ 诊断完成！专属报告已生成</div>
+
+    <div class="share-section">
+      <div class="share-label">📤 将分享码发给老师，查看完整分析</div>
+      <div class="share-code" id="shareCode" onclick="copyCode()">ABCDEF12</div>
+      <div class="share-hint">👆 点击复制，然后发送给老师即可</div>
+      <button class="btn btn-warning btn-sm" onclick="copyCode()" style="margin-top:6px">📋 复制分享码</button>
+    </div>
+
+    <div class="type-box">
+      <div class="emoji" id="rEmoji">🔮</div>
+      <div class="tname" id="rName">直觉建构者</div>
+      <div class="tdesc" id="rSlogan"></div>
+    </div>
+
+    <div class="card">
+      <h3>📊 五大能力维度</h3>
+      <div class="chart-wrap">
+        <canvas id="radarChart" width="220" height="220"></canvas>
+        <div class="dims" id="dimScoresList"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>✅ 你的优势</h3>
+      <div id="rStrength"></div>
+    </div>
+
+    <div class="card">
+      <h3>📌 需要加强</h3>
+      <div id="rWeakness"></div>
+    </div>
+
+    <div class="card">
+      <h3>🎯 暑期学习行动清单</h3>
+      <div id="rTodo"></div>
+    </div>
+
+    <div class="act-bar">
+      <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ 打印报告</button>
+      <button class="btn btn-ghost btn-sm" onclick="restart()">🔄 重新测试</button>
+    </div>
+
+    <div class="footer-brand">
+       🔬 <strong>初三物理 · 学科诊断</strong> · 由高途课堂提供
+    </div>
+  </div>
+</div>
+
+<script>
+const DIMS=[
+  {key:'concept',label:'概念理解',color:'#4299E1',icon:'🧠'},
+  {key:'model',label:'模型建构',color:'#48BB78',icon:'🔧'},
+  {key:'math',label:'数学运用',color:'#ED8936',icon:'📐'},
+  {key:'reading',label:'审题习惯',color:'#9F7AEA',icon:'🔍'},
+  {key:'flexible',label:'思维灵活',color:'#FC8181',icon:'💡'},
+];
+const QUESTIONS=[
+  {dim:'concept',text:'关于声音的产生与传播，以下说法正确的是？',
+    opts:[{label:'A',text:'声音在真空中传播速度最快',score:0,weakness:'声学概念错误——真空不能传声'},{label:'B',text:'声音是由物体振动产生的',score:3,weakness:null},{label:'C',text:'只要物体振动，我们就一定能听到声音',score:0,weakness:'忽略了人耳听觉频率范围和传声介质'},{label:'D',text:'声音在固体中传播比在空气中慢',score:1,weakness:'混淆了不同介质中的声速——固体传声比空气快'}]},
+  {dim:'concept',text:'关于物态变化，以下说法正确的是？',
+    opts:[{label:'A',text:'晶体在熔化过程中吸收热量，但温度保持不变',score:3,weakness:null},{label:'B',text:'液体蒸发需要达到一定温度才能发生',score:0,weakness:'混淆了蒸发和沸腾——蒸发在任何温度下都能发生'},{label:'C',text:'冰在熔化过程中温度会逐渐升高',score:0,weakness:'晶体熔化特点理解错误——冰是晶体，熔化时吸热但温度不变'},{label:'D',text:'夏天冰箱拿出饮料瓶外壁"出汗"，是瓶子漏了',score:0,weakness:'对液化现象不理解——是水蒸气遇冷瓶壁液化'}]},
+  {dim:'concept',text:'关于光的反射和折射，以下说法正确的是？',
+    opts:[{label:'A',text:'光在发生漫反射时，不遵循光的反射定律',score:0,weakness:'漫反射的每一条光线都遵循反射定律'},{label:'B',text:'光从空气斜射入水中时，折射角小于入射角',score:3,weakness:null},{label:'C',text:'光在真空中的传播速度是 3×10⁵m/s',score:1,weakness:'数量级记错——光速是 3×10⁸m/s'},{label:'D',text:'凸透镜对光有发散作用',score:0,weakness:'凸透镜会聚、凹透镜发散'}]},
+  {dim:'model',text:'用水平推力推地面上的木箱，木箱没动。木箱在水平方向受力情况是？',
+    opts:[{label:'A',text:'推力 > 静摩擦力',score:0,weakness:'若推力大于摩擦力，木箱会加速运动'},{label:'B',text:'推力 = 静摩擦力',score:3,weakness:null},{label:'C',text:'推力 < 静摩擦力',score:0,weakness:'若推力小于摩擦力，物体会反向运动'},{label:'D',text:'木箱没动所以不受摩擦力',score:1,weakness:'有推力且静止，必有静摩擦力平衡'}]},
+  {dim:'model',text:'一块木块静止在粗糙斜面上，它受到的摩擦力方向是？',
+    opts:[{label:'A',text:'沿斜面向上',score:3,weakness:null},{label:'B',text:'沿斜面向下',score:0,weakness:'木块有下滑趋势，摩擦阻碍下滑应向上'},{label:'C',text:'垂直斜面向上',score:1,weakness:'混淆了支持力和摩擦力'},{label:'D',text:'水平向左',score:0,weakness:'无法建立斜面模型'}]},
+  {dim:'model',text:'在"探究凸透镜成像规律"实验中，当物距 u > 2f 时，成像情况是？',
+    opts:[{label:'A',text:'成正立、放大的虚像',score:0,weakness:'u>2f时成倒立缩小实像'},{label:'B',text:'成倒立、缩小的实像',score:3,weakness:null},{label:'C',text:'成倒立、放大的实像',score:1,weakness:'混淆了 f<u<2f 和 u>2f'},{label:'D',text:'不成像',score:0,weakness:'不同物距成像性质不同，但都能成像'}]},
+  {dim:'math',text:'一个质量为 500g 的物体，体积为 200cm³，它的密度是？',
+    opts:[{label:'A',text:'2.5 g/cm³',score:3,weakness:null},{label:'B',text:'0.4 g/cm³',score:1,weakness:'公式记反了——ρ=m/V'},{label:'C',text:'250 g/cm³',score:0,weakness:'单位处理失误'},{label:'D',text:'100,000 g/cm³',score:0,weakness:'计算能力严重不足'}]},
+  {dim:'math',text:'一个 60kg 的人站立，每只脚与地面接触约 200cm²，g=10N/kg。他对地面的压强约为？',
+    opts:[{label:'A',text:'1.5×10⁴ Pa',score:3,weakness:null},{label:'B',text:'3.0×10⁴ Pa',score:1,weakness:'只算了一只脚的面积'},{label:'C',text:'1.5×10³ Pa',score:0,weakness:'单位换算错误'},{label:'D',text:'3.0×10³ Pa',score:0,weakness:'对压强公式理解有误'}]},
+  {dim:'math',text:'甲速是乙的 2 倍，乙时间是甲的 3 倍。甲、乙路程之比是？',
+    opts:[{label:'A',text:'2 : 3',score:3,weakness:null},{label:'B',text:'3 : 2',score:1,weakness:'比例推导不严谨'},{label:'C',text:'1 : 6',score:0,weakness:'未正确运用 s=vt 推导'},{label:'D',text:'6 : 1',score:0,weakness:'错误理解"乙时间是甲的3倍"'}]},
+  {dim:'reading',text:'题目："质量为 2kg 的物体放在水平桌面上，用 5N 的拉力使其做匀速直线运动"，求摩擦力。解题关键是什么？',
+    opts:[{label:'A',text:'质量 2kg',score:0,weakness:'被数字吸引忽略关键信息'},{label:'B',text:'"匀速直线运动"意味着合力为零',score:3,weakness:null},{label:'C',text:'水平拉力 5N',score:1,weakness:'匀速条件下才能推出摩擦力'},{label:'D',text:'水平桌面',score:0,weakness:'被无关背景信息干扰'}]},
+  {dim:'reading',text:'题目："1kg 物体从高处由静止开始下落，不计空气阻力，g=10N/kg"，求 2s 后下落距离。解题关键是什么？',
+    opts:[{label:'A',text:'质量 1kg',score:0,weakness:'质量不影响下落快慢'},{label:'B',text:'"由静止开始"即初速度为零',score:3,weakness:null},{label:'C',text:'g=10N/kg',score:1,weakness:'不是本题的"关键条件"'},{label:'D',text:'不计空气阻力',score:1,weakness:'漏了更关键的初速度条件'}]},
+  {dim:'flexible',text:'冬天室外说话呼出"白气"而夏天看不到。以下解释最合理的是？',
+    opts:[{label:'A',text:'冬天温度低，呼出的水蒸气遇冷液化成小水滴',score:3,weakness:null},{label:'B',text:'冬天呼出的气体温度比夏天高',score:0,weakness:'人体体温恒定，呼出气体温度差异不大'},{label:'C',text:'夏天没有水蒸气呼出',score:0,weakness:'人呼吸时都会呼出水蒸气'},{label:'D',text:'冬天呼出的气体成分与夏天不同',score:1,weakness:'成分没变，变化的是外部环境温度'}]},
+];
+const TYPES={
+  A:{name:'直觉建构者',emoji:'🔮',slogan:'你有很好的物理直觉和概念理解力，但有时"太快"而漏掉题目的关键条件。',
+    strength:[{t:'概念理解力强',d:'你对物理概念的本质有很好的直觉。学新知识时"就是能懂"。'},{t:'建模能力好',d:'你能在脑中构建清晰的物理模型，快速抓住框架。'}],
+    weakness:[{t:'审题容易跳步',d:'做题时因"觉得太简单"而漏读条件。不是不会，是没看到。'},{t:'步骤不够规范',d:'习惯在脑子里想清楚就直接写答案，跳过中间步骤。'}],
+    todo:[{t:'"三步审题法"锁住跳步',d:'①圈出所有已知条件 ②画出对应图景 ③标出问题。做完再动笔。',target:'坚持 3 周养成习惯'},{t:'每道题写出完整步骤',d:'公式→代入→结果→单位，一步不缺。',target:'连续 10 道题步骤完整'},{t:'用"讲题法"检验理解',d:'学完一个概念后从头到尾讲一遍，能脱稿讲通才算真懂。',target:'脱稿讲 3 分钟不卡壳'}]},
+  B:{name:'规范执行者',emoji:'📋',slogan:'你做题规范、步骤完整，这是很好的基础。但遇到新题型时需要更灵活一些。',
+    strength:[{t:'做题规范严谨',d:'步骤完整、审题仔细，综合计算中准确率很高。'},{t:'公式运用准确',d:'对物理公式掌握扎实，知道不同场景如何选用。'}],
+    weakness:[{t:'遇到新题型容易慌',d:'题目换了问法或场景陌生时，可能不知从何下手。'},{t:'思维灵活性不足',d:'习惯用一种固定方式解题，面对非常规问题需更多变通。'}],
+    todo:[{t:'"陌生题拆解三步法"',d:'①圈出所有已知条件 ②问"这和哪类题相似" ③大问题拆小问题。',target:'独立完成 5 道陌生题型'},{t:'一题多解拓展思路',d:'找一道题用两种不同方法求解。',target:'累计 15 道一题多解'},{t:'做自己的"错题教练"',d:'每道错题旁写一句"我当时为什么会想错"。',target:'积累 20 道有反思的错题'}]},
+  C:{name:'快速扫描者',emoji:'⚡',slogan:'你反应快、信息抓取快，但要当心知识"碎片化"，物理需要连成网。',
+    strength:[{t:'信息处理快',d:'读题快、反应快，考试中能快速过一遍全卷。'},{t:'思维灵活',d:'脑子转得快，能在不同思路间灵活切换。'}],
+    weakness:[{t:'知识体系碎片化',d:'每个知识点都懂一些，但串不起来。环环相扣掉一个后面就吃力。'},{t:'概念深度不够',d:'可能停留在"知道是什么"层面，"为什么"没深究。'}],
+    todo:[{t:'每讲画一张"知识网图"',d:'用 A4 纸画出本节所有概念、公式、关系图。',target:'累计 8 张知识网图'},{t:'用"教别人"检验深度',d:'假装给完全不懂的同学讲原理，讲不清楚说明不够深。',target:'每模块脱稿讲通'},{t:'慢下来做"思维复盘"',d:'做完题想：①考了什么 ②用了什么方法 ③还有别的解法吗？',target:'连续 15 道有复盘记录'}]},
+  D:{name:'记忆驱动者',emoji:'📝',slogan:'你下功夫记公式和结论，但物理不是记忆学科——"为什么"才是拿高分的关键。',
+    strength:[{t:'公式记得牢',d:'你花功夫记公式和题型，这是解题的"武器库"。'},{t:'学习态度认真',d:'愿意花时间去记去背，努力不会白费。'}],
+    weakness:[{t:'不追问"为什么"',d:'习惯"记住结论"而非"理解来源"。题目一变就懵。'},{t:'概念理解薄弱',d:'在"这是什么"层面还行，"为什么是这样"有待加强。'}],
+    todo:[{t:'每个概念"追根溯源"',d:'写在纸上→写出来源推导→用自己的话解释意义。',target:'前 10 个核心概念完成溯源卡'},{t:'做完题问自己"为什么"',d:'不只满足于做对，多问"为什么这个解法对？"',target:'连续 15 道有"为什么"标注'},{t:'做概念辨析对比表',d:'用表格写出易混概念的定义、区别和联系。',target:'至少 4 次概念辨析'}]},
+  E:{name:'缓慢建构者',emoji:'🌱',slogan:'你学物理可能需要多花点时间，但一旦真正理解了就不会忘。坚持住！',
+    strength:[{t:'理解后不会忘',d:'学得慢但扎实，真正理解了的就不会忘记。'},{t:'愿意下功夫',d:'即使暂时不理想仍然在坚持——这是最稀缺的天赋。'}],
+    weakness:[{t:'基础概念有漏洞',d:'声光热力中有部分概念理解不透彻，需要补上。'},{t:'缺乏信心',d:'长期不理想可能让你觉得"学不好物理"——实际上需要换一种方法。'}],
+    todo:[{t:'从最薄弱的概念开始补',d:'找出最没把握的 1-2 个知识点，从课本原话→例题→复述。',target:'每周补透 1 个薄弱概念'},{t:'用实验视频辅助理解',d:'去 B 站看物理实验视频，边看边画过程。',target:'看完 5 个物理实验视频'},{t:'"每日一题"培养节奏',d:'每天只做一道，但步骤写清楚。不贪多，要精。',target:'连续 20 天每日一题打卡'}]},
+};
+
+const state={q:0,ans:Array(12).fill(null),name:''};
+const $=id=>document.getElementById(id);
+
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.style.display='none'});
+  const el=$(id);if(el){el.style.display='';el.classList.add('active')}
+}
+
+function startQuiz(){
+  const n=$('studentName').value.trim();
+  if(!n){$('studentName').focus();$('studentName').style.borderColor='#FC8181';setTimeout(()=>$('studentName').style.borderColor='#E2E8F0',1500);return}
+  state.name=n;state.q=0;state.ans=Array(12).fill(null);show('quiz');renderQ()
+}
+
+function renderQ(){
+  const idx=state.q,q=QUESTIONS[idx],dim=DIMS.find(d=>d.key===q.dim);
+  $('qNum').textContent=`第 ${idx+1} / 12 题`;$('pFill').style.width=`${(idx/12)*100}%`;
+  $('qDim').textContent=`${dim.icon} ${dim.label}`;$('qDim').style.background=dim.color;
+  const sel=state.ans[idx];
+  $('qArea').innerHTML=`<div class="q-text">${q.text}</div><div class="opts">${q.opts.map((o,i)=>`<div class="opt ${sel===i?'sel':''}" onclick="pick(${i})"><div class="dot"></div><span class="lb2">${o.label}.</span><span>${o.text}</span></div>`).join('')}</div>`;
+  const prev=$('prevBtn');prev.style.visibility=idx===0?'hidden':'visible';
+  if(idx<11){$('nextBtn').style.display='';$('subBtn').style.display='none';const nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
+  else{$('nextBtn').style.display='none';$('subBtn').style.display='';const sb=$('subBtn');sb.disabled=sel===null;sb.style.opacity=sel===null?.5:1}
+  $('quizInner').scrollTop=0
+}
+function pick(i){
+  state.ans[state.q]=i;renderQ();
+  if(state.q<11){setTimeout(()=>goQ(state.q+1),350)}
+}
+function goQ(i){if(i<0||i>11)return;state.q=i;renderQ()}
+
+function submitQuiz(){
+  if(state.ans[state.q]===null)return;
+  const fi=state.ans.indexOf(null);if(fi!==-1){state.q=fi;renderQ();return}
+  show('loading');
+  const msgs=['正在分析你的答题情况','计算各维度得分','匹配物理学习类型','生成专属学习报告'];
+  let mi=0;const iv=setInterval(()=>{$('loadMsg').textContent=msgs[mi=(mi+1)%msgs.length]},700);
+  setTimeout(()=>{clearInterval(iv);compute();show('result');$('result').scrollTop=0},1500)
+}
+
+function compute(){
+  const raw={};DIMS.forEach(d=>{raw[d.key]={v:0,cnt:0}});
+  QUESTIONS.forEach((q,i)=>{const a=state.ans[i];if(a===null)return;if(raw[q.dim]){raw[q.dim].v+=q.opts[a].score;raw[q.dim].cnt+=3}});
+  const scores={};DIMS.forEach(d=>{const c=raw[d.key].cnt;scores[d.key]=c>0?Math.round(Math.max(0,Math.min(100,(raw[d.key].v/c)*100))):0});
+  const tk=detType(scores);const t=TYPES[tk];
+  const ws=[];QUESTIONS.forEach((q,i)=>{const a=state.ans[i];if(a===null)return;const op=q.opts[a];if(op.score<3&&op.weakness)ws.push([i,a])});
+  const sa=DIMS.map(d=>scores[d.key]);
+  const shareData={n:state.name,s:sa,t:tk,d:new Date().toLocaleDateString('zh-CN'),w:ws};
+  const code=btoa(encodeURIComponent(JSON.stringify(shareData)));
+  $('shareCode').textContent=code;
+  $('rEmoji').textContent=t.emoji;$('rName').textContent=t.name;$('rSlogan').textContent=t.slogan;
+  $('rStrength').innerHTML=t.strength.map(s=>`<div class="sw-item s"><div class="swt">✅ ${s.t}</div><div class="swd">${s.d}</div></div>`).join('');
+  $('rWeakness').innerHTML=t.weakness.map(s=>`<div class="sw-item w"><div class="swt">📌 ${s.t}</div><div class="swd">${s.d}</div></div>`).join('');
+  $('rTodo').innerHTML=t.todo.map(s=>`<div class="todo-item"><div class="tt">${s.t}</div><div class="td">${s.d}</div><span class="tl">🎯 ${s.target}</span></div>`).join('');
+  $('dimScoresList').innerHTML=DIMS.map(d=>{const lvl=scores[d.key]>=68?'优势':(scores[d.key]>=40?'中等':'薄弱');const lc=scores[d.key]>=68?'#48BB78':(scores[d.key]>=40?'#ED8936':'#FC8181');return `<div class="di"><div class="di-h"><span>${d.icon} ${d.label}</span><span>${scores[d.key]}分 <span style="color:${lc};font-size:11px;font-weight:400">${lvl}</span></span></div><div class="di-b"><div class="di-f" style="width:${scores[d.key]}%;background:${d.color}"></div></div></div>`}).join('');
+  drawRadar(scores)
+}
+function detType(s){const {concept,model,math,reading,flexible}=s;const avg=(concept+model+math+reading+flexible)/5;if(avg<45)return'E';if(flexible>=60&&concept<=flexible-15&&model<=flexible-15)return'C';if(concept>=55&&model>=55&&concept+model>=120&&reading<=concept-10)return'A';if(math>=55&&reading>=55&&math+reading>=120&&flexible<=math-10)return'B';if(math>=50&&concept<=math-15)return'D';if(concept>=50&&model>=50&&concept+model>=math+reading+flexible)return'A';if(math>=50&&reading>=50)return'B';if(flexible>=55)return'C';if(math>=Math.max(concept,model,reading,flexible))return'D';if(avg<55)return'E';return'A'}
+function drawRadar(scores){const c=$('radarChart');if(!c)return;const ctx=c.getContext('2d');const W=c.width,H=c.height,cx=W/2,cy=H/2,R=85,LV=4,n=DIMS.length,SA=-Math.PI/2,AS=2*Math.PI/n;ctx.clearRect(0,0,W,H);for(let l=1;l<=LV;l++){const r=R/LV*l;ctx.beginPath();for(let i=0;i<=n;i++){const a=SA+i*AS;l==1?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a))}ctx.closePath();ctx.strokeStyle='#E2E8F0';ctx.lineWidth=1;ctx.stroke()}for(let i=0;i<n;i++){const a=SA+i*AS;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.strokeStyle='#E2E8F0';ctx.lineWidth=1;ctx.stroke()}ctx.beginPath();for(let i=0;i<=n;i++){const idx=i%n,d=DIMS[idx],v=Math.max(0,Math.min(1,scores[d.key]/100)),r=R*v,a=SA+idx*AS;i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a))}ctx.closePath();ctx.fillStyle='rgba(66,153,225,.12)';ctx.fill();ctx.strokeStyle='rgba(43,108,176,.5)';ctx.lineWidth=2;ctx.stroke();for(let i=0;i<n;i++){const d=DIMS[i],v=Math.max(0,Math.min(1,scores[d.key]/100)),r=R*v,a=SA+i*AS;ctx.beginPath();ctx.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),3,0,2*Math.PI);ctx.fillStyle=d.color;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke()}ctx.textAlign='center';ctx.textBaseline='middle';for(let i=0;i<n;i++){const d=DIMS[i],a=SA+i*AS,lr=R+18;ctx.font='bold 11px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';ctx.fillStyle=d.color;ctx.fillText(d.label,cx+lr*Math.cos(a),cy+lr*Math.sin(a))}}
+function copyCode(){
+  const code=$('shareCode').textContent;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(code).then(()=>flashCopy()).catch(()=>fallbackCopy(code))
+  }else{fallbackCopy(code)}
+}
+function flashCopy(){const o=$('shareCode').textContent;$('shareCode').textContent='✅ 已复制！';setTimeout(()=>{$('shareCode').textContent=o},1200)}
+function fallbackCopy(c){const ta=document.createElement('textarea');ta.value=c;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);flashCopy()}
+function restart(){if(confirm('确定重新测试吗？')){state.ans=Array(12).fill(null);state.q=0;show('welcome')}}
+document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<11)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'&&e.key<='4'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});
+</script>
+</body>
+</html>

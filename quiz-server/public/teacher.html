@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👩‍🏫 物理诊断 · 教师管理平台</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F7FAFC;color:#2D3748;min-height:100vh}
+.header{background:linear-gradient(135deg,#2B6CB0,#4299E1);color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.header h1{font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px}
+.header .ha{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-white{background:#fff;color:#2B6CB0}.btn-white:hover{background:#EBF4FF}
+.btn-primary{background:#2B6CB0;color:#fff}.btn-primary:hover{background:#2C5282}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:6px}
+.btn-ghost{background:#fff;color:#4A5568;border:1px solid #E2E8F0}.btn-ghost:hover{background:#F7FAFC}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px}
+.sc{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.sc .sv{font-size:26px;font-weight:800}
+.sc .sl{font-size:12px;color:#718096;margin-top:2px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.toolbar .ff{font-size:13px;font-weight:600;color:#4A5568}
+.toolbar input{border:2px solid #E2E8F0;border-radius:8px;padding:7px 12px;font-size:13px;width:200px;outline:none}
+.toolbar input:focus{border-color:#4299E1}
+.toolbar .hint{font-size:11px;color:#A0AEC0;margin-left:4px}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.fb{padding:4px 14px;border-radius:14px;border:1px solid #E2E8F0;background:#fff;font-size:12px;font-weight:600;cursor:pointer;color:#4A5568;transition:all .2s}
+.fb:hover{border-color:#90CDF4;color:#2B6CB0}
+.fb.active{background:#2B6CB0;color:#fff;border-color:#2B6CB0}
+.stu-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.scard{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer;transition:all .2s;border:2px solid transparent;position:relative}
+.scard:hover{border-color:#90CDF4;transform:translateY(-2px)}
+.scard .st{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.scard .sn{font-size:16px;font-weight:700}
+.scard .stype{font-size:11px;padding:2px 10px;border-radius:8px;color:#fff;font-weight:600}
+.scard .sd{font-size:11px;color:#A0AEC0;margin-bottom:6px}
+.scard .sbar{display:flex;gap:3px}
+.scard .sdot{width:26px;height:6px;border-radius:2px;flex-shrink:0}
+.scard .sdel{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;border:none;background:transparent;color:#CBD5E0;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
+.scard .sdel:hover{background:#FED7D7;color:#FC8181}
+.empty-state{text-align:center;padding:50px 20px;color:#A0AEC0;grid-column:1/-1}
+.empty-state .big{font-size:44px;margin-bottom:10px}
+.empty-state p{font-size:15px}
+.loading-state{text-align:center;padding:40px 20px;color:#A0AEC0;grid-column:1/-1}
+.spinner{width:28px;height:28px;border:2px solid #E2E8F0;border-top-color:#2B6CB0;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 报告弹窗 */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:1000;justify-content:center;align-items:center;padding:16px;animation:fadeIn .2s}
+.modal-overlay.active{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:14px;padding:0;width:100%;max-width:900px;max-height:90vh;display:flex;flex-direction:column;animation:slideUp .25s}
+@keyframes slideUp{from{transform:translateY(24px);opacity:0}to{opacity:1}}
+.mhdr{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #E2E8F0}
+.mhdr h3{font-size:16px;display:flex;align-items:center;gap:6px}
+.mclose{width:28px;height:28px;border-radius:50%;border:none;background:transparent;font-size:18px;cursor:pointer;color:#A0AEC0;display:flex;align-items:center;justify-content:center}
+.mclose:hover{background:#EDF2F7;color:#4A5568}
+.mb{overflow-y:auto;padding:20px}
+.report-inner{max-width:800px;margin:0 auto}
+.report-header{background:linear-gradient(135deg,#2B6CB0,#48BB78);border-radius:14px;padding:24px 24px 20px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden}
+.report-header::after{content:'🔬';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:60px;opacity:.15}
+.report-header .rh-name{font-size:22px;font-weight:800;margin-bottom:4px}
+.report-header .rh-meta{font-size:13px;opacity:.9;line-height:1.6}
+.report-header .rh-meta .rh-type{display:inline-block;background:rgba(255,255,255,.2);padding:1px 12px;border-radius:12px;font-weight:600;margin-right:6px}
+.report-header .rh-score{display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);padding:6px 16px;border-radius:20px;font-size:14px;font-weight:700}
+.report-header .rh-score span{font-size:28px;margin-right:4px}
+.rs{border-radius:12px;padding:18px 20px;margin-bottom:12px;background:#fff;border:1px solid #EDF2F7;box-shadow:0 1px 4px rgba(0,0,0,.03)}
+.rs h4{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:#1A202C;padding-bottom:8px;border-bottom:1px solid #F7FAFC}
+.rs .rs-body{font-size:13px;line-height:1.8;color:#4A5568}
+.di-group{display:flex;flex-direction:column;gap:8px}
+.di{margin-bottom:0}
+.di-h{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;margin-bottom:3px;color:#2D3748}
+.di-h .di-label{display:flex;align-items:center;gap:4px}
+.di-h .di-val{display:flex;align-items:center;gap:4px}
+.di-h .di-lvl{font-size:10px;font-weight:600;padding:1px 8px;border-radius:8px}
+.di-b{height:8px;background:#EDF2F7;border-radius:4px;overflow:hidden}
+.di-f{height:100%;border-radius:4px;transition:width 1s}
+.dim-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.dim-tags .dt{font-size:11px;padding:3px 10px;border-radius:8px;font-weight:600;color:#fff}
+.wt-wrap{border-radius:8px;overflow:hidden;border:1px solid #EDF2F7}
+.wt{width:100%;border-collapse:collapse;font-size:12px}
+.wt th{text-align:left;padding:8px 10px;background:#F7FAFC;font-weight:700;color:#4A5568;font-size:11px;border-bottom:2px solid #E2E8F0}
+.wt td{padding:8px 10px;border-bottom:1px solid #F7FAFC;vertical-align:top}
+.wt tr:last-child td{border-bottom:none}
+.wt .qt2{color:#2D3748;font-weight:600;font-size:12px}
+.wt .qt-wrong{font-size:11px;color:#FC8181;margin-top:2px;font-weight:500}
+.wt .wb{color:#718096;line-height:1.6;font-size:12px}
+.badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:600;color:#fff}
+.wt-empty{padding:20px;text-align:center;color:#48BB78;font-weight:600;font-size:13px}
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pi{background:#F7FAFC;border-radius:8px;padding:10px 12px;border-left:3px solid #4299E1}
+.pi h5{font-size:12px;font-weight:700;margin-bottom:3px;color:#1A202C}
+.pi p{font-size:11px;color:#4A5568;line-height:1.6}
+.warn-box{background:#FFFAF0;border:1px solid #FEEBC8;border-radius:8px;padding:12px 14px;margin-top:10px}
+.warn-box .wtt{font-weight:700;font-size:12px;color:#7B5E2E;margin-bottom:3px}
+.warn-box p{font-size:12px;color:#7B5E2E;line-height:1.6}
+.act-bar-report{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+@media(max-width:640px){
+  .header h1{font-size:17px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stu-list{grid-template-columns:1fr}
+  .pg2{grid-template-columns:1fr}
+  .toolbar input{width:140px}
+}
+
+/* 打印样式 */
+@media print{
+  body{background:#fff!important;overflow:visible!important}
+  .header,.toolbar,.filter-row,.stats,.stu-list,.mhdr,.mclose,.act-bar{display:none!important}
+  .modal-overlay{position:static!important;background:none!important;display:block!important;padding:0!important;overflow:visible!important}
+  .modal{max-width:100%!important;max-height:none!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important;animation:none!important}
+  .mb{overflow:visible!important;padding:10px 0!important}
+  .report-inner{max-width:100%!important}
+  .rs{box-shadow:none!important;border:1px solid #E2E8F0!important;break-inside:avoid;page-break-inside:avoid}
+  .warn-box{break-inside:avoid}
+  .pg2{grid-template-columns:1fr 1fr}
+  .di-f{transition:none!important}
+  .wt td,.wt th{padding:4px 6px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>👩‍🏫 物理诊断 · 教师管理平台</h1>
+  <div class="ha">
+    <button class="btn btn-white" onclick="refreshData()">🔄 刷新数据</button>
+    <button class="btn btn-white" onclick="exportAll()">📤 导出全部</button>
+  </div>
+</div>
+
+<div class="main" style="max-width:1100px;margin:0 auto;padding:20px 16px">
+  <div class="stats" id="statsArea">
+    <div class="sc"><div class="sv" id="tCount" style="color:#2B6CB0">—</div><div class="sl">📚 学生总数</div></div>
+    <div class="sc"><div class="sv" id="tAvg" style="color:#48BB78">—</div><div class="sl">📊 平均综合分</div></div>
+    <div class="sc"><div class="sv" style="color:#9F7AEA;font-size:15px" id="tDist">—</div><div class="sl">🔤 类型分布</div></div>
+  </div>
+
+  <div class="toolbar">
+    <span class="ff">🔍</span>
+    <input type="text" id="searchInput" placeholder="搜索姓名…" oninput="render()">
+    <span class="hint">学生做完10秒内自动同步到这里</span>
+  </div>
+
+  <div class="filter-row">
+    <span class="ff">筛选：</span>
+    <button class="fb active" onclick="setFilter('all',this)">全部</button>
+    <button class="fb" onclick="setFilter('A',this)">🔮 A 直觉建构者</button>
+    <button class="fb" onclick="setFilter('B',this)">📋 B 规范执行者</button>
+    <button class="fb" onclick="setFilter('C',this)">⚡ C 快速扫描者</button>
+    <button class="fb" onclick="setFilter('D',this)">📝 D 记忆驱动者</button>
+    <button class="fb" onclick="setFilter('E',this)">🌱 E 缓慢建构者</button>
+  </div>
+
+  <div class="stu-list" id="studentList">
+    <div class="loading-state"><div class="spinner"></div><p>加载学生数据…</p></div>
+  </div>
+</div>
+
+<!-- 报告弹窗 -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <div class="mhdr"><h3 id="reportTitle">🔬 学生诊断报告</h3><button class="mclose" onclick="closeModal('reportModal')">✕</button></div>
+    <div class="mb" id="reportBody"></div>
+  </div>
+</div>
+
+<script>
+// ======== 数据 ========
+const DIMS = [
+  {key:'concept',label:'概念理解',color:'#4299E1',icon:'🧠'},
+  {key:'model',label:'模型建构',color:'#48BB78',icon:'🔧'},
+  {key:'math',label:'数学运用',color:'#ED8936',icon:'📐'},
+  {key:'reading',label:'审题习惯',color:'#9F7AEA',icon:'🔍'},
+  {key:'flexible',label:'思维灵活',color:'#FC8181',icon:'💡'},
+];
+const TYPES = {A:{n:'直觉建构者',e:'🔮',c:'#4299E1'},B:{n:'规范执行者',e:'📋',c:'#48BB78'},C:{n:'快速扫描者',e:'⚡',c:'#ED8936'},D:{n:'记忆驱动者',e:'📝',c:'#9F7AEA'},E:{n:'缓慢建构者',e:'🌱',c:'#FC8181'}};
+
+// 教师教学建议数据（与之前一致）
+const TD = {
+  A:{o:'该生属于直觉建构者（A型）。概念理解力和模型建构能力突出，对物理原理有天然的直觉。但在审题习惯上较弱，容易因"思路太快"而忽略题目细节——不是不聪明，是太快了。',p:'课堂表现：积极活跃，通常第一个举手，但偶尔答非所问。作业习惯：正确率尚可，但经常"跳步骤"。考试模式：简单题因粗心失分，难题反而能做。',e:'优势预判：理解能力强，在新概念学习中会很快上手。风险预判：审题跳步习惯在综合题中会被放大。',w:'该生容易出现"会做但做错"的反复，根源是审题和步骤问题而非知识问题。家长不必因粗心批评，而是帮助建立审题规范。',
+    pl:[{t:'发挥概念优势',d:'课堂上多让其回答概念理解类问题。',c:'#4299E1'},{t:'强制规范步骤',d:'要求每道题写出完整步骤，初期可单独检查。',c:'#48BB78'},{t:'审题专项训练',d:'设计"条件圈画"专项训练。',c:'#9F7AEA'},{t:'精细化审题',d:'每道题读两遍：通读→圈画条件。',c:'#FC8181'},{t:'长期方向',d:'培养好规范习惯后，往综合能力方向深度发展。',c:'#ED8936'}],
+    pa:'先肯定：孩子对物理的理解力很强，一点就通。然后引导：孩子的问题不是"不认真"，而是"太快了"。回家让他把题目关键条件圈出来讲给你听。'},
+  B:{o:'该生属于规范执行者（B型）。审题习惯和数学运用能力扎实，做题规范、步骤清晰。但思维灵活性偏弱，面对新题型或非常规情境易卡住。',p:'课堂表现：认真听讲、笔记工整，较少主动提问。作业习惯：质量高步骤完整，但有"套模板"倾向。考试模式：常规题型稳定，新题型失分较多。',e:'优势预判：规范的步骤习惯在新知识学习中依然有效。风险预判：非常规题型会构成挑战，心理上先怯了连简单变式也会出错。',w:'该生在刚接触新题型时可能因"没见过"而挫败，这时最需要鼓励和方法而非加练。',
+    pl:[{t:'巩固规范优势',d:'肯定其规范优点，鼓励保持。',c:'#9F7AEA'},{t:'新题型渐进训练',d:'从"微变式"开始过渡到大变式。',c:'#FC8181'},{t:'一题多练',d:'每周1-2道一题多解，拓展思维路径。',c:'#4299E1'},{t:'限时训练',d:'适当限时训练，提升陌生题型下的信心。',c:'#ED8936'},{t:'长期方向',d:'夯实基础，中考基础题和中档题全拿满。',c:'#48BB78'}],
+    pa:'先肯定：学习态度非常好，作业认真步骤规范。然后引导：孩子不是不努力，而是面对新东西容易紧张。遇到不会的题让孩子说"这道题和以前做的哪道有点像？哪里不一样？"'},
+  C:{o:'该生属于快速扫描者（C型）。思维灵活、信息抓取快。但知识体系相对碎片化，概念深度不足——表面都会，一深挖就露馅。',p:'课堂表现：反应快，常在老师没说完时举手，但回答不完整。作业习惯：完成快但马虎。考试模式：前半程不错，后半程知识"串不起来"。',e:'优势预判：灵活性强，面对新知识有天然适应优势。风险预判：知识链条环环相扣，如果还是"学一个丢一个"，到综合阶段会吃力。',w:'该生容易"前几讲轻松→中间吃力→后面跟不上"，根因是知识没有连接成网。需在知识串联上重点干预。',
+    pl:[{t:'强制知识串联',d:'每讲结束后画出知识结构图，并与前面所学连接。',c:'#48BB78'},{t:'深度追问',d:'每次回答都追问"为什么"。',c:'#4299E1'},{t:'慢审题训练',d:'每道题读两遍再动笔。',c:'#9F7AEA'},{t:'综合题渐进',d:'从单一知识点过渡到综合题。',c:'#ED8936'},{t:'长期方向',d:'解决碎片化后，有潜力成为又快又准的高手。',c:'#FC8181'}],
+    pa:'先肯定：孩子反应快、脑子灵活。然后引导：问题是"学得快、忘得也快"。每周让孩子画一张知识图，把概念之间的联系画出来。'},
+  D:{o:'该生属于记忆驱动者（D型）。记忆能力强，公式和典型题型掌握好。但对物理概念本质理解不足——"记了但没真懂"。',p:'课堂表现：认真记笔记，较少提问。作业习惯：完成度高但"照着例题套"。考试模式：记忆类不错，理解类和综合类失分多。',e:'优势预判：公式记忆力在初期是优势。风险预判：到了多概念综合阶段，"公式太多不知道选哪个"的困境会出现。',w:'该生在进入综合计算阶段时最易出现成绩滑坡——这是从"记忆到理解"的转型关键期。',
+    pl:[{t:'从记忆转向理解',d:'每讲完新课让学生用自己的话复述概念和推导过程。',c:'#4299E1'},{t:'概念辨析训练',d:'设计概念对比题，每两周一次。',c:'#9F7AEA'},{t:'公式推导专项',d:'每个公式独立完成推导。',c:'#48BB78'},{t:'多场景应用',d:'同一概念在不同场景的应用训练。',c:'#ED8936'},{t:'长期方向',d:'打好基础，中考基础和中等题全拿分。',c:'#FC8181'}],
+    pa:'先肯定：孩子非常认真，愿意下功夫记公式。然后引导：少问"记住了什么"，多问"今天学的公式是怎么来的"。'},
+  E:{o:'该生属于缓慢建构者（E型）。各维度得分暂时偏低，处于"地基搭建期"。但有一个重要特点：真正理解后不易遗忘。',p:'课堂表现：安静但认真。作业习惯：完成周期长。考试模式：分数集中在低位，存在畏难心理。',e:'优势预判："慢"可能是优势——只要打好地基，后劲会显现。风险预判：如果因畏难而放弃，将错失最佳窗口。',w:'该生最需要信心重建。刚开始跟上了（哪怕比别人慢），后面难度曲线会更平缓。需给予重点关注和及时鼓励。',
+    pl:[{t:'查漏补缺先行',d:'针对最薄弱的1-2个概念做专门辅导。',c:'#4299E1'},{t:'新知识重点跟踪',d:'每节课后单独检查理解情况。',c:'#48BB78'},{t:'动手操作辅助',d:'通过实验视频让物理变直观。',c:'#9F7AEA'},{t:'小目标建信心',d:'设置跳一跳够得着的目标，每次达成给予肯定。',c:'#FC8181'},{t:'长期方向',d:'适合慢节奏高复现的学习方式。',c:'#ED8936'}],
+    pa:'先肯定：孩子虽然暂时成绩不理想但还在坚持学。然后引导：不给太大压力。每天问"今天听懂了一个什么概念？讲给我听听。"'},
+};
+
+// ======== 状态 ========
+let students = [];
+let filter = 'all';
+const $ = id => document.getElementById(id);
+
+// ======== 数据加载 ========
+async function refreshData() {
+  const list = $('studentList');
+  list.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>加载学生数据…</p></div>';
+  try {
+    const res = await fetch('/api/results');
+    students = await res.json();
+  } catch (e) {
+    console.error(e);
+    list.innerHTML = '<div class="empty-state"><div class="big">⚠️</div><p>无法连接服务器，请检查服务是否运行</p></div>';
+    return;
+  }
+  render();
+}
+
+// 自动刷新：每 5 秒检查一次
+setInterval(refreshData, 5000);
+
+// ======== 渲染 ========
+function render() {
+  const keyword = ($('searchInput').value || '').trim();
+  let fd = students;
+  if (filter !== 'all') fd = fd.filter(s => s.type === filter);
+  if (keyword) fd = fd.filter(s => s.name.includes(keyword));
+
+  // 统计
+  $('tCount').textContent = students.length;
+  if (students.length) {
+    const avg = Math.round(students.reduce((s, st) => s + Object.values(st.scores).reduce((a, b) => a + b, 0) / 5, 0) / students.length);
+    $('tAvg').textContent = avg + '分';
+    const cnt = {A:0,B:0,C:0,D:0,E:0};
+    students.forEach(s => { if (cnt[s.type] !== undefined) cnt[s.type]++; });
+    $('tDist').textContent = Object.entries(cnt).filter(([k,v]) => v > 0).map(([k,v]) => `${TYPES[k].e}${v}`).join(' · ');
+  } else {
+    $('tAvg').textContent = '—';
+    $('tDist').textContent = '暂无';
+  }
+
+  // 列表
+  const g = $('studentList');
+  if (!students.length) {
+    g.innerHTML = '<div class="empty-state"><div class="big">📥</div><p>还没有学生完成诊断<br>学生做完后数据会自动同步到这里</p></div>';
+    return;
+  }
+  if (!fd.length) {
+    g.innerHTML = '<div class="empty-state"><div class="big">🔍</div><p>没有匹配该条件的学生</p></div>';
+    return;
+  }
+  g.innerHTML = fd.map(s => {
+    const t = TYPES[s.type] || {n:'未知',e:'❓',c:'#A0AEC0'};
+    const avg = Math.round(Object.values(s.scores).reduce((a, b) => a + b, 0) / 5);
+    return `<div class="scard" onclick="showReport('${s.id}')">
+      <button class="sdel" onclick="event.stopPropagation();delSt('${s.id}')">✕</button>
+      <div class="st"><span class="sn">${s.name}</span><span class="stype" style="background:${t.c}">${t.e} ${t.n}</span></div>
+      <div class="sd">${s.date || '—'} · 综合 ${avg} 分</div>
+      <div class="sbar">${DIMS.map(d => `<div class="sdot" style="background:${d.color};opacity:${s.scores[d.key]/100}" title="${d.label}:${s.scores[d.key]}"></div>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function setFilter(f, btn) {
+  filter = f;
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function closeModal(id) { $(id).classList.remove('active'); }
+
+// ======== 删除记录 ========
+async function delSt(id) {
+  if (!confirm('确定删除该学生？')) return;
+  try {
+    await fetch('/api/results/' + id, { method: 'DELETE' });
+    students = students.filter(s => s.id !== id);
+    render();
+  } catch (e) { alert('删除失败'); }
+}
+
+// ======== 导出 ========
+function exportAll() {
+  if (!students.length) { alert('没有数据可导出'); return; }
+  const blob = new Blob([JSON.stringify(students, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `物理诊断数据_${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// ======== 显示报告 ========
+async function showReport(id) {
+  const s = students.find(st => st.id === id);
+  if (!s) return;
+  const t = TYPES[s.type] || {n:'未知',e:'❓',c:'#A0AEC0'};
+  const te = TD[s.type]; if (!te) return;
+  const sc = s.scores;
+  const avg = Math.round(Object.values(sc).reduce((a, b) => a + b, 0) / 5);
+
+  document.title = s.name + ' · 物理诊断报告 - 高途课堂';
+  $('reportTitle').innerHTML = `${t.e} ${s.name} · ${t.n}（综合 ${avg} 分）`;
+
+  const dimTags = DIMS.map(d => {
+    const lvl = sc[d.key] >= 68 ? '优势' : (sc[d.key] >= 40 ? '中等' : '薄弱');
+    return '<span class="dt" style="background:' + d.color + '">' + d.icon + ' ' + d.label + ' ' + sc[d.key] + '分</span>';
+  }).join('');
+
+  const bars = DIMS.map(d => {
+    const lvl = sc[d.key] >= 68 ? '优势' : (sc[d.key] >= 40 ? '中等' : '薄弱');
+    const lc = sc[d.key] >= 68 ? '#48BB78' : (sc[d.key] >= 40 ? '#ED8936' : '#FC8181');
+    return '<div class="di"><div class="di-h"><span class="di-label">' + d.icon + ' ' + d.label + '</span><span class="di-val">' + sc[d.key] + '分 <span class="di-lvl" style="background:' + lc + '15;color:' + lc + '">' + lvl + '</span></span></div><div class="di-b"><div class="di-f" style="width:' + sc[d.key] + '%;background:' + d.color + '"></div></div></div>';
+  }).join('');
+
+  // 弱点分析（从题库解析）
+  let wt = '';
+  if (s.wrong_answers && s.wrong_answers.length) {
+    let questions = [];
+    try {
+      const qRes = await fetch('/api/quiz');
+      const qData = await qRes.json();
+      questions = qData.questions;
+    } catch (e) {}
+
+    if (questions.length) {
+      wt = '<div class="wt-wrap"><table class="wt"><thead><tr><th style="width:13%">维度</th><th style="width:40%">题目</th><th>能力缺失分析</th></tr></thead><tbody>';
+      s.wrong_answers.forEach(([qi, oi]) => {
+        const q = questions[qi];
+        if (!q) return;
+        const o = q.opts[oi];
+        if (!o) return;
+        const dm = DIMS.find(d => d.key === q.dim);
+        const c = dm ? dm.color : '#A0AEC0';
+        wt += '<tr><td><span class="badge" style="background:' + c + '">' + (dm ? dm.icon : '') + ' ' + (dm ? dm.label : q.dim) + '</span></td><td><div class="qt2">' + q.text + '</div><div class="qt-wrong">✘ 选了 ' + o.label + '</div></td><td><div class="wb">' + (o.weakness || '—') + '</div></td></tr>';
+      });
+      wt += '</tbody></table></div>';
+    } else {
+      wt = '<div class="wt-empty">⚠️ 题库加载失败</div>';
+    }
+  } else {
+    wt = '<div class="wt-empty">✅ 该生全部答对或未记录错题数据</div>';
+  }
+
+  const plans = te.pl ? te.pl.map(p =>
+    '<div class="pi" style="border-left-color:' + p.c + '"><h5>' + p.t + '</h5><p>' + p.d + '</p></div>'
+  ).join('') : '';
+
+  $('reportBody').innerHTML = '<div class="report-inner">' +
+    '<div class="report-header"><div class="rh-name">' + t.e + ' ' + s.name + '</div><div class="rh-meta"><span class="rh-type">' + t.n + '（' + s.type + '型）</span>' + s.date + '</div><div class="rh-score"><span>' + avg + '</span>综合得分</div></div>' +
+    '<div class="rs"><h4>📊 五大能力维度</h4><div class="dim-tags">' + dimTags + '</div><div class="di-group">' + bars + '</div></div>' +
+    '<div class="rs"><h4>📋 诊断概述</h4><div class="rs-body"><p>' + te.o + '</p></div></div>' +
+    '<div class="rs"><h4>🔍 各题弱点分析</h4>' + wt + '</div>' +
+    '<div class="rs"><h4>🧠 学习方式画像</h4><div class="rs-body"><p>' + te.p + '</p></div></div>' +
+    '<div class="rs"><h4>⚡ 后续学习预判</h4><div class="rs-body"><p>' + te.e + '</p></div><div class="warn-box"><div class="wtt">⚠️ 需要关注</div><p>' + te.w + '</p></div></div>' +
+    '<div class="rs"><h4>📅 教学培养方案</h4><div class="pg2">' + plans + '</div></div>' +
+    '<div class="rs"><h4>💬 家校共育建议</h4><div class="rs-body"><p>' + te.pa + '</p></div></div>' +
+    '<div class="act-bar-report"><button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ 打印报告</button> <button class="btn btn-ghost btn-sm" onclick="closeModal(\'reportModal\')">关闭</button></div>' +
+  '</div>';
+  $('reportModal').classList.add('active');
+}
+
+// 点击外部关闭弹窗
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('active'); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
+});
+
+// 初始加载
+refreshData();
+</script>
+</body>
+</html>

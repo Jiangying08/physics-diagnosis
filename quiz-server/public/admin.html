@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚙️ 问卷管理 - 高途物理诊断</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#F7FAFC;color:#2D3748;padding-bottom:40px}
+.header{background:linear-gradient(135deg,#2B6CB0,#4299E1);color:#fff;padding:16px 24px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.header h1{font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px}
+.header .sub{font-size:12px;opacity:.8;font-weight:400}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:7px 16px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-primary{background:#2B6CB0;color:#fff}.btn-primary:hover{background:#2C5282}
+.btn-success{background:#38A169;color:#fff}.btn-success:hover{background:#2F855A}
+.btn-sm{padding:4px 10px;font-size:11px;border-radius:5px}
+.btn-ghost{background:#fff;color:#4A5568;border:1px solid #E2E8F0}.btn-ghost:hover{background:#F7FAFC}
+.btn-white{background:#fff;color:#2B6CB0}.btn-white:hover{background:#EBF4FF}
+.main{max-width:960px;margin:0 auto;padding:20px 16px}
+.section-title{font-size:16px;font-weight:700;margin:20px 0 10px;padding-bottom:6px;border-bottom:2px solid #E2E8F0;display:flex;align-items:center;gap:8px}
+.section-title .badge{font-size:11px;background:#2B6CB0;color:#fff;padding:1px 8px;border-radius:6px;font-weight:600}
+.save-bar{position:sticky;top:56px;z-index:99;background:#FFFAF0;border:1px solid #FEEBC8;border-radius:10px;padding:10px 16px;margin-bottom:16px;display:none;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.save-bar.show{display:flex}
+.save-bar .msg{font-size:13px;color:#7B5E2E;display:flex;align-items:center;gap:6px}
+
+/* 题目卡片 */
+.q-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid #EDF2F7;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.q-card .q-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:4px}
+.q-card .q-num{font-size:12px;color:#A0AEC0;font-weight:600}
+.q-card .q-dim-tag{font-size:11px;padding:2px 10px;border-radius:6px;color:#fff;font-weight:600}
+.q-card .q-text{font-size:14px;font-weight:600;color:#1A202C;margin-bottom:8px}
+.q-card .q-text textarea{width:100%;font-size:14px;border:1px solid #E2E8F0;border-radius:8px;padding:6px 8px;resize:vertical;font-family:inherit;line-height:1.5;background:#FAFBFC}
+.q-card .q-text textarea:focus{border-color:#2B6CB0;outline:none;background:#fff}
+.q-card .opts{display:flex;flex-direction:column;gap:4px}
+.q-card .opt{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:6px;font-size:13px;border:1px solid #EDF2F7;flex-wrap:wrap}
+.q-card .opt .lb{font-weight:700;color:#2B6CB0;width:18px;flex-shrink:0;text-align:center}
+.q-card .opt input[type="text"]{border:1px solid #E2E8F0;border-radius:4px;padding:4px 6px;font-size:12px;font-family:inherit;flex:2;min-width:120px;background:#FAFBFC}
+.q-card .opt input[type="text"]:focus{border-color:#2B6CB0;outline:none;background:#fff}
+.q-card .opt .sc-input{width:48px;text-align:center;flex:0 0 auto}
+.q-card .opt .wk-input{flex:3;min-width:140px}
+.q-card .opt .sc-tag{font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px}
+.q-card .opt .sc-tag.correct{background:#C6F6D5;color:#22543D}
+.q-card .opt .sc-tag.partial{background:#FEFCBF;color:#744210}
+.q-card .opt .sc-tag.wrong{background:#FED7D7;color:#742A2A}
+
+/* 类型卡片 */
+.type-card{background:#fff;border-radius:12px;padding:16px 18px;border:1px solid #EDF2F7;margin-bottom:10px}
+.type-card .tc-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.type-card .tc-hdr .emoji{font-size:24px}
+.type-card .tc-hdr .tname{font-size:15px;font-weight:700}
+.type-card .tc-hdr .tkey{font-size:11px;color:#A0AEC0}
+.type-card .field{margin-bottom:6px}
+.type-card .field label{display:block;font-size:11px;font-weight:600;color:#718096;margin-bottom:2px}
+.type-card .field input,.type-card .field textarea{width:100%;font-size:13px;border:1px solid #E2E8F0;border-radius:6px;padding:5px 8px;font-family:inherit;background:#FAFBFC}
+.type-card .field textarea{resize:vertical;min-height:48px}
+.type-card .field input:focus,.type-card .field textarea:focus{border-color:#2B6CB0;outline:none;background:#fff}
+.type-card .sub-items{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.type-card .sub-item{background:#F7FAFC;border-radius:6px;padding:6px 8px;font-size:12px;border:1px solid #EDF2F7}
+.type-card .sub-item input{width:100%;border:none;background:transparent;font-size:12px;padding:2px 0;font-family:inherit}
+.type-card .sub-item input:focus{outline:none;color:#2B6CB0}
+
+.empty-state{text-align:center;padding:40px;color:#A0AEC0}
+.spinner{width:28px;height:28px;border:2px solid #E2E8F0;border-top-color:#2B6CB0;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1A202C;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+
+@media(max-width:600px){
+  .q-card .opt{flex-wrap:wrap}
+  .q-card .opt input[type="text"]{flex:1 1 100%}
+  .q-card .opt .wk-input{flex:1 1 100%}
+  .type-card .sub-items{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚙️ 问卷管理 <span class="sub">修改后立即生效，学生刷新即可看到新内容</span></h1>
+  <div style="display:flex;gap:6px">
+    <button class="btn btn-white" onclick="location.href='teacher.html'">👩‍🏫 教师端</button>
+    <button class="btn btn-white" onclick="location.href='student.html'">📝 学生端预览</button>
+  </div>
+</div>
+
+<div class="save-bar" id="saveBar">
+  <div class="msg">✏️ 你有未保存的修改</div>
+  <div style="display:flex;gap:6px">
+    <button class="btn btn-sm btn-ghost" onclick="resetAll()">撤销</button>
+    <button class="btn btn-sm btn-success" onclick="saveAll()">💾 全部保存</button>
+  </div>
+</div>
+
+<div class="main">
+  <div id="loadingState" class="empty-state"><div class="spinner"></div><p>加载问卷数据…</p></div>
+  <div id="content" style="display:none">
+    <div class="section-title">📝 题目列表 <span class="badge" id="qBadge">12 题</span></div>
+    <div id="questionList"></div>
+    <div class="section-title">🏷️ 学员类型 <span class="badge" id="tBadge">5 种</span></div>
+    <div id="typeList"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DIMS = [];
+const $ = id => document.getElementById(id);
+let originalData = null;
+let currentData = null;
+let hasChanges = false;
+
+// ======== 加载 ========
+async function loadData() {
+  try {
+    const res = await fetch('/api/quiz');
+    const data = await res.json();
+    DIMS.push(...data.dims);
+    originalData = JSON.parse(JSON.stringify(data));
+    currentData = data;
+    render();
+    $('loadingState').style.display = 'none';
+    $('content').style.display = 'block';
+  } catch (e) {
+    $('loadingState').innerHTML = '<div class="big" style="font-size:40px">⚠️</div><p>无法连接服务器</p>';
+  }
+}
+
+// ======== 渲染 ========
+function render() {
+  renderQuestions();
+  renderTypes();
+  checkChanges();
+}
+
+function renderQuestions() {
+  $('qBadge').textContent = currentData.questions.length + ' 题';
+  $('questionList').innerHTML = currentData.questions.map((q, qi) => {
+    const dim = DIMS.find(d => d.key === q.dim) || {color:'#A0AEC0',icon:'❓',label:q.dim};
+    return `<div class="q-card" data-qi="${qi}">
+      <div class="q-hdr">
+        <span class="q-num">第 ${qi+1} 题</span>
+        <span class="q-dim-tag" style="background:${dim.color}">${dim.icon} ${dim.label}</span>
+      </div>
+      <div class="q-text"><textarea oninput="markChange()" data-qi="${qi}" class="q-text-input">${q.text}</textarea></div>
+      <div class="opts">${q.opts.map((o, oi) => {
+        let cls = 'wrong', label = '0分';
+        if (o.score === 3) { cls = 'correct'; label = '3分'; }
+        else if (o.score === 1) { cls = 'partial'; label = '1分'; }
+        return `<div class="opt">
+          <span class="lb">${o.label}.</span>
+          <input type="text" value="${o.text}" data-qi="${qi}" data-oi="${oi}" data-field="text" oninput="markChange()" class="opt-text-input" style="flex:2">
+          <input type="number" value="${o.score}" data-qi="${qi}" data-oi="${oi}" data-field="score" oninput="markChange()" class="sc-input" min="0" max="3" step="1">
+          <span class="sc-tag ${cls}">${label}</span>
+          <input type="text" value="${o.weakness || ''}" placeholder="选错分析（可选）" data-qi="${qi}" data-oi="${oi}" data-field="weakness" oninput="markChange()" class="wk-input">
+        </div>`;
+      }).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTypes() {
+  const keys = Object.keys(currentData.types).length ? Object.keys(currentData.types) : ['A','B','C','D','E'];
+  // 如果 types 是数组
+  const typesArr = Array.isArray(currentData.types) ? currentData.types : keys.map(k => currentData.types[k]);
+  $('tBadge').textContent = typesArr.length + ' 种';
+  $('typeList').innerHTML = typesArr.map((t, ti) => `
+    <div class="type-card">
+      <div class="tc-hdr">
+        <span class="emoji">${t.emoji}</span>
+        <span class="tname">${t.name}</span>
+        <span class="tkey">（${t.key}型）</span>
+      </div>
+      <div class="field">
+        <label>标语（slogan）</label>
+        <input type="text" value="${t.slogan}" data-ti="${ti}" data-field="slogan" oninput="markChange()" class="slogan-input">
+      </div>
+      <div class="field">
+        <label>优势</label>
+        <div class="sub-items">${t.strengths.map((s, si) => `<div class="sub-item"><strong>标题</strong><input value="${s.t}" data-ti="${ti}" data-sub="strengths" data-si="${si}" data-field="t" oninput="markChange()"><strong>描述</strong><input value="${s.d}" data-ti="${ti}" data-sub="strengths" data-si="${si}" data-field="d" oninput="markChange()"></div>`).join('')}</div>
+      </div>
+      <div class="field">
+        <label>需要加强</label>
+        <div class="sub-items">${t.weaknesses.map((w, wi) => `<div class="sub-item"><strong>标题</strong><input value="${w.t}" data-ti="${ti}" data-sub="weaknesses" data-si="${wi}" data-field="t" oninput="markChange()"><strong>描述</strong><input value="${w.d}" data-ti="${ti}" data-sub="weaknesses" data-si="${wi}" data-field="d" oninput="markChange()"></div>`).join('')}</div>
+      </div>
+      <div class="field">
+        <label>暑期行动清单</label>
+        <div class="sub-items">${t.todos.map((td, tdi) => `<div class="sub-item"><strong>标题</strong><input value="${td.t}" data-ti="${ti}" data-sub="todos" data-si="${tdi}" data-field="t" oninput="markChange()"><strong>描述</strong><input value="${td.d}" data-ti="${ti}" data-sub="todos" data-si="${tdi}" data-field="d" oninput="markChange()"><strong>目标</strong><input value="${td.target}" data-ti="${ti}" data-sub="todos" data-si="${tdi}" data-field="target" oninput="markChange()"></div>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ======== 标记修改 ========
+function markChange() {
+  hasChanges = true;
+  $('saveBar').classList.add('show');
+}
+
+function checkChanges() {
+  if (hasChanges) {
+    $('saveBar').classList.add('show');
+  } else {
+    $('saveBar').classList.remove('show');
+  }
+}
+
+// ======== 从 DOM 收集数据 ========
+function collectData() {
+  // 收集题目
+  const qCards = document.querySelectorAll('.q-card');
+  qCards.forEach((card, qi) => {
+    const q = currentData.questions[qi];
+    q.text = card.querySelector('.q-text-input').value;
+    const opts = card.querySelectorAll('.opt-text-input');
+    opts.forEach((input, oi) => {
+      const opt = q.opts[oi];
+      opt.text = input.value;
+      opt.score = parseInt(card.querySelectorAll('.sc-input')[oi].value) || 0;
+      opt.weakness = card.querySelectorAll('.wk-input')[oi].value || null;
+    });
+  });
+
+  // 收集类型
+  const typeCards = document.querySelectorAll('.type-card');
+  const typesArr = Array.isArray(currentData.types) ? currentData.types : Object.values(currentData.types);
+  typeCards.forEach((card, ti) => {
+    const t = typesArr[ti];
+    if (!t) return;
+    t.slogan = card.querySelector('.slogan-input').value;
+
+    ['strengths', 'weaknesses', 'todos'].forEach(sub => {
+      const items = card.querySelectorAll(`[data-sub="${sub}"]`);
+      const grouped = {};
+      items.forEach(inp => {
+        const si = parseInt(inp.dataset.si);
+        const field = inp.dataset.field;
+        if (!grouped[si]) grouped[si] = {};
+        grouped[si][field] = inp.value;
+      });
+      t[sub] = Object.values(grouped);
+    });
+  });
+}
+
+// ======== 保存 ========
+async function saveAll() {
+  collectData();
+  showToast('保存中…');
+
+  try {
+    const res = await fetch('/api/quiz/save-all', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        questions: currentData.questions,
+        types: Array.isArray(currentData.types) ? currentData.types : Object.values(currentData.types),
+      }),
+    });
+    const result = await res.json();
+    if (!result.success) throw new Error(result.error);
+
+    // 更新 originalData 为当前状态
+    originalData = JSON.parse(JSON.stringify(currentData));
+    hasChanges = false;
+    $('saveBar').classList.remove('show');
+    showToast('✅ 全部保存成功！学生刷新页面即可看到更新');
+  } catch (e) {
+    console.error(e);
+    showToast('❌ 保存失败，请重试');
+  }
+}
+
+function resetAll() {
+  if (!originalData) return;
+  currentData = JSON.parse(JSON.stringify(originalData));
+  hasChanges = false;
+  $('saveBar').classList.remove('show');
+  render();
+  showToast('已撤销所有修改');
+}
+
+// ======== Toast ========
+let toastTimer = null;
+function showToast(msg) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ======== 补充服务器 API（选项按题号和序号查找） ========
+// 在 server.js 中已经有 PUT /api/quiz/options/:id
+// 但我们需要按 (question_id, sort_order) 查找，这里在客户端先找 id
+
+// 实际上我们需要修改 server.js 来支持按 question_id 和 sort_order 更新
+// 或者简单点：在 server.js 新增一个 PUT /api/quiz/options/by-q/:qid/:oidx
+
+// 先加载
+loadData();
+</script>
+</body>
+</html>

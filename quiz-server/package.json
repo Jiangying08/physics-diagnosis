@@ -1,0 +1,14 @@
+{
+  "name": "physics-quiz-server",
+  "version": "1.0.0",
+  "description": "初三物理学科诊断 - 后端服务",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "sql.js": "^1.11.0"
+  }
+}

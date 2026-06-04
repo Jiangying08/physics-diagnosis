@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👩‍🏫 物理诊断 · 教师管理平台</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F7FAFC;color:#2D3748;min-height:100vh}
+.header{background:linear-gradient(135deg,#2B6CB0,#4299E1);color:#fff;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.header h1{font-size:20px;font-weight:800;display:flex;align-items:center;gap:8px}
+.header .ha{display:flex;gap:8px;flex-wrap:wrap}
+.main{max-width:1100px;margin:0 auto;padding:20px 16px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-white{background:#fff;color:#2B6CB0}
+.btn-white:hover{background:#EBF4FF}
+.btn-primary{background:#2B6CB0;color:#fff}
+.btn-primary:hover{background:#2C5282}
+.btn-ghost{background:#fff;color:#4A5568;border:1px solid #E2E8F0;padding:6px 14px;font-size:12px;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.btn-ghost:hover{background:#F7FAFC}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:6px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:18px}
+.sc{background:#fff;border-radius:10px;padding:12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.sc .sv{font-size:26px;font-weight:800}
+.sc .sl{font-size:12px;color:#718096;margin-top:2px}
+.stype-d{font-size:13px;color:#718096}
+
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.toolbar .ff{font-size:13px;font-weight:600;color:#4A5568}
+.toolbar input{border:2px solid #E2E8F0;border-radius:8px;padding:7px 12px;font-size:13px;width:200px;outline:none}
+.toolbar input:focus{border-color:#4299E1}
+
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.fb{padding:4px 14px;border-radius:14px;border:1px solid #E2E8F0;background:#fff;font-size:12px;font-weight:600;cursor:pointer;color:#4A5568;transition:all .2s}
+.fb:hover{border-color:#90CDF4;color:#2B6CB0}
+.fb.active{background:#2B6CB0;color:#fff;border-color:#2B6CB0}
+
+.stu-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.scard{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer;transition:all .2s;border:2px solid transparent;position:relative}
+.scard:hover{border-color:#90CDF4;transform:translateY(-2px)}
+.scard .st{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.scard .sn{font-size:16px;font-weight:700}
+.scard .stype{font-size:11px;padding:2px 10px;border-radius:8px;color:#fff;font-weight:600}
+.scard .sd{font-size:11px;color:#A0AEC0;margin-bottom:6px}
+.scard .sbar{display:flex;gap:3px}
+.scard .sdot{width:26px;height:6px;border-radius:2px;flex-shrink:0}
+.scard .sdel{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;border:none;background:transparent;color:#CBD5E0;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
+.scard .sdel:hover{background:#FED7D7;color:#FC8181}
+
+.empty-state{text-align:center;padding:50px 20px;color:#A0AEC0;grid-column:1/-1}
+.empty-state .big{font-size:44px;margin-bottom:10px}
+.empty-state p{font-size:15px}
+
+/* 导入弹窗 */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:1000;justify-content:center;align-items:center;padding:16px;animation:fadeIn .2s}
+.modal-overlay.active{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:14px;padding:0;width:100%;max-width:500px;max-height:90vh;display:flex;flex-direction:column;animation:slideUp .25s}
+@keyframes slideUp{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mhdr{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #E2E8F0}
+.mhdr h3{font-size:16px;display:flex;align-items:center;gap:6px}
+.mclose{width:28px;height:28px;border-radius:50%;border:none;background:transparent;font-size:18px;cursor:pointer;color:#A0AEC0;display:flex;align-items:center;justify-content:center}
+.mclose:hover{background:#EDF2F7;color:#4A5568}
+.mb{overflow-y:auto;padding:20px}
+.import-area{text-align:center}
+.import-area textarea{width:100%;max-width:380px;height:60px;padding:10px;border:2px solid #E2E8F0;border-radius:10px;font-size:16px;text-align:center;outline:none;font-family:monospace;resize:none}
+.import-area textarea:focus{border-color:#4299E1}
+.import-area .or{font-size:13px;color:#A0AEC0;margin:12px 0}
+.import-area .btn{margin-top:6px}
+.fu{position:relative;display:inline-block}
+.fu input[type=file]{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.import-success{border-radius:8px;padding:20px;text-align:center;background:#F0FFF4;border:1px solid #C6F6D5}
+.import-success .big{font-size:40px;margin-bottom:6px}
+.import-success .nm{font-size:18px;font-weight:700}
+.import-success .tp{font-size:14px;color:#718096;margin-bottom:8px}
+
+/* 报告弹窗（教师版完整报告） */
+.modal-wide{max-width:900px}
+.report-inner{max-width:800px;margin:0 auto}
+
+/* 报告头部 */
+.report-header{
+  background:linear-gradient(135deg,#2B6CB0,#48BB78);
+  border-radius:14px;padding:24px 24px 20px;margin-bottom:14px;
+  color:#fff;position:relative;overflow:hidden
+}
+.report-header::after{
+  content:'🔬';position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  font-size:60px;opacity:.15
+}
+.report-header .rh-name{font-size:22px;font-weight:800;margin-bottom:4px}
+.report-header .rh-meta{font-size:13px;opacity:.9;line-height:1.6}
+.report-header .rh-meta .rh-type{
+  display:inline-block;background:rgba(255,255,255,.2);padding:1px 12px;
+  border-radius:12px;font-weight:600;margin-right:6px
+}
+.report-header .rh-score{
+  display:inline-block;margin-top:8px;background:rgba(255,255,255,.15);
+  padding:6px 16px;border-radius:20px;font-size:14px;font-weight:700
+}
+.report-header .rh-score span{font-size:28px;margin-right:4px}
+
+/* 报告卡片 */
+.rs{
+  border-radius:12px;padding:18px 20px;margin-bottom:12px;
+  background:#fff;border:1px solid #EDF2F7;
+  box-shadow:0 1px 4px rgba(0,0,0,.03)
+}
+.rs h4{
+  font-size:13px;font-weight:700;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;color:#1A202C;
+  padding-bottom:8px;border-bottom:1px solid #F7FAFC
+}
+.rs .rs-body{font-size:13px;line-height:1.8;color:#4A5568}
+
+/* 维度条 */
+.di-group{display:flex;flex-direction:column;gap:8px}
+.di{margin-bottom:0}
+.di-h{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;margin-bottom:3px;color:#2D3748}
+.di-h .di-label{display:flex;align-items:center;gap:4px}
+.di-h .di-val{display:flex;align-items:center;gap:4px}
+.di-h .di-lvl{font-size:10px;font-weight:600;padding:1px 8px;border-radius:8px}
+.di-b{height:8px;background:#EDF2F7;border-radius:4px;overflow:hidden}
+.di-f{height:100%;border-radius:4px;transition:width 1s}
+.dim-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.dim-tags .dt{
+  font-size:11px;padding:3px 10px;border-radius:8px;
+  font-weight:600;color:#fff
+}
+
+/* 弱点分析表 */
+.wt-wrap{border-radius:8px;overflow:hidden;border:1px solid #EDF2F7}
+.wt{width:100%;border-collapse:collapse;font-size:12px}
+.wt th{
+  text-align:left;padding:8px 10px;background:#F7FAFC;
+  font-weight:700;color:#4A5568;font-size:11px;
+  border-bottom:2px solid #E2E8F0
+}
+.wt td{padding:8px 10px;border-bottom:1px solid #F7FAFC;vertical-align:top}
+.wt tr:last-child td{border-bottom:none}
+.wt .qt2{color:#2D3748;font-weight:600;font-size:12px}
+.wt .qt-wrong{font-size:11px;color:#FC8181;margin-top:2px;font-weight:500}
+.wt .wb{color:#718096;line-height:1.6;font-size:12px}
+.badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-weight:600;color:#fff}
+.wt-empty{padding:20px;text-align:center;color:#48BB78;font-weight:600;font-size:13px}
+
+/* 教学方案网格 */
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pi{
+  background:#F7FAFC;border-radius:8px;padding:10px 12px;
+  border-left:3px solid #4299E1
+}
+.pi h5{font-size:12px;font-weight:700;margin-bottom:3px;color:#1A202C}
+.pi p{font-size:11px;color:#4A5568;line-height:1.6}
+
+/* 预警框 */
+.warn-box{
+  background:#FFFAF0;border:1px solid #FEEBC8;
+  border-radius:8px;padding:12px 14px;margin-top:10px
+}
+.warn-box .wtt{font-weight:700;font-size:12px;color:#7B5E2E;margin-bottom:3px}
+.warn-box p{font-size:12px;color:#7B5E2E;line-height:1.6}
+
+/* 操作栏 */
+.act-bar-report{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px
+}
+
+@media(max-width:640px){
+  .header h1{font-size:17px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stu-list{grid-template-columns:1fr}
+  .pg2{grid-column:1fr}
+  .toolbar input{width:140px}
+}
+
+/* 打印样式 */
+@media print{
+  @page{margin:12mm 15mm}
+  body{background:#fff!important;overflow:visible!important}
+  .header,.toolbar,.filter-row,.stats,.stu-list,.mhdr,.mclose,.act-bar-report{display:none!important}
+  .modal-overlay{position:static!important;background:none!important;display:block!important;padding:0!important;overflow:visible!important}
+  .modal{max-width:100%!important;max-height:none!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important;animation:none!important}
+  .mb{overflow:visible!important;padding:0!important}
+  .report-inner{max-width:100%!important}
+  .report-header{break-inside:avoid;page-break-after:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .report-header::after{display:none}
+  .rs{box-shadow:none!important;border:1px solid #E2E8F0!important;break-inside:avoid;page-break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .warn-box{break-inside:avoid}
+  .pg2{grid-template-columns:1fr 1fr}
+  .di-f{transition:none!important}
+  .di-b,.dim-tags .dt,.badge{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wt td,.wt th{padding:5px 8px;font-size:10px}
+  .wt th{background:#F7FAFC!important}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>👩‍🏫 物理诊断 · 教师管理平台</h1>
+  <div class="ha">
+    <button class="btn btn-white" onclick="showImport()">📥 导入学生</button>
+    <button class="btn btn-white" onclick="exportAll()">📤 导出全部</button>
+    <button class="btn btn-white" onclick="document.getElementById('fileInput').click()">📂 导入备份</button>
+    <input type="file" id="fileInput" accept=".json" style="display:none" onchange="importFile(event)">
+  </div>
+</div>
+
+<div class="main">
+  <div class="stats" id="statsArea">
+    <div class="sc"><div class="sv" id="tCount" style="color:#2B6CB0">0</div><div class="sl">📚 学生总数</div></div>
+    <div class="sc"><div class="sv" id="tAvg" style="color:#48BB78">—</div><div class="sl">📊 平均综合分</div></div>
+    <div class="sc"><div class="sv" style="color:#9F7AEA;font-size:15px" id="tDist">暂无</div><div class="sl">🔤 类型分布</div></div>
+  </div>
+
+  <div class="filter-row">
+    <span class="ff">筛选：</span>
+    <button class="fb active" onclick="setFilter('all',this)">全部</button>
+    <button class="fb" onclick="setFilter('A',this)">🔮 A 直觉建构者</button>
+    <button class="fb" onclick="setFilter('B',this)">📋 B 规范执行者</button>
+    <button class="fb" onclick="setFilter('C',this)">⚡ C 快速扫描者</button>
+    <button class="fb" onclick="setFilter('D',this)">📝 D 记忆驱动者</button>
+    <button class="fb" onclick="setFilter('E',this)">🌱 E 缓慢建构者</button>
+  </div>
+
+  <div class="stu-list" id="studentList">
+    <div class="empty-state"><div class="big">📥</div><p>还没有学生数据<br>点击上方「导入学生」添加学生的分享码</p></div>
+  </div>
+</div>
+
+<!-- 导入弹窗 -->
+<div class="modal-overlay" id="importModal">
+  <div class="modal">
+    <div class="mhdr"><h3>📥 导入学生数据</h3><button class="mclose" onclick="closeModal('importModal')">✕</button></div>
+    <div class="mb">
+      <div class="import-area" id="importAreaDefault">
+        <p style="font-size:14px;color:#4A5568;margin-bottom:10px">粘贴学生分享码</p>
+        <textarea id="codeInput" placeholder="粘贴学生发来的分享码" onkeydown="if(event.key==='Enter'){event.preventDefault();importCode()}"></textarea>
+        <button class="btn btn-primary" onclick="importCode()" style="margin-top:4px">导入</button>
+        <div class="or">— 或 —</div>
+        <div class="fu"><button class="btn btn-primary">📂 上传 JSON 文件</button><input type="file" accept=".json" onchange="handleFile(event)"></div>
+      </div>
+      <div class="import-success" id="importSuccess" style="display:none">
+        <div class="big">✅</div>
+        <div class="nm" id="importName">张三</div>
+        <div class="tp" id="importType">直觉建构者 · 综合 72 分</div>
+        <button class="btn btn-primary btn-sm" onclick="document.getElementById('importModal').classList.remove('active');document.getElementById('importAreaDefault').style.display='';document.getElementById('importSuccess').style.display='none';document.getElementById('codeInput').value=''">继续导入</button>
+        <button class="btn btn-sm" style="border:1px solid #E2E8F0;background:#fff;margin-left:6px;padding:6px 14px;font-size:12px;border-radius:6px;cursor:pointer" onclick="document.getElementById('importModal').classList.remove('active');document.getElementById('importAreaDefault').style.display='';document.getElementById('importSuccess').style.display='none';document.getElementById('codeInput').value=''">完成</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 教师报告弹窗 -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal modal-wide">
+    <div class="mhdr"><h3 id="reportTitle">🔬 学生诊断报告</h3><button class="mclose" onclick="closeModal('reportModal')">✕</button></div>
+    <div class="mb" id="reportBody"></div>
+  </div>
+</div>
+
+<script>
+const DIMS=[
+  {key:'concept',label:'概念理解',color:'#4299E1',icon:'🧠'},
+  {key:'model',label:'模型建构',color:'#48BB78',icon:'🔧'},
+  {key:'math',label:'数学运用',color:'#ED8936',icon:'📐'},
+  {key:'reading',label:'审题习惯',color:'#9F7AEA',icon:'🔍'},
+  {key:'flexible',label:'思维灵活',color:'#FC8181',icon:'💡'},
+];
+const TYPES={A:{n:'直觉建构者',e:'🔮',c:'#4299E1'},B:{n:'规范执行者',e:'📋',c:'#48BB78'},C:{n:'快速扫描者',e:'⚡',c:'#ED8936'},D:{n:'记忆驱动者',e:'📝',c:'#9F7AEA'},E:{n:'缓慢建构者',e:'🌱',c:'#FC8181'}};
+const QUESTIONS=[{dim:'concept',text:'关于声音的产生与传播，以下说法正确的是？',opts:[{label:'A',text:'声音在真空中传播速度最快'},{label:'B',text:'声音是由物体振动产生的'},{label:'C',text:'只要物体振动，我们就一定能听到声音'},{label:'D',text:'声音在固体中传播比在空气中慢'}]},{dim:'concept',text:'关于物态变化，以下说法正确的是？',opts:[{label:'A',text:'晶体在熔化过程中吸收热量，但温度保持不变'},{label:'B',text:'液体蒸发需要达到一定温度才能发生'},{label:'C',text:'冰在熔化过程中温度会逐渐升高'},{label:'D',text:'夏天冰箱拿出饮料瓶外壁"出汗"，是瓶子漏了'}]},{dim:'concept',text:'关于光的反射和折射，以下说法正确的是？',opts:[{label:'A',text:'光在发生漫反射时，不遵循光的反射定律'},{label:'B',text:'光从空气斜射入水中时，折射角小于入射角'},{label:'C',text:'光在真空中的传播速度是 3×10⁵m/s'},{label:'D',text:'凸透镜对光有发散作用'}]},{dim:'model',text:'用水平推力推地面上的木箱，木箱没动。木箱在水平方向受力情况是？',opts:[{label:'A',text:'推力 > 静摩擦力'},{label:'B',text:'推力 = 静摩擦力'},{label:'C',text:'推力 < 静摩擦力'},{label:'D',text:'木箱没动所以不受摩擦力'}]},{dim:'model',text:'一块木块静止在粗糙斜面上，它受到的摩擦力方向是？',opts:[{label:'A',text:'沿斜面向上'},{label:'B',text:'沿斜面向下'},{label:'C',text:'垂直斜面向上'},{label:'D',text:'水平向左'}]},{dim:'model',text:'在"探究凸透镜成像规律"实验中，当物距 u > 2f 时，成像情况是？',opts:[{label:'A',text:'成正立、放大的虚像'},{label:'B',text:'成倒立、缩小的实像'},{label:'C',text:'成倒立、放大的实像'},{label:'D',text:'不成像'}]},{dim:'math',text:'一个质量为 500g 的物体，体积为 200cm³，它的密度是？',opts:[{label:'A',text:'2.5 g/cm³'},{label:'B',text:'0.4 g/cm³'},{label:'C',text:'250 g/cm³'},{label:'D',text:'100,000 g/cm³'}]},{dim:'math',text:'一个 60kg 的人站立，每只脚与地面接触约 200cm²，g=10N/kg。他对地面的压强约为？',opts:[{label:'A',text:'1.5×10⁴ Pa'},{label:'B',text:'3.0×10⁴ Pa'},{label:'C',text:'1.5×10³ Pa'},{label:'D',text:'3.0×10³ Pa'}]},{dim:'math',text:'甲速是乙的 2 倍，乙时间是甲的 3 倍。甲、乙路程之比是？',opts:[{label:'A',text:'2 : 3'},{label:'B',text:'3 : 2'},{label:'C',text:'1 : 6'},{label:'D',text:'6 : 1'}]},{dim:'reading',text:'题目："质量为 2kg 的物体放在水平桌面上，用 5N 的拉力使其做匀速直线运动"，求摩擦力。解题关键是什么？',opts:[{label:'A',text:'质量 2kg'},{label:'B',text:'"匀速直线运动"意味着合力为零'},{label:'C',text:'水平拉力 5N'},{label:'D',text:'水平桌面'}]},{dim:'reading',text:'题目："1kg 物体从高处由静止开始下落，不计空气阻力，g=10N/kg"，求 2s 后下落距离。解题关键是什么？',opts:[{label:'A',text:'质量 1kg'},{label:'B',text:'"由静止开始"即初速度为零'},{label:'C',text:'g=10N/kg'},{label:'D',text:'不计空气阻力'}]},{dim:'flexible',text:'冬天室外说话呼出"白气"而夏天看不到。以下解释最合理的是？',opts:[{label:'A',text:'冬天温度低，呼出的水蒸气遇冷液化成小水滴'},{label:'B',text:'冬天呼出的气体温度比夏天高'},{label:'C',text:'夏天没有水蒸气呼出'},{label:'D',text:'冬天呼出的气体成分与夏天不同'}]}];
+const TD={
+  A:{o:'该生属于直觉建构者（A型）。概念理解力和模型建构能力突出，对物理原理有天然的直觉。但在审题习惯上较弱，容易因"思路太快"而忽略题目细节——不是不聪明，是太快了。',p:'课堂表现：积极活跃，通常第一个举手，但偶尔答非所问。作业习惯：正确率尚可，但经常"跳步骤"。考试模式：简单题因粗心失分，难题反而能做。',e:'优势预判：理解能力强，在新概念学习中会很快上手。风险预判：审题跳步习惯在综合题中会被放大。',w:'该生容易出现"会做但做错"的反复，根源是审题和步骤问题而非知识问题。家长不必因粗心批评，而是帮助建立审题规范。',pl:[{t:'发挥概念优势',d:'课堂上多让其回答概念理解类问题。',c:'#4299E1'},{t:'强制规范步骤',d:'要求每道题写出完整步骤，初期可单独检查。',c:'#48BB78'},{t:'审题专项训练',d:'设计"条件圈画"专项训练。',c:'#9F7AEA'},{t:'精细化审题',d:'每道题读两遍：通读→圈画条件。',c:'#FC8181'},{t:'长期方向',d:'培养好规范习惯后，往综合能力方向深度发展。',c:'#ED8936'}],pa:'先肯定：孩子对物理的理解力很强，一点就通。然后引导：孩子的问题不是"不认真"，而是"太快了"。回家让他把题目关键条件圈出来讲给你听。'},
+  B:{o:'该生属于规范执行者（B型）。审题习惯和数学运用能力扎实，做题规范、步骤清晰。但思维灵活性偏弱，面对新题型或非常规情境易卡住。',p:'课堂表现：认真听讲、笔记工整，较少主动提问。作业习惯：质量高步骤完整，但有"套模板"倾向。考试模式：常规题型稳定，新题型失分较多。',e:'优势预判：规范的步骤习惯在新知识学习中依然有效。风险预判：非常规题型会构成挑战，心理上先怯了连简单变式也会出错。',w:'该生在刚接触新题型时可能因"没见过"而挫败，这时最需要鼓励和方法而非加练。',pl:[{t:'巩固规范优势',d:'肯定其规范优点，鼓励保持。',c:'#9F7AEA'},{t:'新题型渐进训练',d:'从"微变式"开始过渡到大变式。',c:'#FC8181'},{t:'一题多练',d:'每周1-2道一题多解，拓展思维路径。',c:'#4299E1'},{t:'限时训练',d:'适当限时训练，提升陌生题型下的信心。',c:'#ED8936'},{t:'长期方向',d:'夯实基础，中考基础题和中档题全拿满。',c:'#48BB78'}],pa:'先肯定：学习态度非常好，作业认真步骤规范。然后引导：孩子不是不努力，而是面对新东西容易紧张。遇到不会的题让孩子说"这道题和以前做的哪道有点像？哪里不一样？"'},
+  C:{o:'该生属于快速扫描者（C型）。思维灵活、信息抓取快。但知识体系相对碎片化，概念深度不足——表面都会，一深挖就露馅。',p:'课堂表现：反应快，常在老师没说完时举手，但回答不完整。作业习惯：完成快但马虎。考试模式：前半程不错，后半程知识"串不起来"。',e:'优势预判：灵活性强，面对新知识有天然适应优势。风险预判：知识链条环环相扣，如果还是"学一个丢一个"，到综合阶段会吃力。',w:'该生容易"前几讲轻松→中间吃力→后面跟不上"，根因是知识没有连接成网。需在知识串联上重点干预。',pl:[{t:'强制知识串联',d:'每讲结束后画出知识结构图，并与前面所学连接。',c:'#48BB78'},{t:'深度追问',d:'每次回答都追问"为什么"。',c:'#4299E1'},{t:'慢审题训练',d:'每道题读两遍再动笔。',c:'#9F7AEA'},{t:'综合题渐进',d:'从单一知识点过渡到综合题。',c:'#ED8936'},{t:'长期方向',d:'解决碎片化后，有潜力成为又快又准的高手。',c:'#FC8181'}],pa:'先肯定：孩子反应快、脑子灵活。然后引导：问题是"学得快、忘得也快"。每周让孩子画一张知识图，把概念之间的联系画出来。'},
+  D:{o:'该生属于记忆驱动者（D型）。记忆能力强，公式和典型题型掌握好。但对物理概念本质理解不足——"记了但没真懂"。',p:'课堂表现：认真记笔记，较少提问。作业习惯：完成度高但"照着例题套"。考试模式：记忆类不错，理解类和综合类失分多。',e:'优势预判：公式记忆力在初期是优势。风险预判：到了多概念综合阶段，"公式太多不知道选哪个"的困境会出现。',w:'该生在进入综合计算阶段时最易出现成绩滑坡——这是从"记忆到理解"的转型关键期。',pl:[{t:'从记忆转向理解',d:'每讲完新课让学生用自己的话复述概念和推导过程。',c:'#4299E1'},{t:'概念辨析训练',d:'设计概念对比题，每两周一次。',c:'#9F7AEA'},{t:'公式推导专项',d:'每个公式独立完成推导。',c:'#48BB78'},{t:'多场景应用',d:'同一概念在不同场景的应用训练。',c:'#ED8936'},{t:'长期方向',d:'打好基础，中考基础和中等题全拿分。',c:'#FC8181'}],pa:'先肯定：孩子非常认真，愿意下功夫记公式。然后引导：少问"记住了什么"，多问"今天学的公式是怎么来的"。'},
+  E:{o:'该生属于缓慢建构者（E型）。各维度得分暂时偏低，处于"地基搭建期"。但有一个重要特点：真正理解后不易遗忘。',p:'课堂表现：安静但认真。作业习惯：完成周期长。考试模式：分数集中在低位，存在畏难心理。',e:'优势预判："慢"可能是优势——只要打好地基，后劲会显现。风险预判：如果因畏难而放弃，将错失最佳窗口。',w:'该生最需要信心重建。刚开始跟上了（哪怕比别人慢），后面难度曲线会更平缓。需给予重点关注和及时鼓励。',pl:[{t:'查漏补缺先行',d:'针对最薄弱的1-2个概念做专门辅导。',c:'#4299E1'},{t:'新知识重点跟踪',d:'每节课后单独检查理解情况。',c:'#48BB78'},{t:'动手操作辅助',d:'通过实验视频让物理变直观。',c:'#9F7AEA'},{t:'小目标建信心',d:'设置跳一跳够得着的目标，每次达成给予肯定。',c:'#FC8181'},{t:'长期方向',d:'适合慢节奏高复现的学习方式。',c:'#ED8936'}],pa:'先肯定：孩子虽然暂时成绩不理想但还在坚持学。然后引导：不给太大压力。每天问"今天听懂了一个什么概念？讲给我听听。"'},
+};
+
+let students=JSON.parse(localStorage.getItem('t_phy_students')||'[]');
+let filter='all';
+const $=id=>document.getElementById(id);
+
+function save(){localStorage.setItem('t_phy_students',JSON.stringify(students))}
+
+function render(){
+  const fd=filter==='all'?students:students.filter(s=>s.type===filter);
+  // 统计
+  $('tCount').textContent=students.length;
+  if(students.length){
+    const avg=Math.round(students.reduce((s,st)=>s+Object.values(st.scores).reduce((a,b)=>a+b,0)/5,0)/students.length);
+    $('tAvg').textContent=avg+'分';
+    const cnt={A:0,B:0,C:0,D:0,E:0};
+    students.forEach(s=>{if(cnt[s.type]!==undefined)cnt[s.type]++});
+    $('tDist').textContent=Object.entries(cnt).filter(([k,v])=>v>0).map(([k,v])=>`${TYPES[k].e}${v}`).join(' · ');
+  }else{$('tAvg').textContent='—';$('tDist').textContent='暂无'}
+  // 列表
+  const g=$('studentList');
+  if(!fd.length){g.innerHTML=`<div class="empty-state"><div class="big">${students.length?'🔍':'📥'}</div><p>${students.length?'没有匹配该类型的学生':'还没有学生数据<br>点击上方「导入学生」添加学生的分享码'}</p></div>`;return}
+  g.innerHTML=fd.map(s=>{
+    const t=TYPES[s.type]||{n:'未知',e:'❓',c:'#A0AEC0'};
+    const avg=Math.round(Object.values(s.scores).reduce((a,b)=>a+b,0)/5);
+    return `<div class="scard" onclick="showReport('${s.id}')">
+      <button class="sdel" onclick="event.stopPropagation();delSt('${s.id}')">✕</button>
+      <div class="st"><span class="sn">${s.name}</span><span class="stype" style="background:${t.c}">${t.e} ${t.n}</span></div>
+      <div class="sd">${s.date||'—'} · 综合 ${avg} 分</div>
+      <div class="sbar">${DIMS.map(d=>`<div class="sdot" style="background:${d.color};opacity:${s.scores[d.key]/100}" title="${d.label}:${s.scores[d.key]}"></div>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function setFilter(f,btn){
+  filter=f;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');render();
+}
+
+function showImport(){$('importModal').classList.add('active');$('codeInput').value='';$('codeInput').focus();$('importAreaDefault').style.display='';$('importSuccess').style.display='none'}
+function closeModal(id){$(id).classList.remove('active')}
+
+function normalizeData(raw){
+  // 兼容新旧格式：新格式用 {n,s,t,d,w}，旧格式用 {name,scores,type,date,weaknesses}
+  const name = raw.n || raw.name;
+  let scores = raw.s || raw.scores;
+  // scores 可能是数组 [c,m,m2,r,f] 或对象 {concept,model,math,reading,flexible}
+  if (Array.isArray(scores)) {
+    const obj = {};
+    DIMS.forEach((d, i) => { obj[d.key] = scores[i] || 0; });
+    scores = obj;
+  }
+  const type = raw.t || raw.type;
+  const date = raw.d || raw.date || new Date().toLocaleDateString('zh-CN');
+  // weakness 可能是 [[qi,oi],...] 或完整对象数组
+  let weaknesses = raw.w || raw.weaknesses || [];
+  if (Array.isArray(weaknesses) && weaknesses.length && Array.isArray(weaknesses[0])) {
+    weaknesses = weaknesses.map(([qi, oi]) => {
+      const q = QUESTIONS[qi];
+      const o = q && q.opts[oi];
+      if (!q || !o) return null;
+      const dm = DIMS.find(d => d.key === q.dim);
+      return {dim: q.dim, label: dm ? dm.label : '', qText: q.text, optLabel: o.label, weakness: ''};
+    }).filter(Boolean);
+  }
+  return {name, scores, type, date, weaknesses};
+}
+
+function importCode(){
+  const code=$('codeInput').value.trim();
+  if(!code)return;
+  try{
+    const raw=JSON.parse(decodeURIComponent(atob(code)));
+    const data=normalizeData(raw);
+    if(!data.name||!data.scores||!data.type){alert('分享码格式不正确');return}
+    addStudent(data);
+    $('importAreaDefault').style.display='none';
+    $('importSuccess').style.display='block';
+    const t=TYPES[data.type]||{n:'未知',e:'❓'};
+    const avg=Math.round(Object.values(data.scores).reduce((a,b)=>a+b,0)/5);
+    $('importName').textContent=data.name;
+    $('importType').textContent=`${t.e} ${t.n} · 综合 ${avg} 分`;
+  }catch(e){alert('分享码无效，请检查是否完整复制')}
+}
+
+function addStudent(data){
+  const id='s_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  students.push({id,name:data.name,scores:data.scores,type:data.type,date:data.date,weaknesses:data.weaknesses});
+  save();render();
+}
+
+function handleFile(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const data=JSON.parse(ev.target.result);
+      const arr=Array.isArray(data)?data:[data];
+      let cnt=0;
+      arr.forEach(d=>{const nd=normalizeData(d);if(nd.name&&nd.scores&&nd.type){addStudent(nd);cnt++}});
+      closeModal('importModal');
+      alert(`成功导入 ${cnt} 名学生数据`);
+    }catch(ex){alert('文件解析失败')}
+  };
+  reader.readAsText(file);e.target.value='';
+}
+
+function exportAll(){
+  if(!students.length){alert('没有数据可导出');return}
+  const blob=new Blob([JSON.stringify(students,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`物理诊断数据_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();URL.revokeObjectURL(url);
+}
+
+function importFile(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const data=JSON.parse(ev.target.result);
+      const arr=Array.isArray(data)?data:[data];
+      let cnt=0;
+      arr.forEach(d=>{const nd=normalizeData(d);if(nd.name&&nd.scores&&nd.type){addStudent(nd);cnt++}});
+      alert(`成功导入 ${cnt} 名学生数据`);
+    }catch(ex){alert('文件解析失败')}
+  };
+  reader.readAsText(file);e.target.value='';
+}
+
+function delSt(id){
+  if(!confirm('确定删除该学生？'))return;
+  students=students.filter(s=>s.id!==id);save();render();
+}
+
+function showReport(id){
+  const s=students.find(st=>st.id===id);if(!s)return;
+  const t=TYPES[s.type]||{n:'未知',e:'❓',c:'#A0AEC0'};
+  const te=TD[s.type];if(!te)return;
+  const sc=s.scores;const avg=Math.round(Object.values(sc).reduce((a,b)=>a+b,0)/5);
+  document.title = s.name + ' · 物理诊断报告 - 高途课堂';
+  $('reportTitle').innerHTML=`${t.e} ${s.name} · ${t.n}（综合 ${avg} 分）`;
+
+  const dimTags = DIMS.map(d => {
+    const lvl = sc[d.key] >= 68 ? '优势' : (sc[d.key] >= 40 ? '中等' : '薄弱');
+    return '<span class="dt" style="background:' + d.color + '">' + d.icon + ' ' + d.label + ' ' + sc[d.key] + '分</span>';
+  }).join('');
+
+  const bars = DIMS.map(d => {
+    const lvl = sc[d.key] >= 68 ? '优势' : (sc[d.key] >= 40 ? '中等' : '薄弱');
+    const lc = sc[d.key] >= 68 ? '#48BB78' : (sc[d.key] >= 40 ? '#ED8936' : '#FC8181');
+    return '<div class="di"><div class="di-h"><span class="di-label">' + d.icon + ' ' + d.label + '</span><span class="di-val">' + sc[d.key] + '分 <span class="di-lvl" style="background:' + lc + '15;color:' + lc + '">' + lvl + '</span></span></div><div class="di-b"><div class="di-f" style="width:' + sc[d.key] + '%;background:' + d.color + '"></div></div></div>';
+  }).join('');
+
+  let wt = '';
+  if (s.weaknesses && s.weaknesses.length) {
+    wt = '<div class="wt-wrap"><table class="wt"><thead><tr><th style="width:13%">维度</th><th style="width:40%">题目</th><th>能力缺失分析</th></tr></thead><tbody>' +
+      s.weaknesses.map(w => {
+        const dm = DIMS.find(dd => dd.key === w.dim);
+        const c = dm ? dm.color : '#A0AEC0';
+        return '<tr><td><span class="badge" style="background:' + c + '">' + (dm ? dm.icon : '') + ' ' + (w.label || w.dim) + '</span></td><td><div class="qt2">' + (w.qText || '') + '</div><div class="qt-wrong">✘ 选了 ' + (w.optLabel || '') + '</div></td><td><div class="wb">' + (w.weakness || '') + '</div></td></tr>';
+      }).join('') + '</tbody></table></div>';
+  } else {
+    wt = '<div class="wt-empty">✅ 该生全部答对或未记录错题数据</div>';
+  }
+
+  const plans = te.pl ? te.pl.map(p => '<div class="pi" style="border-left-color:' + p.c + '"><h5>' + p.t + '</h5><p>' + p.d + '</p></div>').join('') : '';
+
+  $('reportBody').innerHTML = '<div class="report-inner">' +
+    '<div class="report-header"><div class="rh-name">' + t.e + ' ' + s.name + '</div><div class="rh-meta"><span class="rh-type">' + t.n + '（' + s.type + '型）</span>' + s.date + '</div><div class="rh-score"><span>' + avg + '</span>综合得分</div></div>' +
+    '<div class="rs"><h4>📊 五大能力维度</h4><div class="dim-tags">' + dimTags + '</div><div class="di-group">' + bars + '</div></div>' +
+    '<div class="rs"><h4>📋 诊断概述</h4><div class="rs-body"><p>' + te.o + '</p></div></div>' +
+    '<div class="rs"><h4>🔍 各题弱点分析</h4>' + wt + '</div>' +
+    '<div class="rs"><h4>🧠 学习方式画像</h4><div class="rs-body"><p>' + te.p + '</p></div></div>' +
+    '<div class="rs"><h4>⚡ 后续学习预判</h4><div class="rs-body"><p>' + te.e + '</p></div><div class="warn-box"><div class="wtt">⚠️ 需要关注</div><p>' + te.w + '</p></div></div>' +
+    '<div class="rs"><h4>📅 教学培养方案</h4><div class="pg2">' + plans + '</div></div>' +
+    '<div class="rs"><h4>💬 家校共育建议</h4><div class="rs-body"><p>' + te.pa + '</p></div></div>' +
+    '<div class="act-bar-report"><button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ 打印报告</button> <button class="btn btn-ghost btn-sm" onclick="closeModal(\'reportModal\')">关闭</button></div>' +
+  '</div>';
+  $('reportModal').classList.add('active');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(el=>{el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('active')})});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.active').forEach(m=>m.classList.remove('active'))}});
+render();
+</script>
+</body>
+</html>

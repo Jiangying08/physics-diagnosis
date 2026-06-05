@@ -452,18 +452,40 @@ const GITHUB = {
   label: 'student-result'
 };
 
-function submitToGitHub(data) {
-  if (!GITHUB.token) return; // 没有 Token 时静默跳过
+function submitToGitHub(data, retries) {
+  if (retries === undefined) retries = 3;
+  const el = document.getElementById('syncStatus');
+  if (!GITHUB.token) {
+    if (el) { el.textContent = '❌ 同步失败'; el.style.color = '#FC8181'; }
+    return;
+  }
+  if (el) { el.textContent = '⏳ 正在同步到教师端...'; el.style.color = '#2F855A'; }
   const title = `[诊断结果] ${data.n} - ${data.d}`;
   const body = JSON.stringify(data);
-  fetch(`https://api.github.com/repos/${GITHUB.repo}/issues`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `token ${GITHUB.token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ title, body, labels: [GITHUB.label] })
-  }).catch(() => {/* 静默失败 */});
+  function attempt(n) {
+    fetch(`https://api.github.com/repos/${GITHUB.repo}/issues`, {
+      method: 'POST',
+      headers: { 'Authorization': `token ${GITHUB.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, body, labels: [GITHUB.label] })
+    }).then(r => {
+      if (r.ok) {
+        if (el) { el.textContent = '✅ 已同步到教师端'; el.style.color = '#2F855A'; }
+      } else if (n > 0) {
+        if (el) el.textContent = '⏳ 重试中...(' + (retries - n + 1) + '/' + retries + ')';
+        setTimeout(() => attempt(n - 1), 1500);
+      } else {
+        if (el) { el.textContent = '⚠️ 同步失败(' + r.status + ')'; el.style.color = '#FC8181'; }
+      }
+    }).catch(() => {
+      if (n > 0) {
+        if (el) el.textContent = '⏳ 重试中...(' + (retries - n + 1) + '/' + retries + ')';
+        setTimeout(() => attempt(n - 1), 1500);
+      } else {
+        if (el) { el.textContent = '⚠️ 同步失败，请稍后重试'; el.style.color = '#FC8181'; }
+      }
+    });
+  }
+  attempt(retries);
 }
 
 const state={q:0,ans:Array(12).fill(null),name:''};

@@ -302,7 +302,8 @@ async function syncFromGitHub() {
     let page = 1;
     while (true) {
       const res = await fetch(
-        `https://api.github.com/repos/${GITHUB.repo}/issues?labels=${GITHUB.label}&state=all&per_page=100&page=${page}`
+        `https://api.github.com/repos/${GITHUB.repo}/issues?labels=${GITHUB.label}&state=all&per_page=100&page=${page}`,
+        { headers: { 'Authorization': `token ${GITHUB.token}` } }
       );
       if (!res.ok) break;
       const issues = await res.json();

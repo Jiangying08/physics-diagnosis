@@ -450,6 +450,26 @@ const TYPES={
     todo:[{t:'从最薄弱的概念开始补',d:'找出最没把握的 1-2 个知识点，从课本原话→例题→复述。',target:'每周补透 1 个薄弱概念'},{t:'用实验视频辅助理解',d:'去 B 站看物理实验视频，边看边画过程。',target:'看完 5 个物理实验视频'},{t:'"每日一题"培养节奏',d:'每天只做一道，但步骤写清楚。不贪多，要精。',target:'连续 20 天每日一题打卡'}]},
 };
 
+// ===== GitHub 自动同步配置 =====
+const GITHUB = {
+  token: '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',
+  repo: 'Jiangying08/physics-diagnosis',
+  label: 'student-result'
+};
+
+function submitToGitHub(data) {
+  const title = `[诊断结果] ${data.n} - ${data.d}`;
+  const body = JSON.stringify(data);
+  fetch(`https://api.github.com/repos/${GITHUB.repo}/issues`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `token ${GITHUB.token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title, body, labels: [GITHUB.label] })
+  }).catch(() => {/* 静默失败，不干扰学生体验 */});
+}
+
 const state={q:0,ans:Array(12).fill(null),name:''};
 const $=id=>document.getElementById(id);
 
@@ -500,6 +520,8 @@ function compute(){
   const shareData={n:state.name,s:sa,t:tk,d:new Date().toLocaleDateString('zh-CN'),w:ws};
   const code=btoa(encodeURIComponent(JSON.stringify(shareData)));
   $('shareCode').textContent=code;
+  // 自动同步到教师端
+  submitToGitHub(shareData);
   $('rEmoji').textContent=t.emoji;$('rName').textContent=t.name;$('rSlogan').textContent=t.slogan;
   $('rStrength').innerHTML=t.strength.map(s=>`<div class="sw-item s"><div class="swt">✅ ${s.t}</div><div class="swd">${s.d}</div></div>`).join('');
   $('rWeakness').innerHTML=t.weakness.map(s=>`<div class="sw-item w"><div class="swt">📌 ${s.t}</div><div class="swd">${s.d}</div></div>`).join('');

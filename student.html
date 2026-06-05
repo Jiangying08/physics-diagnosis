@@ -26,6 +26,8 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
 
+<script src="config.js"></script>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -450,17 +452,15 @@ const TYPES={
     todo:[{t:'从最薄弱的概念开始补',d:'找出最没把握的 1-2 个知识点，从课本原话→例题→复述。',target:'每周补透 1 个薄弱概念'},{t:'用实验视频辅助理解',d:'去 B 站看物理实验视频，边看边画过程。',target:'看完 5 个物理实验视频'},{t:'"每日一题"培养节奏',d:'每天只做一道，但步骤写清楚。不贪多，要精。',target:'连续 20 天每日一题打卡'}]},
 };
 
-// ===== GitHub 自动同步配置 =====
+// ===== GitHub 自动同步（依赖 config.js 中的 GH_TOKEN） =====
 const GITHUB = {
-  token: (() => {
-    const t = 'Z2hwXzJNVkh2NVJGNE53azQ5SzA3VWE1OThxSXprODZQRzNOTng0aw==';
-    return atob(t);
-  })(),
+  token: typeof GH_TOKEN !== 'undefined' ? GH_TOKEN : '',
   repo: 'Jiangying08/physics-diagnosis',
   label: 'student-result'
 };
 
 function submitToGitHub(data) {
+  if (!GITHUB.token) return; // 没有 Token 时静默跳过
   const title = `[诊断结果] ${data.n} - ${data.d}`;
   const body = JSON.stringify(data);
   fetch(`https://api.github.com/repos/${GITHUB.repo}/issues`, {
@@ -470,7 +470,7 @@ function submitToGitHub(data) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ title, body, labels: [GITHUB.label] })
-  }).catch(() => {/* 静默失败，不干扰学生体验 */});
+  }).catch(() => {/* 静默失败 */});
 }
 
 const state={q:0,ans:Array(12).fill(null),name:''};

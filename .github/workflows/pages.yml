@@ -23,6 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Generate config from template
+        run: |
+          cp config.template.js config.js
+          sed -i "s|__GH_TOKEN_PLACEHOLDER__|${{ secrets.GH_TOKEN_SECRET }}|g" config.js
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 

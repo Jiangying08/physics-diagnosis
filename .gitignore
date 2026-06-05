@@ -2,4 +2,3 @@ node_modules/
 quiz.db
 .env
 *.log
-config.js

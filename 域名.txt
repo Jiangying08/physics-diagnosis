@@ -1,0 +1,1 @@
+physics-diagnosis-mu.vercel.app

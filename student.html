@@ -452,25 +452,18 @@ const TYPES={
     todo:[{t:'从最薄弱的概念开始补',d:'找出最没把握的 1-2 个知识点，从课本原话→例题→复述。',target:'每周补透 1 个薄弱概念'},{t:'用实验视频辅助理解',d:'去 B 站看物理实验视频，边看边画过程。',target:'看完 5 个物理实验视频'},{t:'"每日一题"培养节奏',d:'每天只做一道，但步骤写清楚。不贪多，要精。',target:'连续 20 天每日一题打卡'}]},
 };
 
-// ===== GitHub 自动同步（依赖 config.js 中的 GH_TOKEN） =====
-const GITHUB = {
-  token: typeof GH_TOKEN !== 'undefined' ? GH_TOKEN : '',
-  repo: 'Jiangying08/physics-diagnosis',
-  label: 'student-result'
-};
+// ===== 自动同步（通过 Vercel API） =====
+const API_BASE = 'https://physics-diagnosis-mu.vercel.app/api';
 
 function submitToGitHub(data) {
-  if (!GITHUB.token) return; // 没有 Token 时静默跳过
-  const title = `[诊断结果] ${data.n} - ${data.d}`;
-  const body = JSON.stringify(data);
-  fetch(`https://api.github.com/repos/${GITHUB.repo}/issues`, {
+  fetch(API_BASE + '/submit', {
     method: 'POST',
-    headers: {
-      'Authorization': `token ${GITHUB.token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ title, body, labels: [GITHUB.label] })
-  }).catch(() => {/* 静默失败 */});
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: data.n, scores: data.s, type: data.t, date: data.d, weaknesses: data.w || [] })
+  }).then(r => {
+    if (r.ok) console.log('✅ 同步成功');
+    else console.warn('同步失败:', r.status);
+  }).catch(e => console.warn('同步异常:', e));
 }
 
 const state={q:0,ans:Array(12).fill(null),name:''};

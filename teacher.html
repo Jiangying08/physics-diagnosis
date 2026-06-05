@@ -283,12 +283,8 @@ const TD={
   E:{o:'该生属于缓慢建构者（E型）。各维度得分暂时偏低，处于"地基搭建期"。但有一个重要特点：真正理解后不易遗忘。',p:'课堂表现：安静但认真。作业习惯：完成周期长。考试模式：分数集中在低位，存在畏难心理。',e:'优势预判："慢"可能是优势——只要打好地基，后劲会显现。风险预判：如果因畏难而放弃，将错失最佳窗口。',w:'该生最需要信心重建。刚开始跟上了（哪怕比别人慢），后面难度曲线会更平缓。需给予重点关注和及时鼓励。',pl:[{t:'查漏补缺先行',d:'针对最薄弱的1-2个概念做专门辅导。',c:'#4299E1'},{t:'新知识重点跟踪',d:'每节课后单独检查理解情况。',c:'#48BB78'},{t:'动手操作辅助',d:'通过实验视频让物理变直观。',c:'#9F7AEA'},{t:'小目标建信心',d:'设置跳一跳够得着的目标，每次达成给予肯定。',c:'#FC8181'},{t:'长期方向',d:'适合慢节奏高复现的学习方式。',c:'#ED8936'}],pa:'先肯定：孩子虽然暂时成绩不理想但还在坚持学。然后引导：不给太大压力。每天问"今天听懂了一个什么概念？讲给我听听。"'},
 };
 
-// ===== GitHub 云端同步（依赖 config.js 中的 GH_TOKEN） =====
-const GITHUB = {
-  token: typeof GH_TOKEN !== 'undefined' ? GH_TOKEN : '',
-  repo: 'Jiangying08/physics-diagnosis',
-  label: 'student-result'
-};
+// ===== 从 Vercel API 同步学生数据 =====
+const API_BASE = 'https://physics-diagnosis-mu.vercel.app/api';
 
 async function syncFromGitHub() {
   const btn = $('syncBtn');
@@ -297,40 +293,22 @@ async function syncFromGitHub() {
   btn.textContent = '⏳ 同步中...';
   status.textContent = '';
   try {
-    // 分页获取所有带有 student-result 标签的 issue
-    let allIssues = [];
-    let page = 1;
-    while (true) {
-      const res = await fetch(
-        `https://api.github.com/repos/${GITHUB.repo}/issues?labels=${GITHUB.label}&state=all&per_page=100&page=${page}`,
-        { headers: { 'Authorization': `token ${GITHUB.token}` } }
-      );
-      if (!res.ok) break;
-      const issues = await res.json();
-      if (!issues.length) break;
-      allIssues = allIssues.concat(issues);
-      if (issues.length < 100) break;
-      page++;
-    }
+    const res = await fetch(API_BASE + '/list');
+    if (!res.ok) { status.textContent = '❌ 同步失败'; btn.disabled = false; btn.textContent = '🔄 同步云端'; return; }
+    const result = await res.json();
     let imported = 0;
-    allIssues.forEach(issue => {
-      try {
-        const data = JSON.parse(issue.body);
-        const nd = normalizeData(data);
+    if (result.success && result.data) {
+      result.data.forEach(item => {
+        const nd = normalizeData({ n: item.name, s: item.scores, t: item.type, d: item.date, w: item.weaknesses });
         if (!nd.name || !nd.scores || !nd.type) return;
-        // 检查是否已存在（按姓名+日期去重）
-        const exists = students.some(s => s.name === nd.name && s.date === nd.date);
-        if (exists) return;
-        // 添加来源标记
+        if (students.some(s => s.name === nd.name && s.date === nd.date)) return;
         addStudent(nd);
         imported++;
-      } catch(e) {/* 跳过解析失败的 issue */}
-    });
-    status.textContent = imported > 0 ? `✅ 新增 ${imported} 条` : '✅ 已是最新';
+      });
+    }
+    status.textContent = imported > 0 ? '✅ 新增 ' + imported + ' 条' : '✅ 已是最新';
     if (imported > 0) render();
-  } catch(e) {
-    status.textContent = '❌ 同步失败';
-  }
+  } catch (e) { status.textContent = '❌ 同步失败'; }
   btn.disabled = false;
   btn.textContent = '🔄 同步云端';
   setTimeout(() => { if (status.textContent.startsWith('✅')) status.textContent = ''; }, 3000);

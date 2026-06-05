@@ -190,19 +190,13 @@ body{
   font-size:13px;color:#276749;font-weight:600
 }
 
-.share-section{
+.sync-section{background:#F0FFF4;border:1px solid #C6F6D5;border-radius:10px;padding:14px 16px;text-align:center;margin-bottom:12px}.sync-status{font-size:15px;font-weight:600;color:#2F855A}.sync-section{
   background:#FFFAF0;border:1px solid #FEEBC8;border-radius:10px;
   padding:14px 16px;text-align:center;margin-bottom:12px
 }
-.share-section .share-label{font-size:13px;font-weight:600;color:#7B5E2E;margin-bottom:6px}
-.share-section .share-code{
-  font-family:ui-monospace,SFMono-Regular,Menlo,"Consolas",monospace;
-  font-size:24px;font-weight:800;color:#2B6CB0;letter-spacing:3px;
-  background:#fff;padding:8px 20px;border-radius:8px;
-  border:1px dashed #CBD5E0;display:inline-block;margin:4px 0;cursor:pointer;
-  -webkit-user-select:all;user-select:all
-}
-.share-section .share-hint{font-size:12px;color:#A0AEC0}
+
+
+
 
 .type-box{text-align:center;margin-bottom:12px}
 .type-box .emoji{font-size:44px;margin-bottom:2px}
@@ -348,12 +342,9 @@ body{
   <div class="r-inner">
     <div class="success-banner">✅ 诊断完成！专属报告已生成</div>
 
-    <div class="share-section">
-      <div class="share-label">📤 将分享码发给老师，查看完整分析</div>
-      <div class="share-code" id="shareCode" onclick="copyCode()">ABCDEF12</div>
-      <div class="share-hint">👆 点击复制，然后发送给老师即可</div>
-      <button class="btn btn-warning btn-sm" onclick="copyCode()" style="margin-top:6px">📋 复制分享码</button>
-	      <div id="syncStatus" style="font-size:13px;color:#48BB78;margin-top:8px;text-align:center"></div>
+    <div class="sync-section">
+      <div class="sync-status" id="syncStatus">⏳ 正在同步到教师端...</div>
+      <div class="sync-detail" id="syncDetail" style="display:none;margin-top:8px;font-size:12px;color:#718096;text-align:center"></div>
     </div>
 
     <div class="type-box">
@@ -461,10 +452,7 @@ const GITHUB = {
 };
 
 function submitToGitHub(data) {
-  if (!GITHUB.token) {
-    console.warn('GitHub同步: 未配置Token');
-    return;
-  }
+  if (!GITHUB.token) return; // 没有 Token 时静默跳过
   const title = `[诊断结果] ${data.n} - ${data.d}`;
   const body = JSON.stringify(data);
   fetch(`https://api.github.com/repos/${GITHUB.repo}/issues`, {
@@ -474,15 +462,7 @@ function submitToGitHub(data) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ title, body, labels: [GITHUB.label] })
-  }).then(res => {
-    if (res.ok) {
-      console.log('✅ 已同步到教师端');
-      const el = document.getElementById('syncStatus');
-      if (el) el.textContent = '✅ 已同步';
-    } else {
-      console.warn('GitHub同步失败:', res.status);
-    }
-  }).catch(e => console.warn('GitHub同步异常:', e));
+  }).catch(() => {/* 静默失败 */});
 }
 
 const state={q:0,ans:Array(12).fill(null),name:''};

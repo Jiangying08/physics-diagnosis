@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>初三物理·学科能力诊断 - 高途课堂</title>
-<meta name="description" content="高途课堂初三物理学情诊断，16道题精准定位物理学习类型，生成专属能力画像与学习建议。">
+<meta name="description" content="高途课堂初三物理学情诊断，17道题精准定位物理学习类型，生成专属能力画像与学习建议。">
 <meta name="keywords" content="初三物理,物理诊断,物理测试,高途课堂,暑期物理">
 
 <!-- 微信分享 / QQ 分享卡片 -->
 <meta property="og:title" content="初三物理·学科能力诊断">
-<meta property="og:description" content="16道题精准定位你的物理学习特点，生成专属能力画像与学习建议。">
+<meta property="og:description" content="17道题精准定位你的物理学习特点，生成专属能力画像与学习建议。">
 <meta property="og:type" content="website">
 <meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><rect width='400' height='400' fill='%232B6CB0' rx='20'/><text x='200' y='220' font-size='180' text-anchor='middle' fill='white'>🔬</text><text x='200' y='300' font-size='36' text-anchor='middle' fill='white' font-weight='bold'>物理诊断</text></svg>">
 
@@ -369,15 +369,15 @@ body{
     <div class="welcome-card">
       <div class="logo">🔬</div>
       <h1>🔬 初三物理 · 学习诊断</h1>
-      <p class="sub">16道题 · 帮你认清自己的物理学习特点</p>
+      <p class="sub">17道题 · 帮你认清自己的物理学习特点</p>
 
       <div class="purpose-box">
         <div class="purpose-intro">这次诊断没有对错之分，<strong>是什么就选什么</strong></div>
-        <p><strong>别想太多</strong>，你的第一反应就是最好的答案。16 道选择题帮你发现自己是哪一种物理学习者——<strong>比盲目刷题更重要的，是先认识自己</strong>。</p>
+        <p><strong>别想太多</strong>，你的第一反应就是最好的答案。17 道选择题帮你发现自己是哪一种物理学习者——<strong>比盲目刷题更重要的，是先认识自己</strong>。</p>
       </div>
 
       <div class="meta">
-        <div class="meta-item"><div class="mv">16</div><div class="ml">题量</div></div>
+        <div class="meta-item"><div class="mv">17</div><div class="ml">题量</div></div>
         <div class="meta-item"><div class="mv">≈20</div><div class="ml">分钟</div></div>
       </div>
 
@@ -604,6 +604,12 @@ const QUESTIONS=[
       {label:'B',text:'看看别人的数据，改成和他们一样的',score:0,weakness:'追求"正确答案"而放弃探究——实验的目的是过程而非结果'},
       {label:'C',text:'主动分析可能是什么原因导致了差异',score:2,weakness:'分析差异是科学探究精神，但如果能再动手验证一下自己的分析会更完整'},
       {label:'D',text:'直接问老师怎么做才对',score:1,weakness:'请教老师是好事，但先自己思考原因收获会更大'}]},
+  {dim:'model',text:'📝 遇到一道文字很长的力学综合题（比如物体从斜面滑下又在水平面滑行一段后停下），你会怎么做？',
+    opts:[
+      {label:'A',text:'先分段画受力图和运动过程图，把文字转化成物理模型再分析',score:3,weakness:null},
+      {label:'B',text:'快速读题，感觉知道用什么公式就开始算',score:1,weakness:'反应快但缺少建模环节——画图能帮你看清物理过程'},
+      {label:'C',text:'把数字和条件标出来，找对应的公式套',score:0,weakness:'套公式对新题无效——关键是先建立物理模型'},
+      {label:'D',text:'逐字读题，确保每个条件的物理意义都理解再动笔',score:2,weakness:'理解到位是好习惯，但如果配合画图分析会更完整'}]},
 ];
 const TYPES={
   A:{name:'直觉建构者',emoji:'🔮',slogan:'你有很好的物理直觉和概念理解力，但有时"太快"而漏掉题目的关键条件。',
@@ -671,7 +677,7 @@ function submitToGitHub(data) {
   }).catch(e => console.warn('同步异常:', e));
 }
 
-const state={q:0,ans:Array(16).fill(null),name:''};
+const state={q:0,ans:Array(17).fill(null),name:''};
 const $=id=>document.getElementById(id);
 
 function show(id){
@@ -682,25 +688,25 @@ function show(id){
 function startQuiz(){
   const n=$('studentName').value.trim();
   if(!n){$('studentName').focus();$('studentName').style.borderColor='#FC8181';setTimeout(()=>$('studentName').style.borderColor='#E2E8F0',1500);return}
-  state.name=n;state.q=0;state.ans=Array(16).fill(null);show('quiz');renderQ()
+  state.name=n;state.q=0;state.ans=Array(17).fill(null);show('quiz');renderQ()
 }
 
 function renderQ(){
   const idx=state.q,q=QUESTIONS[idx],dim=DIMS.find(d=>d.key===q.dim);
-  $('qNum').textContent=`第 ${idx+1} / 16 题`;$('pFill').style.width=`${(idx/16)*100}%`;
+  $('qNum').textContent=`第 ${idx+1} / 17 题`;$('pFill').style.width=`${(idx/17)*100}%`;
   $('qDim').textContent=`${dim.icon} ${dim.label}`;$('qDim').style.background=dim.color;
   const sel=state.ans[idx];
   $('qArea').innerHTML=`<div class="q-text">${q.text}</div><div class="opts">${q.opts.map((o,i)=>`<div class="opt ${sel===i?'sel':''}" onclick="pick(${i})"><div class="dot"></div><span class="lb2">${o.label}.</span><span>${o.text}</span></div>`).join('')}</div>`;
   const prev=$('prevBtn');prev.style.visibility=idx===0?'hidden':'visible';
-  if(idx<15){$('nextBtn').style.display='';$('subBtn').style.display='none';const nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
+  if(idx<16){$('nextBtn').style.display='';$('subBtn').style.display='none';const nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
   else{$('nextBtn').style.display='none';$('subBtn').style.display='';const sb=$('subBtn');sb.disabled=sel===null;sb.style.opacity=sel===null?.5:1}
   $('quizInner').scrollTop=0
 }
 function pick(i){
   state.ans[state.q]=i;renderQ();
-  if(state.q<15){setTimeout(()=>goQ(state.q+1),350)}
+  if(state.q<16){setTimeout(()=>goQ(state.q+1),350)}
 }
-function goQ(i){if(i<0||i>15)return;state.q=i;renderQ()}
+function goQ(i){if(i<0||i>16)return;state.q=i;renderQ()}
 
 function submitQuiz(){
   if(state.ans[state.q]===null)return;
@@ -743,8 +749,8 @@ function compute(){
   const strongest=dimLvl.filter(d=>d.lvl==='strong').sort((a,b)=>b.score-a.score);
   const weakest=dimLvl.filter(d=>d.lvl==='weak').sort((a,b)=>a.score-b.score);
   let summary='';
-  if(correctCount>=12)summary=`<strong>你答对了 ${correctCount}/${totalAttempted} 道题</strong>，总体表现不错！${strongest.length?`<strong>${strongest[0].d.icon} ${strongest[0].d.label}</strong>是你的强项（${strongest[0].score}分）`:''}`;
-  else if(correctCount>=8)summary=`<strong>答对了 ${correctCount}/${totalAttempted} 道题</strong>，基础还不错！但还有提升空间——`;
+  if(correctCount>=13)summary=`<strong>你答对了 ${correctCount}/${totalAttempted} 道题</strong>，总体表现不错！${strongest.length?`<strong>${strongest[0].d.icon} ${strongest[0].d.label}</strong>是你的强项（${strongest[0].score}分）`:''}`;
+  else if(correctCount>=9)summary=`<strong>答对了 ${correctCount}/${totalAttempted} 道题</strong>，基础还不错！但还有提升空间——`;
   else summary=`<strong>答对了 ${correctCount}/${totalAttempted} 道题</strong>，别灰心！这只是帮你找到薄弱点——`;
   if(weakest.length)summary+=`<span class="sb-warn"> 最需要关注的是「${weakest[0].d.icon} ${weakest[0].d.label}」（仅${weakest[0].score}分）</span>，这是初三提分的关键突破口！`;
   else if(strongest.length>=2)summary+=` 继续保持，初三你也可以很稳！`;
@@ -814,8 +820,8 @@ function copyCode(){
 }
 function flashCopy(){const o=$('shareCode').textContent;$('shareCode').textContent='✅ 已复制！';setTimeout(()=>{$('shareCode').textContent=o},1200)}
 function fallbackCopy(c){const ta=document.createElement('textarea');ta.value=c;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);flashCopy()}
-function restart(){if(confirm('确定重新测试吗？')){state.ans=Array(16).fill(null);state.q=0;show('welcome')}}
-document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<15)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'&&e.key<='4'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});
+function restart(){if(confirm('确定重新测试吗？')){state.ans=Array(17).fill(null);state.q=0;show('welcome')}}
+document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<16)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'&&e.key<='4'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});
 </script>
 </body>
 </html>

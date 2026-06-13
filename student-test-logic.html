@@ -145,7 +145,7 @@
 <div class="container">
 
   <h1 class="page-title">🎉 趣味诊断 · 题目与判型逻辑</h1>
-  <p class="page-sub">高途初三物理 · 共 <strong>16</strong> 道题 · <strong>5</strong> 个能力维度 · <strong>5</strong> 种学员类型 · <strong>4</strong> 种思维模式</p>
+  <p class="page-sub">高途初三物理 · 共 <strong>17</strong> 道题 · <strong>5</strong> 个能力维度 · <strong>5</strong> 种学员类型 · <strong>5</strong> 种思维模式</p>
 
   <!-- tabs -->
   <div class="tabs">
@@ -623,6 +623,12 @@ const QUESTIONS = [
       {label:'B',text:'看看别人的数据，改成和他们一样的',score:0,weakness:'追求"正确答案"而放弃探究——实验的目的是过程而非结果',mode:'应试型'},
       {label:'C',text:'主动分析可能是什么原因导致了差异',score:2,weakness:'分析差异是科学探究精神，但如果能再动手验证一下自己的分析会更完整',mode:'理解型'},
       {label:'D',text:'直接问老师怎么做才对',score:1,weakness:'请教老师是好事，但先自己思考原因收获会更大',mode:'直觉型'}]},
+  {dim:'model',text:'📝 遇到一道文字很长的力学综合题（比如物体从斜面滑下又在水平面滑行一段后停下），你会怎么做？',
+    opts:[
+      {label:'A',text:'先分段画受力图和运动过程图，把文字转化成物理模型再分析',score:3,weakness:null,mode:'建模型'},
+      {label:'B',text:'快速读题，感觉知道用什么公式就开始算',score:1,weakness:'反应快但缺少建模环节——画图能帮你看清物理过程',mode:'直觉型'},
+      {label:'C',text:'把数字和条件标出来，找对应的公式套',score:0,weakness:'套公式对新题无效——关键是先建立物理模型',mode:'应试型'},
+      {label:'D',text:'逐字读题，确保每个条件的物理意义都理解再动笔',score:2,weakness:'理解到位是好习惯，但如果配合画图分析会更完整',mode:'理解型'}]},
 ];
 
 const TYPES = {

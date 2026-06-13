@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>初三物理·学科能力诊断 - 高途课堂</title>
-<meta name="description" content="高途课堂初三物理学情诊断，17道题精准定位物理学习类型，生成专属能力画像与学习建议。">
+<meta name="description" content="高途课堂初三物理学情诊断，25道题精准定位物理学习类型，生成专属能力画像与学习建议。">
 <meta name="keywords" content="初三物理,物理诊断,物理测试,高途课堂,暑期物理">
 
 <!-- 微信分享 / QQ 分享卡片 -->
 <meta property="og:title" content="初三物理·学科能力诊断">
-<meta property="og:description" content="17道题精准定位你的物理学习特点，生成专属能力画像与学习建议。">
+<meta property="og:description" content="25道题精准定位你的物理学习特点，生成专属能力画像与学习建议。">
 <meta property="og:type" content="website">
 <meta property="og:image" content="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><rect width='400' height='400' fill='%232B6CB0' rx='20'/><text x='200' y='220' font-size='180' text-anchor='middle' fill='white'>🔬</text><text x='200' y='300' font-size='36' text-anchor='middle' fill='white' font-weight='bold'>物理诊断</text></svg>">
 
@@ -369,15 +369,15 @@ body{
     <div class="welcome-card">
       <div class="logo">🔬</div>
       <h1>🔬 初三物理 · 学习诊断</h1>
-      <p class="sub">17道题 · 帮你认清自己的物理学习特点</p>
+      <p class="sub">25道题 · 帮你认清自己的物理学习特点</p>
 
       <div class="purpose-box">
         <div class="purpose-intro">这次诊断没有对错之分，<strong>是什么就选什么</strong></div>
-        <p><strong>别想太多</strong>，你的第一反应就是最好的答案。17 道选择题帮你发现自己是哪一种物理学习者——<strong>比盲目刷题更重要的，是先认识自己</strong>。</p>
+        <p><strong>别想太多</strong>，你的第一反应就是最好的答案。25 道选择题帮你发现自己是哪一种物理学习者——<strong>比盲目刷题更重要的，是先认识自己</strong>。</p>
       </div>
 
       <div class="meta">
-        <div class="meta-item"><div class="mv">17</div><div class="ml">题量</div></div>
+        <div class="meta-item"><div class="mv">25</div><div class="ml">题量</div></div>
         <div class="meta-item"><div class="mv">≈20</div><div class="ml">分钟</div></div>
       </div>
 
@@ -496,123 +496,232 @@ const DIMS=[
   {key:'reading',label:'审题习惯',color:'#9F7AEA',icon:'🔍'},
   {key:'flexible',label:'思维灵活',color:'#FC8181',icon:'💡'},
 ];
-const QUESTIONS=[
-  // ===== 🧠 概念理解 × 3 =====
-  {dim:'concept',text:'🎧 你和同桌一起听歌一人戴一只耳机，同桌能听到你耳机里的声音吗？',
-    opts:[
-      {label:'A',text:'不能——耳机声音很小，只有自己能听到',score:1,weakness:'声音确实会减弱，但本质上是因为声波向四周传播'},
-      {label:'B',text:'能听到一点点——耳机振膜振动带动空气，声波向四周传开',score:3,weakness:null},
-      {label:'C',text:'不能——耳机线把声音都传到耳朵里了，不会漏出来',score:0,weakness:'混淆了电信号和声音的传播'},
-      {label:'D',text:'能听到——耳机线会导电把声音传过去',score:0,weakness:'对耳机工作原理完全误解'}]},
-  {dim:'concept',text:'🥤 夏天从冰箱拿出冰可乐放桌上，一会儿瓶壁外面出现一层小水珠。这水珠从哪来的？',
-    opts:[
-      {label:'A',text:'冰箱里太冷，冰霜附在瓶子上带出来了',score:0,weakness:'混淆了冰霜和液化现象'},
-      {label:'B',text:'瓶壁温度低，空气中的水蒸气遇冷液化成小水滴',score:3,weakness:null},
-      {label:'C',text:'瓶子漏了，可乐渗出来了',score:0,weakness:'对液化现象完全没有概念'},
-      {label:'D',text:'空气中的水遇到冰可乐被"冻"出来的',score:1,weakness:'知道和温度有关，但混淆了凝固和液化'}]},
-  {dim:'concept',text:'📸 你用手机后置摄像头拍远处，镜头里像是倒的，但照片里是正的。为什么？',
-    opts:[
-      {label:'A',text:'手机摄像头不是凸透镜，所以不会成倒像',score:0,weakness:'手机摄像头就是凸透镜'},
-      {label:'B',text:'凸透镜成倒立实像，手机软件自动把照片翻转成正的',score:3,weakness:null},
-      {label:'C',text:'拍远处成倒像，拍近处成正像，照片里就是实际成像',score:1,weakness:'对凸透镜成像规律理解不完整'},
-      {label:'D',text:'眼睛看到的是正的，摄像头拍到的也是正的',score:0,weakness:'没有理解凸透镜成像原理'}]},
-
-  // ===== 🔧 模型建构 × 3 =====
-  {dim:'model',text:'🚌 你坐公交站着玩手机没扶扶手，司机急刹车，你整个人向前倾。这是因为：',
-    opts:[
-      {label:'A',text:'刹车时车产生了一个向前的"推力"把我推向前',score:0,weakness:'混淆了惯性和力的概念'},
-      {label:'B',text:'刹车前我和车一起向前运动，车减速时我因惯性保持向前运动',score:3,weakness:null},
-      {label:'C',text:'人的重心在前面，所以刹车时会往前倒',score:1,weakness:'有生活经验但未建立物理模型'},
-      {label:'D',text:'地面突然变滑了，脚站不稳',score:0,weakness:'完全错误的归因'}]},
-  {dim:'model',text:'🥛 你用吸管喝酸奶，酸奶在吸管里上升。把它推上来的"主力"是：',
-    opts:[
-      {label:'A',text:'嘴巴的吸力把酸奶吸上来了',score:0,weakness:'"吸力"不是物理概念——本质是气压差'},
-      {label:'B',text:'吸时口腔气压减小，外界大气压把酸奶压上来了',score:3,weakness:null},
-      {label:'C',text:'吸管里有毛细现象，酸奶自己往上爬',score:1,weakness:'毛细现象存在但这不是主要原因'},
-      {label:'D',text:'酸奶很稀，自己就能流上来',score:0,weakness:'没有理解吸管喝饮料的物理原理'}]},
-  {dim:'model',text:'🔬 小明想测一块不规则石块的密度。他用天平测出石块质量为156g，再将石块放入装有200mL水的量筒中，水面升高到260mL。该石块的密度最接近？',
-    opts:[
-      {label:'A',text:'2.6 g/cm³',score:3,weakness:null},
-      {label:'B',text:'0.6 g/cm³',score:1,weakness:'知道ρ=m/V但误用了水的总体积——不理解排水法测体积'},
-      {label:'C',text:'7.8 g/cm³',score:0,weakness:'对实验测量原理完全不清楚'},
-      {label:'D',text:'0.26 g/cm³',score:0,weakness:'计算错误或单位混乱'}]},
-
-  // ===== 📐 数学运用 × 2 =====
-  {dim:'math',text:'🧍 一个质量为50kg的中学生双脚站在水平地面上，每只脚与地面的接触面积约为200cm²。该同学对水平地面的压强约为？（g=10N/kg）',
-    opts:[
-      {label:'A',text:'1.25×10⁴ Pa',score:3,weakness:null},
-      {label:'B',text:'2.5×10⁴ Pa',score:1,weakness:'公式用对了但只算了一只脚的面积——注意是双脚站立'},
-      {label:'C',text:'1.25×10³ Pa',score:0,weakness:'单位换算错误——200cm²=0.02m²，不是0.2m²'},
-      {label:'D',text:'2.5×10³ Pa',score:0,weakness:'公式和单位换算都有错误'}]},
-  {dim:'math',text:'🏃 体育中考 1000m，小红第一圈 400m 用时 80s。她想用 200s 跑完全程，剩下 600m 需保持平均速度多少 m/s？',
-    opts:[
-      {label:'A',text:'3 m/s',score:0,weakness:'速度计算失误'},
-      {label:'B',text:'5 m/s',score:3,weakness:null},
-      {label:'C',text:'6 m/s',score:1,weakness:'只算了总路程÷总时间，没有分段计算'},
-      {label:'D',text:'2.5 m/s',score:0,weakness:'混淆了路程和时间的关系'}]},
-
-  // ===== 🔍 审题习惯 × 2 =====
-  {dim:'reading',text:'🔬 题目："用弹簧测力计沿水平方向拉物体，在水平桌面上做匀速直线运动，测力计示数为2N。若将拉力增大到3N继续拉动，物体受到的滑动摩擦力大小为多少？"解题关键是什么？',
-    opts:[
-      {label:'A',text:'拉力增大到3N，摩擦力也增大到3N',score:1,weakness:'知道摩擦力和拉力有关，但混淆了二力平衡和滑动摩擦力的决定因素'},
-      {label:'B',text:'匀速时f=2N，滑动摩擦力大小与拉力无关，仍为2N',score:3,weakness:null},
-      {label:'C',text:'不知道物体质量无法判断',score:0,weakness:'被无关条件误导——摩擦力与质量无直接关系'},
-      {label:'D',text:'3N是最大拉力，摩擦力应小于3N',score:0,weakness:'对滑动摩擦力概念理解有误'}]},
-  {dim:'reading',text:'🔢 题目："汽车以 72km/h 从 A→B 行驶 10 分钟，再以 60km/h 从 B→C 行驶 15 分钟。求全程平均速度。"最容易忽略的是？',
-    opts:[
-      {label:'A',text:'72km/h 和 60km/h 不一样，需要分别算路程',score:1,weakness:'注意到了分段但忽略了更关键的单位问题'},
-      {label:'B',text:'速度单位 km/h，时间单位分钟——需先统一单位',score:3,weakness:null},
-      {label:'C',text:'求平均速度用总路程÷总时间',score:0,weakness:'公式正确但没回答"最容易忽略什么"'},
-      {label:'D',text:'先算 72+60 再除以 2 得平均速度',score:0,weakness:'这是错误算法'}]},
-
-  // ===== 💡 思维灵活 × 2 =====
-  {dim:'flexible',text:'💧 洗完手后，小高用力甩手，手上的水珠就被甩掉了。以下解释最合理的是？',
-    opts:[
-      {label:'A',text:'手突然停止，水珠由于惯性继续向前运动而被甩出',score:3,weakness:null},
-      {label:'B',text:'手给了水珠一个向外的推力',score:1,weakness:'有物理直觉但混淆了惯性和力的概念——手停止后不再施力'},
-      {label:'C',text:'水珠受到离心力的作用被甩出',score:0,weakness:'"离心力"不是真实存在的力，是惯性的一种表现'},
-      {label:'D',text:'水珠和手之间存在斥力',score:0,weakness:'对力的概念完全理解错误'}]},
-  {dim:'flexible',text:'🧊 在一杯装满水的杯子中，有一块冰浮在水面上。当冰块完全熔化后（不计蒸发），杯中的水会不会溢出？',
-    opts:[
-      {label:'A',text:'不会溢出——冰排开水的体积等于冰熔化成水的体积',score:3,weakness:null},
-      {label:'B',text:'会溢出——冰变成水体积变大了',score:1,weakness:'知道冰熔化成水体积会变化，但忽略了浮力原理'},
-      {label:'C',text:'水面会下降',score:0,weakness:'对浮力和质量守恒都没有理解'},
-      {label:'D',text:'无法确定',score:0,weakness:'缺乏应用物理原理分析问题的思路'}]},
-
-  // ===== 🧠 学习方式情景判断 × 4 =====
-  {dim:'reading',text:'📝 做物理计算题时，题目条件很多、数字也比较复杂，你会怎么做？',
-    opts:[
-      {label:'A',text:'先把已知条件列出来，判断属于哪种物理模型，再列式计算',score:3,weakness:null},
-      {label:'B',text:'快速扫一眼题目，感觉有思路就马上开始算',score:1,weakness:'反应快但容易漏看条件——建议养成先列条件再动笔的习惯'},
-      {label:'C',text:'翻课本找同类型的例题，照着例题的步骤来',score:0,weakness:'熟题有效但遇到新题型会卡住——不能只依赖模板'},
-      {label:'D',text:'逐字读题，先想清楚整个物理过程再动笔',score:2,weakness:'理解全面但有时耗时过长——理解后可以加快列式速度'}]},
-  {dim:'concept',text:'📝 作业发下来发现有题目做错了，你通常会怎么做？',
-    opts:[
-      {label:'A',text:'看一遍正确答案，看懂了就觉得自己会了',score:1,weakness:'"看懂"不等于"会做"——要动手重做一遍才能真正检验'},
-      {label:'B',text:'把正确解法抄到错题本上，记住下次别再错',score:0,weakness:'只记答案不究根源——换个问法还是容易错'},
-      {label:'C',text:'重新分析错在哪一步，把正确的物理过程图画出来',score:3,weakness:null},
-      {label:'D',text:'想想相关概念哪里没搞懂，回头翻课本重新理解一遍',score:2,weakness:'深度理解是好事，但也要注意效率——结合错题定位针对性更强'}]},
-  {dim:'math',text:'📝 学完一个物理公式后，你觉得怎样才算真正掌握了？',
-    opts:[
-      {label:'A',text:'能背出公式，做题时知道什么时候套用',score:0,weakness:'停留在记忆层面——题目一变就不知道用哪个公式了'},
-      {label:'B',text:'能独立把公式推导一遍，理解每个符号的含义和单位',score:3,weakness:null},
-      {label:'C',text:'能把这个公式对应到具体的物理场景中，知道它解决什么问题',score:2,weakness:'联系实际是好习惯，但也要注意公式的适用条件和单位'},
-      {label:'D',text:'做几道不同类型的题巩固一下，会做题就行',score:1,weakness:'做题巩固没错，但做完要总结——想想这几道题考的是同一个公式吗'}]},
-  {dim:'flexible',text:'📝 物理实验课上，你的实验数据和其他同学明显不一样，你会怎么做？',
-    opts:[
-      {label:'A',text:'可能是自己操作有误，重新做一遍看看',score:3,weakness:null},
-      {label:'B',text:'看看别人的数据，改成和他们一样的',score:0,weakness:'追求"正确答案"而放弃探究——实验的目的是过程而非结果'},
-      {label:'C',text:'主动分析可能是什么原因导致了差异',score:2,weakness:'分析差异是科学探究精神，但如果能再动手验证一下自己的分析会更完整'},
-      {label:'D',text:'直接问老师怎么做才对',score:1,weakness:'请教老师是好事，但先自己思考原因收获会更大'}]},
-  {dim:'model',text:'📝 遇到一道文字很长的力学综合题（比如物体从斜面滑下又在水平面滑行一段后停下），你会怎么做？',
-    opts:[
-      {label:'A',text:'先分段画受力图和运动过程图，把文字转化成物理模型再分析',score:3,weakness:null},
-      {label:'B',text:'快速读题，感觉知道用什么公式就开始算',score:1,weakness:'反应快但缺少建模环节——画图能帮你看清物理过程'},
-      {label:'C',text:'把数字和条件标出来，找对应的公式套',score:0,weakness:'套公式对新题无效——关键是先建立物理模型'},
-      {label:'D',text:'逐字读题，确保每个条件的物理意义都理解再动笔',score:2,weakness:'理解到位是好习惯，但如果配合画图分析会更完整'}]},
-];
 const TYPES={
-  A:{name:'直觉建构者',emoji:'🔮',slogan:'你有很好的物理直觉和概念理解力，但有时"太快"而漏掉题目的关键条件。',
+const QUESTIONS=[
+// ===== 第一部分：知识应用（8题） =====
+
+// Q1 🧠 概念理解 - 声音传播
+{dim:'concept',text:'🎧 你和同桌一起听歌一人戴一只耳机，同桌能听到你耳机里的声音吗？',
+  opts:[
+    {label:'A',text:'不能——耳机声音很小，只有自己能听到',score:1,weakness:'声音确实会减弱，但本质上是因为声波向四周传播'},
+    {label:'B',text:'能听到一点点——耳机振膜振动带动空气，声波向四周传开',score:3,weakness:null},
+    {label:'C',text:'不能——耳机线把声音都传到耳朵里了，不会漏出来',score:0,weakness:'混淆了电信号和声音的传播'},
+    {label:'D',text:'能听到——耳机线会导电把声音传过去',score:0,weakness:'对耳机工作原理完全误解'}]},
+
+// Q2 🧠 概念理解 - 凸透镜成像
+{dim:'concept',text:'📸 你用手机后置摄像头拍远处，镜头里像是倒的，但照片里是正的。为什么？',
+  opts:[
+    {label:'A',text:'手机摄像头不是凸透镜，所以不会成倒像',score:0,weakness:'手机摄像头就是凸透镜'},
+    {label:'B',text:'凸透镜成倒立实像，手机软件自动把照片翻转成正的',score:3,weakness:null},
+    {label:'C',text:'拍远处成倒像，拍近处成正像，照片里就是实际成像',score:1,weakness:'对凸透镜成像规律理解不完整'},
+    {label:'D',text:'眼睛看到的是正的，摄像头拍到的也是正的',score:0,weakness:'没有理解凸透镜成像原理'}]},
+
+// Q3 🔧 模型建构 - 惯性（受力分析①）
+{dim:'model',text:'🚌 你坐公交站着玩手机没扶扶手，司机急刹车，你整个人向前倾。这是因为：',
+  opts:[
+    {label:'A',text:'刹车时车产生了一个向前的"推力"把我推向前',score:0,weakness:'混淆了惯性和力的概念'},
+    {label:'B',text:'刹车前我和车一起向前运动，车减速时我因惯性保持向前运动',score:3,weakness:null},
+    {label:'C',text:'人的重心在前面，所以刹车时会往前倒',score:1,weakness:'有生活经验但未建立物理模型'},
+    {label:'D',text:'地面突然变滑了，脚站不稳',score:0,weakness:'完全错误的归因'}]},
+
+// Q4 🔧 模型建构 - 大气压（受力分析②）
+{dim:'model',text:'🥛 你用吸管喝酸奶，酸奶在吸管里上升。把它推上来的"主力"是：',
+  opts:[
+    {label:'A',text:'嘴巴的吸力把酸奶吸上来了',score:0,weakness:'"吸力"不是物理概念——本质是气压差'},
+    {label:'B',text:'吸时口腔气压减小，外界大气压把酸奶压上来了',score:3,weakness:null},
+    {label:'C',text:'吸管里有毛细现象，酸奶自己往上爬',score:1,weakness:'毛细现象存在但这不是主要原因'},
+    {label:'D',text:'酸奶很稀，自己就能流上来',score:0,weakness:'没有理解吸管喝饮料的物理原理'}]},
+
+// Q5 🔧 模型建构 - 密度测量（实验思维）
+{dim:'model',text:'🔬 小明想测一块不规则石块的密度。他用天平测出石块质量为156g，再将石块放入装有200mL水的量筒中，水面升高到260mL。该石块的密度最接近？',
+  opts:[
+    {label:'A',text:'2.6 g/cm³',score:3,weakness:null},
+    {label:'B',text:'0.6 g/cm³',score:1,weakness:'知道ρ=m/V但误用了水的总体积——不理解排水法测体积'},
+    {label:'C',text:'7.8 g/cm³',score:0,weakness:'对实验测量原理完全不清楚'},
+    {label:'D',text:'0.26 g/cm³',score:0,weakness:'计算错误或单位混乱'}]},
+
+// Q6 🧠 概念理解 - 压强概念
+{dim:'concept',text:'🧍 以下哪种情况人对地面的压强最大？',
+  opts:[
+    {label:'A',text:'穿着滑雪板站在雪地上',score:0,weakness:'滑雪板增大接触面积，压强反而最小'},
+    {label:'B',text:'双脚站在原地不动',score:1,weakness:'知道双脚比穿滑雪板压强更大，但不是最大'},
+    {label:'C',text:'单脚站立',score:2,weakness:'接触面积减小压强更大——但踮脚尖面积更小'},
+    {label:'D',text:'踮着脚尖站立',score:3,weakness:null}]},
+
+// Q7 📐 数学运用 - 速度计算（唯一计算题）
+{dim:'math',text:'🏃 体育中考1000m，小红第一圈400m用时80s。她想用200s跑完全程，剩下600m需保持平均速度多少m/s？',
+  opts:[
+    {label:'A',text:'3 m/s',score:0,weakness:'速度计算失误'},
+    {label:'B',text:'5 m/s',score:3,weakness:null},
+    {label:'C',text:'6 m/s',score:1,weakness:'只算了总路程÷总时间，没有分段计算'},
+    {label:'D',text:'2.5 m/s',score:0,weakness:'混淆了路程和时间的关系'}]},
+
+// Q8 🔍 审题习惯 - 摩擦力条件提取
+{dim:'reading',text:'🔬 题目："用弹簧测力计沿水平方向拉物体，在水平桌面上做匀速直线运动，测力计示数为2N。若将拉力增大到3N继续拉动，物体受到的滑动摩擦力大小为多少？"解题关键是什么？',
+  opts:[
+    {label:'A',text:'拉力增大到3N，摩擦力也增大到3N',score:1,weakness:'知道摩擦力和拉力有关，但混淆了二力平衡和滑动摩擦力的决定因素'},
+    {label:'B',text:'匀速时f=2N，滑动摩擦力大小与拉力无关，仍为2N',score:3,weakness:null},
+    {label:'C',text:'不知道物体质量无法判断',score:0,weakness:'被无关条件误导——摩擦力与质量无直接关系'},
+    {label:'D',text:'3N是最大拉力，摩擦力应小于3N',score:0,weakness:'对滑动摩擦力概念理解有误'}]},
+
+// ===== 第二部分：情景判断（8题） =====
+
+// Q9 🔍 审题习惯 - 做题习惯
+{dim:'reading',text:'📝 做物理计算题时，题目条件很多、数字也比较复杂，你会怎么做？',
+  opts:[
+    {label:'A',text:'先把已知条件列出来，判断属于哪种物理模型，再列式计算',score:3,weakness:null},
+    {label:'B',text:'快速扫一眼题目，感觉有思路就马上开始算',score:1,weakness:'反应快但容易漏看条件——建议先列条件再动笔'},
+    {label:'C',text:'翻课本找同类型的例题，照着例题的步骤来',score:0,weakness:'熟题有效但遇到新题型会卡住——不能只依赖模板'},
+    {label:'D',text:'逐字读题，先想清楚整个物理过程再动笔',score:2,weakness:'理解全面但有时耗时过长——理解后加快列式速度'}]},
+
+// Q10 🧠 概念理解 - 错题处理
+{dim:'concept',text:'📝 作业发下来发现有题目做错了，你通常会怎么做？',
+  opts:[
+    {label:'A',text:'看一遍正确答案，看懂了就觉得自己会了',score:1,weakness:'"看懂"不等于"会做"——要动手重做一遍才能真正检验'},
+    {label:'B',text:'把正确解法抄到错题本上，记住下次别再错',score:0,weakness:'只记答案不究根源——换个问法还是容易错'},
+    {label:'C',text:'重新分析错在哪一步，把正确的物理过程图画出来',score:3,weakness:null},
+    {label:'D',text:'想想相关概念哪里没搞懂，回头翻课本重新理解一遍',score:2,weakness:'深度理解是好事，也要注意效率——结合错题定位针对性更强'}]},
+
+// Q11 📐 数学运用 - 公式掌握
+{dim:'math',text:'📝 学完一个物理公式后，你觉得怎样才算真正掌握了？',
+  opts:[
+    {label:'A',text:'能背出公式，做题时知道什么时候套用',score:0,weakness:'停留在记忆层面——题目一变就不知道用哪个公式了'},
+    {label:'B',text:'能独立把公式推导一遍，理解每个符号的含义和单位',score:3,weakness:null},
+    {label:'C',text:'能把这个公式对应到具体的物理场景中，知道它解决什么问题',score:2,weakness:'联系实际是好习惯，也要注意公式的适用条件和单位'},
+    {label:'D',text:'做几道不同类型的题巩固一下，会做题就行',score:1,weakness:'做题巩固没错，但做完要总结——想想这些题考的是同一个公式吗'}]},
+
+// Q12 💡 思维灵活 - 实验探究
+{dim:'flexible',text:'📝 物理实验课上，你的实验数据和其他同学明显不一样，你会怎么做？',
+  opts:[
+    {label:'A',text:'可能是自己操作有误，重新做一遍看看',score:3,weakness:null},
+    {label:'B',text:'看看别人的数据，改成和他们一样的',score:0,weakness:'追求"正确答案"而放弃探究——实验的目的是过程而非结果'},
+    {label:'C',text:'主动分析可能是什么原因导致了差异',score:2,weakness:'分析差异是科学探究精神，如果再动手验证就更完整'},
+    {label:'D',text:'直接问老师怎么做才对',score:1,weakness:'请教是好事，但先自己思考原因收获会更大'}]},
+
+// Q13 🔧 模型建构 - 长文字题建模
+{dim:'model',text:'📝 遇到一道文字很长的力学综合题，你会怎么做？',
+  opts:[
+    {label:'A',text:'先分段画受力图和运动过程图，把文字转化成物理模型再分析',score:3,weakness:null},
+    {label:'B',text:'快速读题，感觉知道用什么公式就开始算',score:1,weakness:'反应快但缺少建模环节——画图能帮你看清物理过程'},
+    {label:'C',text:'把数字和条件标出来，找对应的公式套',score:0,weakness:'套公式对新题无效——关键是先建立物理模型'},
+    {label:'D',text:'逐字读题，确保每个条件的物理意义都理解再动笔',score:2,weakness:'理解到位是好习惯，配合画图分析更完整'}]},
+
+// Q14 🧠 概念理解 - 复习方法
+{dim:'concept',text:'📝 学完一章物理后复习时，你通常会怎么做？',
+  opts:[
+    {label:'A',text:'把课本和笔记从头到尾看一遍，记熟知识点',score:1,weakness:'看一遍印象不深——边看边写效果更好'},
+    {label:'B',text:'做几套练习题，通过做题来检验掌握情况',score:2,weakness:'做题是有效检验，但做完不总结容易重复犯错'},
+    {label:'C',text:'画出这一章的知识结构图，理清概念之间的联系',score:3,weakness:null},
+    {label:'D',text:'不知道从哪下手，等老师带着复习',score:0,weakness:'被动复习效率最低——主动梳理效果才好'}]},
+
+// Q15 🔍 审题习惯 - 考试策略
+{dim:'reading',text:'📝 考试中遇到题干很长、信息量大的题目时，你通常怎么处理？',
+  opts:[
+    {label:'A',text:'先把题目完整读两遍，用笔圈出关键条件和数据',score:3,weakness:null},
+    {label:'B',text:'只看数字和已知条件，直接开始列式',score:0,weakness:'跳读容易漏掉关键信息——完整读题很重要'},
+    {label:'C',text:'先看问题问什么，再回题干找对应的条件',score:2,weakness:'倒读法有效，但要确保没漏掉任何条件'},
+    {label:'D',text:'题目太长就跳过，最后有时间再回来做',score:1,weakness:'跳过策略可以但容易丢分——先读一遍再决定'}]},
+
+// Q16 💡 思维灵活 - 知识迁移
+{dim:'flexible',text:'📝 在生活或电视上看到一个物理现象，你会怎么做？',
+  opts:[
+    {label:'A',text:'想想这个现象用到了什么物理知识，和自己学过的联系起来',score:3,weakness:null},
+    {label:'B',text:'觉得有趣，但一般不会特意去想背后的物理原理',score:1,weakness:'错过了把知识和生活联系的好机会'},
+    {label:'C',text:'判断这个现象是不是课本上学过的类型',score:2,weakness:'能归类是好的，但进一步想"为什么"收获更大'},
+    {label:'D',text:'看过了就过了，不会想太多',score:0,weakness:'生活中处处有物理——多问"为什么"是学好物理的关键'}]},
+
+// ===== 第三部分：自我评价（9题，0-4分） =====
+
+// Q17 🧠 概念理解
+{dim:'concept',text:'看到物理名词（如"压强""惯性""密度"），我能很快想起对应的概念和公式',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+
+// Q18 🧠 概念理解
+{dim:'concept',text:'学完一个新概念后，我能用自己的话把它讲清楚',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+
+// Q19 🔧 模型建构
+{dim:'model',text:'遇到文字描述的情景题，我能在脑子里或纸上画出对应的示意图',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+
+// Q20 🔧 模型建构
+{dim:'model',text:'做题时我会先想这属于哪种物理模型，再选择方法',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+
+// Q21 📐 数学运用
+{dim:'math',text:'我清楚每个物理公式的适用条件和每个符号的含义',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+
+// Q22 📐 数学运用
+{dim:'math',text:'我能熟练进行单位换算（如cm²→m²、km/h→m/s）',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+
+// Q23 🔍 审题习惯
+{dim:'reading',text:'读题时我会把关键条件和数据圈出来',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+
+// Q24 🔍 审题习惯
+{dim:'reading',text:'考试时因为读漏条件而做错的题很少',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+
+// Q25 💡 思维灵活
+{dim:'flexible',text:'题目换了新场景或新问法，我仍然能判断出它在考什么',
+  maxScore:4,
+  opts:[
+    {label:'A',text:'完全不符合',score:0},
+    {label:'B',text:'比较不符合',score:1},
+    {label:'C',text:'一般',score:2},
+    {label:'D',text:'比较符合',score:3},
+    {label:'E',text:'完全符合',score:4}]},
+];  A:{name:'直觉建构者',emoji:'🔮',slogan:'你有很好的物理直觉和概念理解力，但有时"太快"而漏掉题目的关键条件。',
     strength:[{t:'概念理解力强',d:'你对物理概念的本质有很好的直觉。学新知识时"就是能懂"。'},{t:'建模能力好',d:'你能在脑中构建清晰的物理模型，快速抓住框架。'}],
     weakness:[{t:'审题容易跳步',d:'做题时因"觉得太简单"而漏读条件。不是不会，是没看到。'},{t:'步骤不够规范',d:'习惯在脑子里想清楚就直接写答案，跳过中间步骤。'}],
     todo:[{t:'"三步审题法"锁住跳步',d:'①圈出所有已知条件 ②画出对应图景 ③标出问题。做完再动笔。',target:'坚持 3 周养成习惯'},{t:'每道题写出完整步骤',d:'公式→代入→结果→单位，一步不缺。',target:'连续 10 道题步骤完整'},{t:'用"讲题法"检验理解',d:'学完一个概念后从头到尾讲一遍，能脱稿讲通才算真懂。',target:'脱稿讲 3 分钟不卡壳'}]},
@@ -677,7 +786,7 @@ function submitToGitHub(data) {
   }).catch(e => console.warn('同步异常:', e));
 }
 
-const state={q:0,ans:Array(17).fill(null),name:''};
+const state={q:0,ans:Array(25).fill(null),name:''};
 const $=id=>document.getElementById(id);
 
 function show(id){
@@ -688,25 +797,25 @@ function show(id){
 function startQuiz(){
   const n=$('studentName').value.trim();
   if(!n){$('studentName').focus();$('studentName').style.borderColor='#FC8181';setTimeout(()=>$('studentName').style.borderColor='#E2E8F0',1500);return}
-  state.name=n;state.q=0;state.ans=Array(17).fill(null);show('quiz');renderQ()
+  state.name=n;state.q=0;state.ans=Array(25).fill(null);show('quiz');renderQ()
 }
 
 function renderQ(){
   const idx=state.q,q=QUESTIONS[idx],dim=DIMS.find(d=>d.key===q.dim);
-  $('qNum').textContent=`第 ${idx+1} / 17 题`;$('pFill').style.width=`${(idx/17)*100}%`;
+  $('qNum').textContent=`第 ${idx+1} / 25 题`;$('pFill').style.width=`${(idx/25)*100}%`;
   $('qDim').textContent=`${dim.icon} ${dim.label}`;$('qDim').style.background=dim.color;
   const sel=state.ans[idx];
   $('qArea').innerHTML=`<div class="q-text">${q.text}</div><div class="opts">${q.opts.map((o,i)=>`<div class="opt ${sel===i?'sel':''}" onclick="pick(${i})"><div class="dot"></div><span class="lb2">${o.label}.</span><span>${o.text}</span></div>`).join('')}</div>`;
   const prev=$('prevBtn');prev.style.visibility=idx===0?'hidden':'visible';
-  if(idx<16){$('nextBtn').style.display='';$('subBtn').style.display='none';const nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
+  if(idx<24){$('nextBtn').style.display='';$('subBtn').style.display='none';const nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
   else{$('nextBtn').style.display='none';$('subBtn').style.display='';const sb=$('subBtn');sb.disabled=sel===null;sb.style.opacity=sel===null?.5:1}
   $('quizInner').scrollTop=0
 }
 function pick(i){
   state.ans[state.q]=i;renderQ();
-  if(state.q<16){setTimeout(()=>goQ(state.q+1),350)}
+  if(state.q<24){setTimeout(()=>goQ(state.q+1),350)}
 }
-function goQ(i){if(i<0||i>16)return;state.q=i;renderQ()}
+function goQ(i){if(i<0||i>24)return;state.q=i;renderQ()}
 
 function submitQuiz(){
   if(state.ans[state.q]===null)return;
@@ -749,8 +858,8 @@ function compute(){
   const strongest=dimLvl.filter(d=>d.lvl==='strong').sort((a,b)=>b.score-a.score);
   const weakest=dimLvl.filter(d=>d.lvl==='weak').sort((a,b)=>a.score-b.score);
   let summary='';
-  if(correctCount>=13)summary=`<strong>你答对了 ${correctCount}/${totalAttempted} 道题</strong>，总体表现不错！${strongest.length?`<strong>${strongest[0].d.icon} ${strongest[0].d.label}</strong>是你的强项（${strongest[0].score}分）`:''}`;
-  else if(correctCount>=9)summary=`<strong>答对了 ${correctCount}/${totalAttempted} 道题</strong>，基础还不错！但还有提升空间——`;
+  if(correctCount>=18)summary=`<strong>你答对了 ${correctCount}/${totalAttempted} 道题</strong>，总体表现不错！${strongest.length?`<strong>${strongest[0].d.icon} ${strongest[0].d.label}</strong>是你的强项（${strongest[0].score}分）`:''}`;
+  else if(correctCount>=13)summary=`<strong>答对了 ${correctCount}/${totalAttempted} 道题</strong>，基础还不错！但还有提升空间——`;
   else summary=`<strong>答对了 ${correctCount}/${totalAttempted} 道题</strong>，别灰心！这只是帮你找到薄弱点——`;
   if(weakest.length)summary+=`<span class="sb-warn"> 最需要关注的是「${weakest[0].d.icon} ${weakest[0].d.label}」（仅${weakest[0].score}分）</span>，这是初三提分的关键突破口！`;
   else if(strongest.length>=2)summary+=` 继续保持，初三你也可以很稳！`;
@@ -820,8 +929,8 @@ function copyCode(){
 }
 function flashCopy(){const o=$('shareCode').textContent;$('shareCode').textContent='✅ 已复制！';setTimeout(()=>{$('shareCode').textContent=o},1200)}
 function fallbackCopy(c){const ta=document.createElement('textarea');ta.value=c;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);flashCopy()}
-function restart(){if(confirm('确定重新测试吗？')){state.ans=Array(17).fill(null);state.q=0;show('welcome')}}
-document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<16)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'&&e.key<='4'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});
+function restart(){if(confirm('确定重新测试吗？')){state.ans=Array(25).fill(null);state.q=0;show('welcome')}}
+document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<24)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<24)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'e.key>='1'&&e.key<='4'e.key>='1'&&e.key<='4'e.key<='5'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<24)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'e.key>='1'&&e.key<='4'e.key>='1'&&e.key<='4'e.key<='5'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});e.key<='5'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});
 </script>
 </body>
 </html>

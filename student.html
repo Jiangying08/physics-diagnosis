@@ -305,8 +305,10 @@ body{
   .q-pbar{margin-bottom:10px}
   .q-area{flex:none;min-height:0}
   .q-text{font-size:16px;margin-bottom:10px}
+  .q-text[style]{margin-top:12px!important;font-size:15px!important}
   .opt{padding:10px 12px;font-size:13px;gap:8px;border-radius:10px}
   .q-nav{margin-top:6px;position:sticky;bottom:0;background:#fff;padding:6px 0 8px}
+  .q-text + div[style] div[style] div[style] div[style]{gap:8px!important}
   .q-nav button{padding:8px 16px;font-size:13px;min-width:72px}
   .sub{padding:8px 20px!important}
   #result{padding:12px 8px 16px;padding-top:44px}
@@ -497,7 +499,7 @@ const DIMS=[
   {key:'flexible',label:'思维灵活',color:'#FC8181',icon:'💡'},
 ];
 const QUESTIONS=[
-// ===== 第一部分：知识应用（8题） =====
+// ===== 第一部分：情景判断（8题） =====
 
 // Q1 🧠 概念理解 - 声音传播
 {dim:'concept',text:'🎧 你和同桌一起听歌一人戴一只耳机，同桌能听到你耳机里的声音吗？',
@@ -563,7 +565,7 @@ const QUESTIONS=[
     {label:'C',text:'不知道物体质量无法判断',score:0,weakness:'被无关条件误导——摩擦力与质量无直接关系'},
     {label:'D',text:'3N是最大拉力，摩擦力应小于3N',score:0,weakness:'对滑动摩擦力概念理解有误'}]},
 
-// ===== 第二部分：情景判断（8题） =====
+// ===== 第二部分：知识应用（8题） =====
 
 // Q9 🔍 审题习惯 - 做题习惯
 {dim:'reading',text:'📝 做物理计算题时，题目条件很多、数字也比较复杂，你会怎么做？',
@@ -802,13 +804,27 @@ function startQuiz(){
 
 function renderQ(){
   const idx=state.q,q=QUESTIONS[idx],dim=DIMS.find(d=>d.key===q.dim);
-  $('qNum').textContent=`第 ${idx+1} / 25 题`;$('pFill').style.width=`${(idx/25)*100}%`;
-  $('qDim').textContent=`${dim.icon} ${dim.label}`;$('qDim').style.background=dim.color;
+  $('qNum').textContent='第 '+(idx+1)+' / 25 题';$('pFill').style.width=((idx/25)*100)+'%';
+  const sec=idx<8?'情景判断':(idx<16?'知识应用':'自我评价');
+  $('qDim').textContent=sec;$('qDim').style.background=idx<8?'#805AD5':(idx<16?'#2B6CB0':'#D69E2E');
   const sel=state.ans[idx];
-  $('qArea').innerHTML=`<div class="q-text">${q.text}</div><div class="opts">${q.opts.map((o,i)=>`<div class="opt ${sel===i?'sel':''}" onclick="pick(${i})"><div class="dot"></div><span class="lb2">${o.label}.</span><span>${o.text}</span></div>`).join('')}</div>`;
+  if(q.maxScore){
+    const labels=['完全不符合','比较不符合','一般','比较符合','完全符合'];
+    let optsHtml='';
+    for(let i=0;i<5;i++){
+      const isSel=sel===i;
+      optsHtml+='<div onclick="pick('+i+')" style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;-webkit-tap-highlight-color:transparent">'+
+        '<div style="width:44px;height:44px;border-radius:50%;border:2.5px solid '+(isSel?'#2B6CB0':'#CBD5E0')+';background:'+(isSel?'#2B6CB0':'transparent')+';color:'+(isSel?'#fff':'#718096')+';display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;transition:all .2s">'+(i+1)+'</div>'+
+        '<span style="font-size:10px;color:'+(isSel?'#2B6CB0':'#A0AEC0')+';font-weight:'+(isSel?'700':'400')+';line-height:1.2;max-width:60px">'+labels[i]+'</span></div>';
+    }
+    $('qArea').innerHTML='<div class="q-text" style="margin-top:20px">'+q.text+'</div>'+
+      '<div style="margin-top:24px;text-align:center"><div style="display:flex;justify-content:center;gap:12px">'+optsHtml+'</div></div>';
+  } else {
+    $('qArea').innerHTML='<div class="q-text">'+q.text+'</div><div class="opts">'+q.opts.map(function(o,i){return '<div class="opt '+(sel===i?'sel':'')+'" onclick="pick('+i+')"><div class="dot"></div><span class="lb2">'+o.label+'.</span><span>'+o.text+'</span></div>';}).join('')+'</div>';
+  }
   const prev=$('prevBtn');prev.style.visibility=idx===0?'hidden':'visible';
-  if(idx<24){$('nextBtn').style.display='';$('subBtn').style.display='none';const nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
-  else{$('nextBtn').style.display='none';$('subBtn').style.display='';const sb=$('subBtn');sb.disabled=sel===null;sb.style.opacity=sel===null?.5:1}
+  if(idx<24){$('nextBtn').style.display='';$('subBtn').style.display='none';var nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
+  else{$('nextBtn').style.display='none';$('subBtn').style.display='';var sb=$('subBtn');sb.disabled=sel===null;sb.style.opacity=sel===null?.5:1}
   $('quizInner').scrollTop=0
 }
 function pick(i){

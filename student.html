@@ -158,6 +158,7 @@ body{
 .opt.sel .dot{border-color:#2B6CB0;background:#2B6CB0}
 .opt.sel .dot::after{content:'';width:8px;height:8px;background:#fff;border-radius:50%}
 .opt .lb2{font-weight:700;color:#2B6CB0;flex-shrink:0}
+.opt span:nth-child(3){flex:1;word-break:break-word;overflow-wrap:break-word}
 .q-nav{display:flex;justify-content:space-between;margin-top:16px;padding-bottom:4px}
 .q-nav button{
   padding:10px 28px;border-radius:10px;border:none;
@@ -241,6 +242,46 @@ body{
   background:#48BB78;color:#fff;font-weight:600;margin-top:3px
 }
 
+/* -------- 错题回顾 -------- */
+.wrong-item{
+  background:#FFFAFA;border-radius:10px;padding:12px 14px;margin-bottom:8px;
+  border:1px solid #FED7D7;border-left:4px solid #FC8181
+}
+.wrong-item .wi-q{font-size:13px;font-weight:600;color:#2D3748;margin-bottom:6px;line-height:1.5}
+.wrong-item .wi-detail{font-size:12px;color:#4A5568;line-height:1.6}
+.wrong-item .wi-detail .wi-wrong{color:#E53E3E;font-weight:600}
+.wrong-item .wi-detail .wi-right{color:#38A169;font-weight:600}
+.wrong-item .wi-weak{display:inline-block;margin-top:4px;font-size:11px;background:#FFF5F5;color:#C53030;padding:2px 10px;border-radius:6px}
+.wrong-item .wi-dim{
+  display:inline-block;font-size:10px;padding:1px 8px;border-radius:4px;
+  color:#fff;font-weight:600;margin-right:6px
+}
+
+/* -------- 初三衔接建议 -------- */
+.chu3-box{
+  background:#F0FFF4;border-radius:12px;padding:14px 16px;margin-bottom:10px;
+  border:1px solid #C6F6D5;border-left:4px solid #48BB78
+}
+.chu3-box .chu3-title{font-size:14px;font-weight:700;color:#276749;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.chu3-box .chu3-detail{font-size:12px;color:#4A5568;line-height:1.7}
+.chu3-box .chu3-tag{
+  display:inline-block;font-size:10px;padding:1px 8px;border-radius:4px;
+  background:#48BB78;color:#fff;font-weight:600;margin-bottom:6px
+}
+
+/* -------- 个性化总结横幅 -------- */
+.summary-banner{
+  background:linear-gradient(135deg,#EBF4FF,#F0FFF4);border-radius:12px;
+  padding:14px 16px;margin-bottom:12px;border:1px solid #E2E8F0;
+  text-align:center
+}
+.summary-banner .sb-line{font-size:13px;color:#2D3748;line-height:1.7}
+.summary-banner .sb-line strong{color:#2B6CB0}
+.summary-banner .sb-line .sb-warn{color:#E53E3E;font-weight:600}
+
+/* -------- 报告日期 -------- */
+.report-date{font-size:11px;color:#A0AEC0;text-align:center;margin-bottom:8px}
+
 .act-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 
 .footer-brand{
@@ -248,7 +289,7 @@ body{
 }
 .footer-brand strong{color:#4A5568}
 
-@media(max-width:600px){
+@media(max-width:640px){
   .welcome-overlay{padding:12px}
   .welcome-card{padding:28px 20px 24px;border-radius:16px}
   #welcome .logo{font-size:36px}
@@ -260,17 +301,52 @@ body{
   .meta{gap:8px;margin-bottom:16px}
   .meta-item{padding:8px 14px;max-width:100px}
   .meta-item .mv{font-size:20px}
-  .quiz-inner{padding:24px 14px 12px;min-height:calc(100vh - 36px)}
-  .q-text{font-size:17px}
-  .opt{padding:12px 14px;font-size:14px}
-  .chart-wrap{flex-direction:column}
-  .q-nav button{padding:8px 20px;font-size:13px}
-  .btn-primary{padding:10px 28px;font-size:14px}
-}
-
-@media(max-width:400px){
-  .q-text{font-size:16px}
-  .opt{padding:10px 12px;font-size:13px;gap:8px}
+  .quiz-inner{padding:12px 10px 8px;min-height:calc(100vh - 36px)}
+  .q-pbar{margin-bottom:10px}
+  .q-area{flex:none;min-height:0}
+  .q-text{font-size:16px;margin-bottom:10px}
+  .opt{padding:10px 12px;font-size:13px;gap:8px;border-radius:10px}
+  .q-nav{margin-top:6px;position:sticky;bottom:0;background:#fff;padding:6px 0 8px}
+  .q-nav button{padding:8px 16px;font-size:13px;min-width:72px}
+  .sub{padding:8px 20px!important}
+  #result{padding:12px 8px 16px;padding-top:44px}
+  .r-inner{max-width:100%;padding:0;overflow:hidden}
+  .card{padding:10px 12px;border-radius:10px;word-break:break-word;overflow:hidden}
+  .card h3{font-size:13px;flex-wrap:wrap}
+  .chart-wrap{flex-direction:column;align-items:center}
+  #radarChart{width:180px;height:180px}
+  .dims{width:100%;min-width:0}
+  .di-h{font-size:11px}
+  .dim-tags{gap:4px}
+  .dim-tags .dt{font-size:10px;padding:2px 6px}
+  .sw-item{padding:7px 10px}
+  .sw-item .swt{font-size:12px}
+  .sw-item .swd{font-size:11px}
+  .wrong-item{padding:8px 10px}
+  .wrong-item .wi-q{font-size:12px}
+  .wrong-item .wi-detail{font-size:11px}
+  .wrong-item .wi-weak{font-size:10px}
+  .todo-item{padding:7px 10px}
+  .todo-item .tt{font-size:12px}
+  .todo-item .td{font-size:11px}
+  .todo-item .tl{font-size:9px;padding:1px 6px}
+  .share-section{padding:10px}
+  .share-section .share-code{font-size:18px;padding:6px 12px;word-break:break-all}
+  .summary-banner{padding:10px}
+  .summary-banner .sb-line{font-size:12px}
+  .chu3-box{padding:10px 12px}
+  .chu3-box .chu3-title{font-size:12px}
+  .chu3-box .chu3-detail{font-size:11px}
+  .wrong-item .wi-dim{font-size:9px}
+  .type-box .emoji{font-size:36px}
+  .type-box .tname{font-size:17px}
+  .type-box .tdesc{font-size:12px}
+  .success-banner{font-size:12px;padding:8px 10px}
+  .report-date{font-size:10px}
+  .btn-sm{padding:6px 12px;font-size:11px}
+  .act-bar{gap:6px}
+  .footer-brand{font-size:10px}
+  .brand-bar{padding:6px 10px;font-size:11px}
 }
 </style>
 </head>
@@ -292,18 +368,18 @@ body{
   <div class="welcome-overlay">
     <div class="welcome-card">
       <div class="logo">🔬</div>
-      <h1>初三物理 · 学科诊断</h1>
-      <p class="sub">15分钟 · 帮你了解自己的物理学习特质</p>
+      <h1>🔬 初三物理 · 趣味诊断</h1>
+      <p class="sub">12道生活"名场面" · 发现你的物理超能力</p>
 
       <div class="purpose-box">
-        <div class="purpose-intro">这15分钟，<strong>不是考试</strong>。</div>
-        <p>你不需要做任何准备——它只是一次帮你<strong>了解自己</strong>的小探索。</p>
-        <p>看清自己物理学习上的优势与特点，找到更适合你的学习方式。<strong>比盲目努力更重要的，是先认识自己</strong>。</p>
+        <div class="purpose-intro">这次诊断，<strong>不考你公式</strong> 🎉</div>
+        <p>奶茶分层、吃火锅、打篮球、坐公交急刹车……这些你熟悉的日常里，<strong>藏着你的物理天赋</strong>。</p>
+        <p>16 道选择题（含 4 道学习情景判断），帮你发现自己是哪一种物理学习者——<strong>比盲目刷题更重要的，是先认识自己</strong>。</p>
       </div>
 
       <div class="meta">
-        <div class="meta-item"><div class="mv">12</div><div class="ml">题量</div></div>
-        <div class="meta-item"><div class="mv">≈15</div><div class="ml">分钟</div></div>
+        <div class="meta-item"><div class="mv">16</div><div class="ml">题量</div></div>
+        <div class="meta-item"><div class="mv">≈20</div><div class="ml">分钟</div></div>
       </div>
 
       <div class="form-card">
@@ -348,6 +424,12 @@ body{
   <div class="r-inner">
     <div class="success-banner">✅ 诊断完成！专属报告已生成</div>
 
+    <div class="summary-banner" id="summaryBanner" style="display:none">
+      <div class="sb-line" id="summaryText"></div>
+    </div>
+
+    <div class="report-date" id="reportDate"></div>
+
     <div class="share-section">
       <div class="share-label">📤 将分享码发给老师，查看完整分析</div>
       <div class="share-code" id="shareCode" onclick="copyCode()">ABCDEF12</div>
@@ -379,6 +461,16 @@ body{
       <div id="rWeakness"></div>
     </div>
 
+    <div class="card" id="wrongReviewCard" style="display:none">
+      <h3>❌ 错题回顾 <span style="font-size:11px;color:#A0AEC0;font-weight:400">—— 看看哪几题"翻车"了</span></h3>
+      <div id="rWrongReview"></div>
+    </div>
+
+    <div class="card" id="chu3Card" style="display:none">
+      <h3>🚀 给即将上初三的你</h3>
+      <div id="rChu3Advice"></div>
+    </div>
+
     <div class="card">
       <h3>🎯 暑期学习行动清单</h3>
       <div id="rTodo"></div>
@@ -404,30 +496,113 @@ const DIMS=[
   {key:'flexible',label:'思维灵活',color:'#FC8181',icon:'💡'},
 ];
 const QUESTIONS=[
-  {dim:'concept',text:'关于声音的产生与传播，以下说法正确的是？',
-    opts:[{label:'A',text:'声音在真空中传播速度最快',score:0,weakness:'声学概念错误——真空不能传声'},{label:'B',text:'声音是由物体振动产生的',score:3,weakness:null},{label:'C',text:'只要物体振动，我们就一定能听到声音',score:0,weakness:'忽略了人耳听觉频率范围和传声介质'},{label:'D',text:'声音在固体中传播比在空气中慢',score:1,weakness:'混淆了不同介质中的声速——固体传声比空气快'}]},
-  {dim:'concept',text:'关于物态变化，以下说法正确的是？',
-    opts:[{label:'A',text:'晶体在熔化过程中吸收热量，但温度保持不变',score:3,weakness:null},{label:'B',text:'液体蒸发需要达到一定温度才能发生',score:0,weakness:'混淆了蒸发和沸腾——蒸发在任何温度下都能发生'},{label:'C',text:'冰在熔化过程中温度会逐渐升高',score:0,weakness:'晶体熔化特点理解错误——冰是晶体，熔化时吸热但温度不变'},{label:'D',text:'夏天冰箱拿出饮料瓶外壁"出汗"，是瓶子漏了',score:0,weakness:'对液化现象不理解——是水蒸气遇冷瓶壁液化'}]},
-  {dim:'concept',text:'关于光的反射和折射，以下说法正确的是？',
-    opts:[{label:'A',text:'光在发生漫反射时，不遵循光的反射定律',score:0,weakness:'漫反射的每一条光线都遵循反射定律'},{label:'B',text:'光从空气斜射入水中时，折射角小于入射角',score:3,weakness:null},{label:'C',text:'光在真空中的传播速度是 3×10⁵m/s',score:1,weakness:'数量级记错——光速是 3×10⁸m/s'},{label:'D',text:'凸透镜对光有发散作用',score:0,weakness:'凸透镜会聚、凹透镜发散'}]},
-  {dim:'model',text:'用水平推力推地面上的木箱，木箱没动。木箱在水平方向受力情况是？',
-    opts:[{label:'A',text:'推力 > 静摩擦力',score:0,weakness:'若推力大于摩擦力，木箱会加速运动'},{label:'B',text:'推力 = 静摩擦力',score:3,weakness:null},{label:'C',text:'推力 < 静摩擦力',score:0,weakness:'若推力小于摩擦力，物体会反向运动'},{label:'D',text:'木箱没动所以不受摩擦力',score:1,weakness:'有推力且静止，必有静摩擦力平衡'}]},
-  {dim:'model',text:'一块木块静止在粗糙斜面上，它受到的摩擦力方向是？',
-    opts:[{label:'A',text:'沿斜面向上',score:3,weakness:null},{label:'B',text:'沿斜面向下',score:0,weakness:'木块有下滑趋势，摩擦阻碍下滑应向上'},{label:'C',text:'垂直斜面向上',score:1,weakness:'混淆了支持力和摩擦力'},{label:'D',text:'水平向左',score:0,weakness:'无法建立斜面模型'}]},
-  {dim:'model',text:'在"探究凸透镜成像规律"实验中，当物距 u > 2f 时，成像情况是？',
-    opts:[{label:'A',text:'成正立、放大的虚像',score:0,weakness:'u>2f时成倒立缩小实像'},{label:'B',text:'成倒立、缩小的实像',score:3,weakness:null},{label:'C',text:'成倒立、放大的实像',score:1,weakness:'混淆了 f<u<2f 和 u>2f'},{label:'D',text:'不成像',score:0,weakness:'不同物距成像性质不同，但都能成像'}]},
-  {dim:'math',text:'一个质量为 500g 的物体，体积为 200cm³，它的密度是？',
-    opts:[{label:'A',text:'2.5 g/cm³',score:3,weakness:null},{label:'B',text:'0.4 g/cm³',score:1,weakness:'公式记反了——ρ=m/V'},{label:'C',text:'250 g/cm³',score:0,weakness:'单位处理失误'},{label:'D',text:'100,000 g/cm³',score:0,weakness:'计算能力严重不足'}]},
-  {dim:'math',text:'一个 60kg 的人站立，每只脚与地面接触约 200cm²，g=10N/kg。他对地面的压强约为？',
-    opts:[{label:'A',text:'1.5×10⁴ Pa',score:3,weakness:null},{label:'B',text:'3.0×10⁴ Pa',score:1,weakness:'只算了一只脚的面积'},{label:'C',text:'1.5×10³ Pa',score:0,weakness:'单位换算错误'},{label:'D',text:'3.0×10³ Pa',score:0,weakness:'对压强公式理解有误'}]},
-  {dim:'math',text:'甲速是乙的 2 倍，乙时间是甲的 3 倍。甲、乙路程之比是？',
-    opts:[{label:'A',text:'2 : 3',score:3,weakness:null},{label:'B',text:'3 : 2',score:1,weakness:'比例推导不严谨'},{label:'C',text:'1 : 6',score:0,weakness:'未正确运用 s=vt 推导'},{label:'D',text:'6 : 1',score:0,weakness:'错误理解"乙时间是甲的3倍"'}]},
-  {dim:'reading',text:'题目："质量为 2kg 的物体放在水平桌面上，用 5N 的拉力使其做匀速直线运动"，求摩擦力。解题关键是什么？',
-    opts:[{label:'A',text:'质量 2kg',score:0,weakness:'被数字吸引忽略关键信息'},{label:'B',text:'"匀速直线运动"意味着合力为零',score:3,weakness:null},{label:'C',text:'水平拉力 5N',score:1,weakness:'匀速条件下才能推出摩擦力'},{label:'D',text:'水平桌面',score:0,weakness:'被无关背景信息干扰'}]},
-  {dim:'reading',text:'题目："1kg 物体从高处由静止开始下落，不计空气阻力，g=10N/kg"，求 2s 后下落距离。解题关键是什么？',
-    opts:[{label:'A',text:'质量 1kg',score:0,weakness:'质量不影响下落快慢'},{label:'B',text:'"由静止开始"即初速度为零',score:3,weakness:null},{label:'C',text:'g=10N/kg',score:1,weakness:'不是本题的"关键条件"'},{label:'D',text:'不计空气阻力',score:1,weakness:'漏了更关键的初速度条件'}]},
-  {dim:'flexible',text:'冬天室外说话呼出"白气"而夏天看不到。以下解释最合理的是？',
-    opts:[{label:'A',text:'冬天温度低，呼出的水蒸气遇冷液化成小水滴',score:3,weakness:null},{label:'B',text:'冬天呼出的气体温度比夏天高',score:0,weakness:'人体体温恒定，呼出气体温度差异不大'},{label:'C',text:'夏天没有水蒸气呼出',score:0,weakness:'人呼吸时都会呼出水蒸气'},{label:'D',text:'冬天呼出的气体成分与夏天不同',score:1,weakness:'成分没变，变化的是外部环境温度'}]},
+  // ===== 🧠 概念理解 × 3 =====
+  {dim:'concept',text:'🎧 你和同桌一起听歌一人戴一只耳机，同桌能听到你耳机里的声音吗？',
+    opts:[
+      {label:'A',text:'不能——耳机声音很小，只有自己能听到',score:1,weakness:'声音确实会减弱，但本质上是因为声波向四周传播'},
+      {label:'B',text:'能听到一点点——耳机振膜振动带动空气，声波向四周传开',score:3,weakness:null},
+      {label:'C',text:'不能——耳机线把声音都传到耳朵里了，不会漏出来',score:0,weakness:'混淆了电信号和声音的传播'},
+      {label:'D',text:'能听到——耳机线会导电把声音传过去',score:0,weakness:'对耳机工作原理完全误解'}]},
+  {dim:'concept',text:'🥤 夏天从冰箱拿出冰可乐放桌上，一会儿瓶壁外面出现一层小水珠。这水珠从哪来的？',
+    opts:[
+      {label:'A',text:'冰箱里太冷，冰霜附在瓶子上带出来了',score:0,weakness:'混淆了冰霜和液化现象'},
+      {label:'B',text:'瓶壁温度低，空气中的水蒸气遇冷液化成小水滴',score:3,weakness:null},
+      {label:'C',text:'瓶子漏了，可乐渗出来了',score:0,weakness:'对液化现象完全没有概念'},
+      {label:'D',text:'空气中的水遇到冰可乐被"冻"出来的',score:1,weakness:'知道和温度有关，但混淆了凝固和液化'}]},
+  {dim:'concept',text:'📸 你用手机后置摄像头拍远处，镜头里像是倒的，但照片里是正的。为什么？',
+    opts:[
+      {label:'A',text:'手机摄像头不是凸透镜，所以不会成倒像',score:0,weakness:'手机摄像头就是凸透镜'},
+      {label:'B',text:'凸透镜成倒立实像，手机软件自动把照片翻转成正的',score:3,weakness:null},
+      {label:'C',text:'拍远处成倒像，拍近处成正像，照片里就是实际成像',score:1,weakness:'对凸透镜成像规律理解不完整'},
+      {label:'D',text:'眼睛看到的是正的，摄像头拍到的也是正的',score:0,weakness:'没有理解凸透镜成像原理'}]},
+
+  // ===== 🔧 模型建构 × 3 =====
+  {dim:'model',text:'🚌 你坐公交站着玩手机没扶扶手，司机急刹车，你整个人向前倾。这是因为：',
+    opts:[
+      {label:'A',text:'刹车时车产生了一个向前的"推力"把我推向前',score:0,weakness:'混淆了惯性和力的概念'},
+      {label:'B',text:'刹车前我和车一起向前运动，车减速时我因惯性保持向前运动',score:3,weakness:null},
+      {label:'C',text:'人的重心在前面，所以刹车时会往前倒',score:1,weakness:'有生活经验但未建立物理模型'},
+      {label:'D',text:'地面突然变滑了，脚站不稳',score:0,weakness:'完全错误的归因'}]},
+  {dim:'model',text:'🥛 你用吸管喝酸奶，酸奶在吸管里上升。把它推上来的"主力"是：',
+    opts:[
+      {label:'A',text:'嘴巴的吸力把酸奶吸上来了',score:0,weakness:'"吸力"不是物理概念——本质是气压差'},
+      {label:'B',text:'吸时口腔气压减小，外界大气压把酸奶压上来了',score:3,weakness:null},
+      {label:'C',text:'吸管里有毛细现象，酸奶自己往上爬',score:1,weakness:'毛细现象存在但这不是主要原因'},
+      {label:'D',text:'酸奶很稀，自己就能流上来',score:0,weakness:'没有理解吸管喝饮料的物理原理'}]},
+  {dim:'model',text:'🔬 小明想测一块不规则石块的密度。他用天平测出石块质量为156g，再将石块放入装有200mL水的量筒中，水面升高到260mL。该石块的密度最接近？',
+    opts:[
+      {label:'A',text:'2.6 g/cm³',score:3,weakness:null},
+      {label:'B',text:'0.6 g/cm³',score:1,weakness:'知道ρ=m/V但误用了水的总体积——不理解排水法测体积'},
+      {label:'C',text:'7.8 g/cm³',score:0,weakness:'对实验测量原理完全不清楚'},
+      {label:'D',text:'0.26 g/cm³',score:0,weakness:'计算错误或单位混乱'}]},
+
+  // ===== 📐 数学运用 × 2 =====
+  {dim:'math',text:'🧍 一个质量为50kg的中学生双脚站在水平地面上，每只脚与地面的接触面积约为200cm²。该同学对水平地面的压强约为？（g=10N/kg）',
+    opts:[
+      {label:'A',text:'1.25×10⁴ Pa',score:3,weakness:null},
+      {label:'B',text:'2.5×10⁴ Pa',score:1,weakness:'公式用对了但只算了一只脚的面积——注意是双脚站立'},
+      {label:'C',text:'1.25×10³ Pa',score:0,weakness:'单位换算错误——200cm²=0.02m²，不是0.2m²'},
+      {label:'D',text:'2.5×10³ Pa',score:0,weakness:'公式和单位换算都有错误'}]},
+  {dim:'math',text:'🏃 体育中考 1000m，小红第一圈 400m 用时 80s。她想用 200s 跑完全程，剩下 600m 需保持平均速度多少 m/s？',
+    opts:[
+      {label:'A',text:'3 m/s',score:0,weakness:'速度计算失误'},
+      {label:'B',text:'5 m/s',score:3,weakness:null},
+      {label:'C',text:'6 m/s',score:1,weakness:'只算了总路程÷总时间，没有分段计算'},
+      {label:'D',text:'2.5 m/s',score:0,weakness:'混淆了路程和时间的关系'}]},
+
+  // ===== 🔍 审题习惯 × 2 =====
+  {dim:'reading',text:'🔬 题目："用弹簧测力计沿水平方向拉物体，在水平桌面上做匀速直线运动，测力计示数为2N。若将拉力增大到3N继续拉动，物体受到的滑动摩擦力大小为多少？"解题关键是什么？',
+    opts:[
+      {label:'A',text:'拉力增大到3N，摩擦力也增大到3N',score:1,weakness:'知道摩擦力和拉力有关，但混淆了二力平衡和滑动摩擦力的决定因素'},
+      {label:'B',text:'匀速时f=2N，滑动摩擦力大小与拉力无关，仍为2N',score:3,weakness:null},
+      {label:'C',text:'不知道物体质量无法判断',score:0,weakness:'被无关条件误导——摩擦力与质量无直接关系'},
+      {label:'D',text:'3N是最大拉力，摩擦力应小于3N',score:0,weakness:'对滑动摩擦力概念理解有误'}]},
+  {dim:'reading',text:'🔢 题目："汽车以 72km/h 从 A→B 行驶 10 分钟，再以 60km/h 从 B→C 行驶 15 分钟。求全程平均速度。"最容易忽略的是？',
+    opts:[
+      {label:'A',text:'72km/h 和 60km/h 不一样，需要分别算路程',score:1,weakness:'注意到了分段但忽略了更关键的单位问题'},
+      {label:'B',text:'速度单位 km/h，时间单位分钟——需先统一单位',score:3,weakness:null},
+      {label:'C',text:'求平均速度用总路程÷总时间',score:0,weakness:'公式正确但没回答"最容易忽略什么"'},
+      {label:'D',text:'先算 72+60 再除以 2 得平均速度',score:0,weakness:'这是错误算法'}]},
+
+  // ===== 💡 思维灵活 × 2 =====
+  {dim:'flexible',text:'💧 洗完手后，小高用力甩手，手上的水珠就被甩掉了。以下解释最合理的是？',
+    opts:[
+      {label:'A',text:'手突然停止，水珠由于惯性继续向前运动而被甩出',score:3,weakness:null},
+      {label:'B',text:'手给了水珠一个向外的推力',score:1,weakness:'有物理直觉但混淆了惯性和力的概念——手停止后不再施力'},
+      {label:'C',text:'水珠受到离心力的作用被甩出',score:0,weakness:'"离心力"不是真实存在的力，是惯性的一种表现'},
+      {label:'D',text:'水珠和手之间存在斥力',score:0,weakness:'对力的概念完全理解错误'}]},
+  {dim:'flexible',text:'🧊 在一杯装满水的杯子中，有一块冰浮在水面上。当冰块完全熔化后（不计蒸发），杯中的水会不会溢出？',
+    opts:[
+      {label:'A',text:'不会溢出——冰排开水的体积等于冰熔化成水的体积',score:3,weakness:null},
+      {label:'B',text:'会溢出——冰变成水体积变大了',score:1,weakness:'知道冰熔化成水体积会变化，但忽略了浮力原理'},
+      {label:'C',text:'水面会下降',score:0,weakness:'对浮力和质量守恒都没有理解'},
+      {label:'D',text:'无法确定',score:0,weakness:'缺乏应用物理原理分析问题的思路'}]},
+
+  // ===== 🧠 学习方式情景判断 × 4 =====
+  {dim:'reading',text:'📝 做物理计算题时，题目条件很多、数字也比较复杂，你会怎么做？',
+    opts:[
+      {label:'A',text:'先把已知条件列出来，判断属于哪种物理模型，再列式计算',score:3,weakness:null},
+      {label:'B',text:'快速扫一眼题目，感觉有思路就马上开始算',score:1,weakness:'反应快但容易漏看条件——建议养成先列条件再动笔的习惯'},
+      {label:'C',text:'翻课本找同类型的例题，照着例题的步骤来',score:0,weakness:'熟题有效但遇到新题型会卡住——不能只依赖模板'},
+      {label:'D',text:'逐字读题，先想清楚整个物理过程再动笔',score:2,weakness:'理解全面但有时耗时过长——理解后可以加快列式速度'}]},
+  {dim:'concept',text:'📝 作业发下来发现有题目做错了，你通常会怎么做？',
+    opts:[
+      {label:'A',text:'看一遍正确答案，看懂了就觉得自己会了',score:1,weakness:'"看懂"不等于"会做"——要动手重做一遍才能真正检验'},
+      {label:'B',text:'把正确解法抄到错题本上，记住下次别再错',score:0,weakness:'只记答案不究根源——换个问法还是容易错'},
+      {label:'C',text:'重新分析错在哪一步，把正确的物理过程图画出来',score:3,weakness:null},
+      {label:'D',text:'想想相关概念哪里没搞懂，回头翻课本重新理解一遍',score:2,weakness:'深度理解是好事，但也要注意效率——结合错题定位针对性更强'}]},
+  {dim:'math',text:'📝 学完一个物理公式后，你觉得怎样才算真正掌握了？',
+    opts:[
+      {label:'A',text:'能背出公式，做题时知道什么时候套用',score:0,weakness:'停留在记忆层面——题目一变就不知道用哪个公式了'},
+      {label:'B',text:'能独立把公式推导一遍，理解每个符号的含义和单位',score:3,weakness:null},
+      {label:'C',text:'能把这个公式对应到具体的物理场景中，知道它解决什么问题',score:2,weakness:'联系实际是好习惯，但也要注意公式的适用条件和单位'},
+      {label:'D',text:'做几道不同类型的题巩固一下，会做题就行',score:1,weakness:'做题巩固没错，但做完要总结——想想这几道题考的是同一个公式吗'}]},
+  {dim:'flexible',text:'📝 物理实验课上，你的实验数据和其他同学明显不一样，你会怎么做？',
+    opts:[
+      {label:'A',text:'可能是自己操作有误，重新做一遍看看',score:3,weakness:null},
+      {label:'B',text:'看看别人的数据，改成和他们一样的',score:0,weakness:'追求"正确答案"而放弃探究——实验的目的是过程而非结果'},
+      {label:'C',text:'主动分析可能是什么原因导致了差异',score:2,weakness:'分析差异是科学探究精神，但如果能再动手验证一下自己的分析会更完整'},
+      {label:'D',text:'直接问老师怎么做才对',score:1,weakness:'请教老师是好事，但先自己思考原因收获会更大'}]},
 ];
 const TYPES={
   A:{name:'直觉建构者',emoji:'🔮',slogan:'你有很好的物理直觉和概念理解力，但有时"太快"而漏掉题目的关键条件。',
@@ -452,6 +627,35 @@ const TYPES={
     todo:[{t:'从最薄弱的概念开始补',d:'找出最没把握的 1-2 个知识点，从课本原话→例题→复述。',target:'每周补透 1 个薄弱概念'},{t:'用实验视频辅助理解',d:'去 B 站看物理实验视频，边看边画过程。',target:'看完 5 个物理实验视频'},{t:'"每日一题"培养节奏',d:'每天只做一道，但步骤写清楚。不贪多，要精。',target:'连续 20 天每日一题打卡'}]},
 };
 
+// ===== 初三衔接建议：基于各维度薄弱点 =====
+const CHU3_ADVICE = {
+  concept:{
+    tag:'🧠 概念理解',
+    title:'初三物理概念更抽象，你的概念理解需要加强',
+    detail:'初三将学习电流、电压、电阻、电功率等看不见摸不着的概念，和初二声光热的"直观"完全不同。如果概念理解不到位，后面的电路分析、电学计算都会吃力。建议：每学一个新概念，先用自己的话写一遍"这到底是什么"，再画一张概念关系图。'
+  },
+  model:{
+    tag:'🔧 模型建构',
+    title:'电路图和受力分析是初三核心，你的模型建构需要强化',
+    detail:'初三电学的电路识别、动态电路分析，以及力学的受力分析，本质上都是"把实际问题转化成物理模型"。很多初三学生觉得电学难，就是因为看不懂电路图。建议：从现在开始，每道题先画图（电路图/受力图），不画图不动笔。'
+  },
+  math:{
+    tag:'📐 数学运用',
+    title:'初三物理计算量翻倍，你的数学运用需要提前准备',
+    detail:'欧姆定律、电功率、压强浮力……初三的计算不再是简单套公式，而是多步推导+单位换算+科学计数法。如果数学底子弱，会严重拖物理的后腿。建议：暑假把比例计算、单位换算、科学计数法这三项练到"条件反射"。'
+  },
+  reading:{
+    tag:'🔍 审题习惯',
+    title:'初三综合题题干更长，你的审题习惯需要在暑假调整',
+    detail:'中考压轴题题干可以长达 5-8 行，信息量大、干扰项多。"读一半就动笔"在初三会吃大亏——一道电学综合题，漏看一个条件可能整道题全错。建议：从今天开始养成"读两遍+圈条件"的习惯，前两周可能会慢，但后面会越来越快。'
+  },
+  flexible:{
+    tag:'💡 思维灵活',
+    title:'初三压轴题考的是知识串联，你的思维灵活度需要提升',
+    detail:'中考压轴题往往一道题同时考察电学+力学+能量转换，需要灵活调用多个知识点。如果知识点是"碎片化"的，综合题一卡住就整道题崩了。建议：每学完一章画一张"知识网络图"，把新知识和旧知识连起来，别让知识点"各学各的"。'
+  }
+};
+
 // ===== 自动同步（通过 Vercel API） =====
 const API_BASE = 'https://physics-diagnosis-mu.vercel.app/api';
 
@@ -466,7 +670,7 @@ function submitToGitHub(data) {
   }).catch(e => console.warn('同步异常:', e));
 }
 
-const state={q:0,ans:Array(12).fill(null),name:''};
+const state={q:0,ans:Array(16).fill(null),name:''};
 const $=id=>document.getElementById(id);
 
 function show(id){
@@ -477,29 +681,29 @@ function show(id){
 function startQuiz(){
   const n=$('studentName').value.trim();
   if(!n){$('studentName').focus();$('studentName').style.borderColor='#FC8181';setTimeout(()=>$('studentName').style.borderColor='#E2E8F0',1500);return}
-  state.name=n;state.q=0;state.ans=Array(12).fill(null);show('quiz');renderQ()
+  state.name=n;state.q=0;state.ans=Array(16).fill(null);show('quiz');renderQ()
 }
 
 function renderQ(){
   const idx=state.q,q=QUESTIONS[idx],dim=DIMS.find(d=>d.key===q.dim);
-  $('qNum').textContent=`第 ${idx+1} / 12 题`;$('pFill').style.width=`${(idx/12)*100}%`;
+  $('qNum').textContent=`第 ${idx+1} / 16 题`;$('pFill').style.width=`${(idx/16)*100}%`;
   $('qDim').textContent=`${dim.icon} ${dim.label}`;$('qDim').style.background=dim.color;
   const sel=state.ans[idx];
   $('qArea').innerHTML=`<div class="q-text">${q.text}</div><div class="opts">${q.opts.map((o,i)=>`<div class="opt ${sel===i?'sel':''}" onclick="pick(${i})"><div class="dot"></div><span class="lb2">${o.label}.</span><span>${o.text}</span></div>`).join('')}</div>`;
   const prev=$('prevBtn');prev.style.visibility=idx===0?'hidden':'visible';
-  if(idx<11){$('nextBtn').style.display='';$('subBtn').style.display='none';const nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
+  if(idx<15){$('nextBtn').style.display='';$('subBtn').style.display='none';const nb=$('nextBtn');nb.disabled=false;nb.style.opacity=1}
   else{$('nextBtn').style.display='none';$('subBtn').style.display='';const sb=$('subBtn');sb.disabled=sel===null;sb.style.opacity=sel===null?.5:1}
   $('quizInner').scrollTop=0
 }
 function pick(i){
   state.ans[state.q]=i;renderQ();
-  if(state.q<11){setTimeout(()=>goQ(state.q+1),350)}
+  if(state.q<15){setTimeout(()=>goQ(state.q+1),350)}
 }
-function goQ(i){if(i<0||i>11)return;state.q=i;renderQ()}
+function goQ(i){if(i<0||i>15)return;state.q=i;renderQ()}
 
 function submitQuiz(){
   if(state.ans[state.q]===null)return;
-  const fi=state.ans.indexOf(null);if(fi!==-1){state.q=fi;renderQ();return}
+  if(state.ans.some(a=>a===null)){state.q=state.ans.indexOf(null);renderQ();return}
   show('loading');
   const msgs=['正在分析你的答题情况','计算各维度得分','匹配物理学习类型','生成专属学习报告'];
   let mi=0;const iv=setInterval(()=>{$('loadMsg').textContent=msgs[mi=(mi+1)%msgs.length]},700);
@@ -511,21 +715,95 @@ function compute(){
   QUESTIONS.forEach((q,i)=>{const a=state.ans[i];if(a===null)return;if(raw[q.dim]){raw[q.dim].v+=q.opts[a].score;raw[q.dim].cnt+=3}});
   const scores={};DIMS.forEach(d=>{const c=raw[d.key].cnt;scores[d.key]=c>0?Math.round(Math.max(0,Math.min(100,(raw[d.key].v/c)*100))):0});
   const tk=detType(scores);const t=TYPES[tk];
-  const ws=[];QUESTIONS.forEach((q,i)=>{const a=state.ans[i];if(a===null)return;const op=q.opts[a];if(op.score<3&&op.weakness)ws.push([i,a])});
+  const ws=[];QUESTIONS.forEach((q,i)=>{const a=state.ans[i];if(a===null)return;const op=q.opts[a];if(op.score<3&&op.weakness)ws.push([i,a,op.weakness])});
   const sa=DIMS.map(d=>scores[d.key]);
   const shareData={n:state.name,s:sa,t:tk,d:new Date().toLocaleDateString('zh-CN'),w:ws};
   const code=btoa(encodeURIComponent(JSON.stringify(shareData)));
   $('shareCode').textContent=code;
   // 自动同步到教师端
   submitToGitHub(shareData);
+
+  // --- 渲染类型 ---
   $('rEmoji').textContent=t.emoji;$('rName').textContent=t.name;$('rSlogan').textContent=t.slogan;
   $('rStrength').innerHTML=t.strength.map(s=>`<div class="sw-item s"><div class="swt">✅ ${s.t}</div><div class="swd">${s.d}</div></div>`).join('');
   $('rWeakness').innerHTML=t.weakness.map(s=>`<div class="sw-item w"><div class="swt">📌 ${s.t}</div><div class="swd">${s.d}</div></div>`).join('');
   $('rTodo').innerHTML=t.todo.map(s=>`<div class="todo-item"><div class="tt">${s.t}</div><div class="td">${s.d}</div><span class="tl">🎯 ${s.target}</span></div>`).join('');
-  $('dimScoresList').innerHTML=DIMS.map(d=>{const lvl=scores[d.key]>=68?'优势':(scores[d.key]>=40?'中等':'薄弱');const lc=scores[d.key]>=68?'#48BB78':(scores[d.key]>=40?'#ED8936':'#FC8181');return `<div class="di"><div class="di-h"><span>${d.icon} ${d.label}</span><span>${scores[d.key]}分 <span style="color:${lc};font-size:11px;font-weight:400">${lvl}</span></span></div><div class="di-b"><div class="di-f" style="width:${scores[d.key]}%;background:${d.color}"></div></div></div>`}).join('');
-  drawRadar(scores)
+  $('dimScoresList').innerHTML=DIMS.map(d=>{const lvl=scores[d.key]>=70?'优势':(scores[d.key]>=45?'中等':'薄弱');const lc=scores[d.key]>=70?'#48BB78':(scores[d.key]>=45?'#ED8936':'#FC8181');return `<div class="di"><div class="di-h"><span>${d.icon} ${d.label}</span><span>${scores[d.key]}分 <span style="color:${lc};font-size:11px;font-weight:400">${lvl}</span></span></div><div class="di-b"><div class="di-f" style="width:${scores[d.key]}%;background:${d.color}"></div></div></div>`}).join('');
+  drawRadar(scores);
+
+  // --- ① 个性化总结横幅 ---
+  let correctCount = 0, totalAttempted = 0;
+  QUESTIONS.forEach((q,i)=>{
+    const a=state.ans[i];if(a===null)return;
+    totalAttempted++;
+    if(q.opts[a].score===3)correctCount++;
+  });
+  const dimLvl=DIMS.map(d=>{const s=scores[d.key];return{d,score:s,lvl:s>=68?'strong':(s>=40?'mid':'weak')}});
+  const strongest=dimLvl.filter(d=>d.lvl==='strong').sort((a,b)=>b.score-a.score);
+  const weakest=dimLvl.filter(d=>d.lvl==='weak').sort((a,b)=>a.score-b.score);
+  let summary='';
+  if(correctCount>=12)summary=`<strong>你答对了 ${correctCount}/${totalAttempted} 道题</strong>，总体表现不错！${strongest.length?`<strong>${strongest[0].d.icon} ${strongest[0].d.label}</strong>是你的强项（${strongest[0].score}分）`:''}`;
+  else if(correctCount>=8)summary=`<strong>答对了 ${correctCount}/${totalAttempted} 道题</strong>，基础还不错！但还有提升空间——`;
+  else summary=`<strong>答对了 ${correctCount}/${totalAttempted} 道题</strong>，别灰心！这只是帮你找到薄弱点——`;
+  if(weakest.length)summary+=`<span class="sb-warn"> 最需要关注的是「${weakest[0].d.icon} ${weakest[0].d.label}」（仅${weakest[0].score}分）</span>，这是初三提分的关键突破口！`;
+  else if(strongest.length>=2)summary+=` 继续保持，初三你也可以很稳！`;
+  $('summaryText').innerHTML=summary;$('summaryBanner').style.display='';
+
+  // --- ② 报告日期 ---
+  $('reportDate').textContent='📅 '+new Date().toLocaleDateString('zh-CN')+' · 测试结果';
+
+  // --- ③ 错题回顾 ---
+  const wrongQs=ws.filter(([qi,oi])=>QUESTIONS[qi]&&QUESTIONS[qi].opts[oi]);
+  if(wrongQs.length){
+    let wrongHTML='';
+    wrongQs.forEach(([qi,oi])=>{
+      const q=QUESTIONS[qi],selOp=q.opts[oi],dim=DIMS.find(d=>d.key===q.dim);
+      const correctOp=q.opts.find(o=>o.score===3);
+      wrongHTML+=`<div class="wrong-item">
+        <div class="wi-q">第${qi+1}题：${q.text.replace(/[🎧🥤📸🚌🥛🏀🧋🏃📖🔢❄️🥘]/g,'').trim()}</div>
+        <div class="wi-detail">
+          <span class="wi-dim" style="background:${dim?dim.color:'#A0AEC0'}">${dim?dim.icon+' '+dim.label:''}</span>
+          <span class="wi-wrong">✘ 你选了 ${selOp.label}</span>
+          ${correctOp?`&nbsp;→&nbsp;<span class="wi-right">✓ 正确答案是 ${correctOp.label}</span>`:''}
+        </div>
+        ${selOp.weakness?`<div class="wi-weak">💡 ${selOp.weakness}</div>`:''}
+      </div>`;
+    });
+    // 按维度分组统计
+    const dimCount={};QUESTIONS.forEach((q,i)=>{const a=state.ans[i];if(a===null)return;if(q.opts[a].score<3){dimCount[q.dim]=(dimCount[q.dim]||0)+1}});
+    let dimBreakdown='';
+    DIMS.forEach(d=>{if(dimCount[d.key]){const total=qByDim(d.key).length;dimBreakdown+=` <span style="font-size:11px;color:#E53E3E;font-weight:600">${d.icon}${dimCount[d.key]}/${total}错</span>`}});
+    if(dimBreakdown)$('wrongReviewCard').querySelector('h3').innerHTML=`❌ 错题回顾 <span style="font-size:11px;color:#A0AEC0;font-weight:400">—— ${dimBreakdown}</span>`;
+    $('rWrongReview').innerHTML=wrongHTML;$('wrongReviewCard').style.display='';
+  }
+
+  // --- ④ 初三衔接建议 ---
+  const weakDim=weakest.length?weakest[0]:dimLvl.sort((a,b)=>a.score-b.score)[0];
+  if(weakDim&&weakDim.score<68){
+    const adv=CHU3_ADVICE[weakDim.d.key];
+    if(adv){
+      const allLow=dimLvl.filter(d=>d.lvl==='weak');
+      let extraAdvice='';
+      if(allLow.length>=2){
+        const second=allLow[1];
+        const adv2=CHU3_ADVICE[second.d.key];
+        if(adv2)extraAdvice=`<div class="chu3-box" style="margin-top:8px;border-left-color:#ED8936;background:#FFFAF0;border-color:#FEEBC8">
+          <div class="chu3-tag" style="background:#ED8936">同时也要关注</div>
+          <div class="chu3-title">${adv2.title}</div>
+          <div class="chu3-detail">${adv2.detail}</div>
+        </div>`;
+      }
+      $('rChu3Advice').innerHTML=`<div class="chu3-box">
+        <div class="chu3-tag">${adv.tag}</div>
+        <div class="chu3-title">${adv.title}</div>
+        <div class="chu3-detail">${adv.detail}</div>
+      </div>${extraAdvice}`;
+      $('chu3Card').style.display='';
+    }
+  }
 }
-function detType(s){const {concept,model,math,reading,flexible}=s;const avg=(concept+model+math+reading+flexible)/5;if(avg<45)return'E';if(flexible>=60&&concept<=flexible-15&&model<=flexible-15)return'C';if(concept>=55&&model>=55&&concept+model>=120&&reading<=concept-10)return'A';if(math>=55&&reading>=55&&math+reading>=120&&flexible<=math-10)return'B';if(math>=50&&concept<=math-15)return'D';if(concept>=50&&model>=50&&concept+model>=math+reading+flexible)return'A';if(math>=50&&reading>=50)return'B';if(flexible>=55)return'C';if(math>=Math.max(concept,model,reading,flexible))return'D';if(avg<55)return'E';return'A'}
+function qByDim(key){return QUESTIONS.filter(q=>q.dim===key)}
+function detType(s){const {concept,model,math,reading,flexible}=s;const avg=(concept+model+math+reading+flexible)/5;const wc=[concept,model,math,reading,flexible].filter(v=>v<45).length;if(wc>=3)return'E';if(avg<45)return'E';if(flexible>=60&&concept<=flexible-15&&model<=flexible-15)return'C';if(concept>=55&&model>=55&&concept+model>=120&&reading<=concept-10)return'A';if(math>=55&&reading>=55&&math+reading>=120&&flexible<=math-10)return'B';if(math>=50&&concept<=math-15)return'D';if(concept>=50&&model>=50&&concept+model>=math+reading+flexible)return'A';if(math>=50&&reading>=50)return'B';if(flexible>=55)return'C';if(math>=Math.max(concept,model,reading,flexible))return'D';if(avg<55)return'E';return'A'}
 function drawRadar(scores){const c=$('radarChart');if(!c)return;const ctx=c.getContext('2d');const W=c.width,H=c.height,cx=W/2,cy=H/2,R=85,LV=4,n=DIMS.length,SA=-Math.PI/2,AS=2*Math.PI/n;ctx.clearRect(0,0,W,H);for(let l=1;l<=LV;l++){const r=R/LV*l;ctx.beginPath();for(let i=0;i<=n;i++){const a=SA+i*AS;l==1?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a))}ctx.closePath();ctx.strokeStyle='#E2E8F0';ctx.lineWidth=1;ctx.stroke()}for(let i=0;i<n;i++){const a=SA+i*AS;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.strokeStyle='#E2E8F0';ctx.lineWidth=1;ctx.stroke()}ctx.beginPath();for(let i=0;i<=n;i++){const idx=i%n,d=DIMS[idx],v=Math.max(0,Math.min(1,scores[d.key]/100)),r=R*v,a=SA+idx*AS;i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a))}ctx.closePath();ctx.fillStyle='rgba(66,153,225,.12)';ctx.fill();ctx.strokeStyle='rgba(43,108,176,.5)';ctx.lineWidth=2;ctx.stroke();for(let i=0;i<n;i++){const d=DIMS[i],v=Math.max(0,Math.min(1,scores[d.key]/100)),r=R*v,a=SA+i*AS;ctx.beginPath();ctx.arc(cx+r*Math.cos(a),cy+r*Math.sin(a),3,0,2*Math.PI);ctx.fillStyle=d.color;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke()}ctx.textAlign='center';ctx.textBaseline='middle';for(let i=0;i<n;i++){const d=DIMS[i],a=SA+i*AS,lr=R+18;ctx.font='bold 11px -apple-system,"PingFang SC","Microsoft YaHei",sans-serif';ctx.fillStyle=d.color;ctx.fillText(d.label,cx+lr*Math.cos(a),cy+lr*Math.sin(a))}}
 function copyCode(){
   const code=$('shareCode').textContent;
@@ -535,8 +813,8 @@ function copyCode(){
 }
 function flashCopy(){const o=$('shareCode').textContent;$('shareCode').textContent='✅ 已复制！';setTimeout(()=>{$('shareCode').textContent=o},1200)}
 function fallbackCopy(c){const ta=document.createElement('textarea');ta.value=c;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);flashCopy()}
-function restart(){if(confirm('确定重新测试吗？')){state.ans=Array(12).fill(null);state.q=0;show('welcome')}}
-document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<11)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'&&e.key<='4'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});
+function restart(){if(confirm('确定重新测试吗？')){state.ans=Array(16).fill(null);state.q=0;show('welcome')}}
+document.addEventListener('keydown',e=>{if(!document.querySelector('#quiz.active'))return;if(e.key==='ArrowRight'||e.key==='Enter'){if(state.q<15)goQ(state.q+1);else if(state.ans[state.q]!==null)submitQuiz()}if(e.key==='ArrowLeft')goQ(state.q-1);if(e.key>='1'&&e.key<='4'){const i=parseInt(e.key)-1;if(i<QUESTIONS[state.q].opts.length)pick(i)}});
 </script>
 </body>
 </html>

@@ -171,10 +171,37 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;backgr
 
 @media(max-width:640px){
   .header h1{font-size:17px}
+  .header{padding:12px 16px}
   .stats{grid-template-columns:repeat(2,1fr)}
   .stu-list{grid-template-columns:1fr}
-  .pg2{grid-column:1fr}
+  .pg2{grid-template-columns:1fr}
   .toolbar input{width:140px}
+  .modal{padding:0;border-radius:0;max-height:100vh}
+  .mb{padding:12px}
+  .report-inner{max-width:100%;padding:0;overflow:hidden}
+  .report-header{padding:16px;border-radius:0}
+  .report-header .rh-name{font-size:17px}
+  .report-header .rh-score{font-size:12px}
+  .report-header .rh-score span{font-size:20px}
+  .rs{padding:12px 14px;border-radius:8px}
+  .rs h4{font-size:12px}
+  .rs .rs-body{font-size:12px}
+  .dim-tags{gap:4px}
+  .dim-tags .dt{font-size:10px;padding:2px 6px}
+  .di-h{font-size:11px}
+  .wt{font-size:11px}
+  .wt th,.wt td{padding:5px 6px}
+  .wt .qt2{font-size:11px}
+  .pg2{gap:6px}
+  .pi{padding:8px 10px}
+  .pi h5{font-size:11px}
+  .pi p{font-size:10px}
+  .warn-box{padding:10px}
+  .mhdr{padding:10px 14px}
+  .mhdr h3{font-size:14px}
+  .scard{padding:10px 12px}
+  .scard .sn{font-size:14px}
+  .act-bar-report{gap:4px}
 }
 
 /* 打印样式 */
@@ -274,13 +301,30 @@ const DIMS=[
   {key:'flexible',label:'思维灵活',color:'#FC8181',icon:'💡'},
 ];
 const TYPES={A:{n:'直觉建构者',e:'🔮',c:'#4299E1'},B:{n:'规范执行者',e:'📋',c:'#48BB78'},C:{n:'快速扫描者',e:'⚡',c:'#ED8936'},D:{n:'记忆驱动者',e:'📝',c:'#9F7AEA'},E:{n:'缓慢建构者',e:'🌱',c:'#FC8181'}};
-const QUESTIONS=[{dim:'concept',text:'关于声音的产生与传播，以下说法正确的是？',opts:[{label:'A',text:'声音在真空中传播速度最快'},{label:'B',text:'声音是由物体振动产生的'},{label:'C',text:'只要物体振动，我们就一定能听到声音'},{label:'D',text:'声音在固体中传播比在空气中慢'}]},{dim:'concept',text:'关于物态变化，以下说法正确的是？',opts:[{label:'A',text:'晶体在熔化过程中吸收热量，但温度保持不变'},{label:'B',text:'液体蒸发需要达到一定温度才能发生'},{label:'C',text:'冰在熔化过程中温度会逐渐升高'},{label:'D',text:'夏天冰箱拿出饮料瓶外壁"出汗"，是瓶子漏了'}]},{dim:'concept',text:'关于光的反射和折射，以下说法正确的是？',opts:[{label:'A',text:'光在发生漫反射时，不遵循光的反射定律'},{label:'B',text:'光从空气斜射入水中时，折射角小于入射角'},{label:'C',text:'光在真空中的传播速度是 3×10⁵m/s'},{label:'D',text:'凸透镜对光有发散作用'}]},{dim:'model',text:'用水平推力推地面上的木箱，木箱没动。木箱在水平方向受力情况是？',opts:[{label:'A',text:'推力 > 静摩擦力'},{label:'B',text:'推力 = 静摩擦力'},{label:'C',text:'推力 < 静摩擦力'},{label:'D',text:'木箱没动所以不受摩擦力'}]},{dim:'model',text:'一块木块静止在粗糙斜面上，它受到的摩擦力方向是？',opts:[{label:'A',text:'沿斜面向上'},{label:'B',text:'沿斜面向下'},{label:'C',text:'垂直斜面向上'},{label:'D',text:'水平向左'}]},{dim:'model',text:'在"探究凸透镜成像规律"实验中，当物距 u > 2f 时，成像情况是？',opts:[{label:'A',text:'成正立、放大的虚像'},{label:'B',text:'成倒立、缩小的实像'},{label:'C',text:'成倒立、放大的实像'},{label:'D',text:'不成像'}]},{dim:'math',text:'一个质量为 500g 的物体，体积为 200cm³，它的密度是？',opts:[{label:'A',text:'2.5 g/cm³'},{label:'B',text:'0.4 g/cm³'},{label:'C',text:'250 g/cm³'},{label:'D',text:'100,000 g/cm³'}]},{dim:'math',text:'一个 60kg 的人站立，每只脚与地面接触约 200cm²，g=10N/kg。他对地面的压强约为？',opts:[{label:'A',text:'1.5×10⁴ Pa'},{label:'B',text:'3.0×10⁴ Pa'},{label:'C',text:'1.5×10³ Pa'},{label:'D',text:'3.0×10³ Pa'}]},{dim:'math',text:'甲速是乙的 2 倍，乙时间是甲的 3 倍。甲、乙路程之比是？',opts:[{label:'A',text:'2 : 3'},{label:'B',text:'3 : 2'},{label:'C',text:'1 : 6'},{label:'D',text:'6 : 1'}]},{dim:'reading',text:'题目："质量为 2kg 的物体放在水平桌面上，用 5N 的拉力使其做匀速直线运动"，求摩擦力。解题关键是什么？',opts:[{label:'A',text:'质量 2kg'},{label:'B',text:'"匀速直线运动"意味着合力为零'},{label:'C',text:'水平拉力 5N'},{label:'D',text:'水平桌面'}]},{dim:'reading',text:'题目："1kg 物体从高处由静止开始下落，不计空气阻力，g=10N/kg"，求 2s 后下落距离。解题关键是什么？',opts:[{label:'A',text:'质量 1kg'},{label:'B',text:'"由静止开始"即初速度为零'},{label:'C',text:'g=10N/kg'},{label:'D',text:'不计空气阻力'}]},{dim:'flexible',text:'冬天室外说话呼出"白气"而夏天看不到。以下解释最合理的是？',opts:[{label:'A',text:'冬天温度低，呼出的水蒸气遇冷液化成小水滴'},{label:'B',text:'冬天呼出的气体温度比夏天高'},{label:'C',text:'夏天没有水蒸气呼出'},{label:'D',text:'冬天呼出的气体成分与夏天不同'}]}];
+const QUESTIONS=[
+  {dim:'concept',text:'🎧 你和同桌一起听歌一人戴一只耳机，同桌能听到你耳机里的声音吗？',opts:[{label:'A',text:'不能——耳机声音很小只有自己能听到'},{label:'B',text:'能听到一点点——耳机振膜振动带动空气传开'},{label:'C',text:'不能——耳机线把声音都传到耳朵里了'},{label:'D',text:'能听到——耳机线会导电把声音传过去'}]},
+  {dim:'concept',text:'🥤 夏天从冰箱拿出冰可乐放桌上，一会儿瓶壁外面出现一层小水珠。这水珠从哪来的？',opts:[{label:'A',text:'冰箱里冰霜附在瓶子上带出来了'},{label:'B',text:'空气中的水蒸气遇冷液化'},{label:'C',text:'瓶子漏了可乐渗出来了'},{label:'D',text:'空气中的水被冰可乐冻出来了'}]},
+  {dim:'concept',text:'📸 你用手机后置摄像头拍远处，镜头里像是倒的，但照片里是正的。为什么？',opts:[{label:'A',text:'手机摄像头不是凸透镜'},{label:'B',text:'凸透镜成倒立实像，软件自动翻转'},{label:'C',text:'拍远处倒立，拍近处正立'},{label:'D',text:'眼睛看到正摄像头拍到也是正'}]},
+  {dim:'model',text:'🚌 你坐公交站着玩手机没扶扶手，司机急刹车，你整个人向前倾。这是因为：',opts:[{label:'A',text:'刹车时车产生向前的推力'},{label:'B',text:'惯性——车减速，身体保持向前运动'},{label:'C',text:'人的重心在前面所以会往前倒'},{label:'D',text:'地面突然变滑了站不稳'}]},
+  {dim:'model',text:'🥛 你用吸管喝酸奶，酸奶在吸管里上升。把它推上来的"主力"是：',opts:[{label:'A',text:'嘴巴的吸力'},{label:'B',text:'外界大气压'},{label:'C',text:'吸管里的毛细现象'},{label:'D',text:'酸奶很稀自己流上来的'}]},
+  {dim:'model',text:'🔬 小明想测一块不规则石块的密度。他用天平测出石块质量为156g，再将石块放入装有200mL水的量筒中，水面升高到260mL。该石块的密度最接近？',opts:[{label:'A',text:'2.6 g/cm³'},{label:'B',text:'0.6 g/cm³'},{label:'C',text:'7.8 g/cm³'},{label:'D',text:'0.26 g/cm³'}]},
+  {dim:'math',text:'🧍 一个质量为50kg的中学生双脚站在水平地面上，每只脚与地面的接触面积约为200cm²。该同学对水平地面的压强约为？（g=10N/kg）',opts:[{label:'A',text:'1.25×10⁴ Pa'},{label:'B',text:'2.5×10⁴ Pa'},{label:'C',text:'1.25×10³ Pa'},{label:'D',text:'2.5×10³ Pa'}]},
+  {dim:'math',text:'🏃 体育中考 1000m，小红第一圈 400m 用时 80s。她想用 200s 跑完全程，剩下 600m 需保持平均速度多少 m/s？',opts:[{label:'A',text:'3 m/s'},{label:'B',text:'5 m/s'},{label:'C',text:'6 m/s'},{label:'D',text:'2.5 m/s'}]},
+  {dim:'reading',text:'🔬 题目："用弹簧测力计沿水平方向拉物体，在水平桌面上做匀速直线运动，测力计示数为2N。若将拉力增大到3N继续拉动，物体受到的滑动摩擦力大小为多少？"解题关键是什么？',opts:[{label:'A',text:'拉力增大摩擦力也增大'},{label:'B',text:'匀速时f=2N，仍为2N'},{label:'C',text:'不知道质量无法判断'},{label:'D',text:'3N是最大拉力，摩擦力应小于3N'}]},
+  {dim:'reading',text:'🔢 题目："汽车以 72km/h 从 A→B 行驶 10 分钟，再以 60km/h 从 B→C 行驶 15 分钟。求全程平均速度。"最容易忽略的是？',opts:[{label:'A',text:'速度不同要分别算路程'},{label:'B',text:'速度和时间单位不统一'},{label:'C',text:'平均速度=总路程÷总时间'},{label:'D',text:'先算(72+60)/2'}]},
+  {dim:'flexible',text:'💧 洗完手后，小高用力甩手，手上的水珠就被甩掉了。以下解释最合理的是？',opts:[{label:'A',text:'水珠由于惯性被甩出'},{label:'B',text:'手给了水珠向外的推力'},{label:'C',text:'水珠受到离心力作用'},{label:'D',text:'水珠和手之间有斥力'}]},
+  {dim:'flexible',text:'🧊 在一杯装满水的杯子中，有一块冰浮在水面上。当冰块完全熔化后（不计蒸发），杯中的水会不会溢出？',opts:[{label:'A',text:'不会溢出'},{label:'B',text:'会溢出'},{label:'C',text:'水面会下降'},{label:'D',text:'无法确定'}]},
+  {dim:'reading',text:'📝 做物理计算题时，题目条件很多、数字也比较复杂，你会怎么做？',opts:[{label:'A',text:'列条件判模型再列式'},{label:'B',text:'扫一眼有思路就开算'},{label:'C',text:'翻例题照着套'},{label:'D',text:'逐字读题想清再动笔'}]},
+  {dim:'concept',text:'📝 作业发下来发现有题目做错了，你通常会怎么做？',opts:[{label:'A',text:'看懂答案就觉得会了'},{label:'B',text:'抄到错题本上记住'},{label:'C',text:'分析错因重画过程图'},{label:'D',text:'回看课本重新理解概念'}]},
+  {dim:'math',text:'📝 学完一个物理公式后，你觉得怎样才算真正掌握了？',opts:[{label:'A',text:'能背出公式会套用'},{label:'B',text:'能独立推导理解含义'},{label:'C',text:'对应到具体物理场景'},{label:'D',text:'做题巩固会做就行'}]},
+  {dim:'flexible',text:'📝 物理实验课上，你的实验数据和其他同学明显不一样，你会怎么做？',opts:[{label:'A',text:'重做一遍看看'},{label:'B',text:'改成和同学一样'},{label:'C',text:'主动分析差异原因'},{label:'D',text:'直接问老师'}]}
+];
 const TD={
-  A:{o:'该生属于直觉建构者（A型）。概念理解力和模型建构能力突出，对物理原理有天然的直觉。但在审题习惯上较弱，容易因"思路太快"而忽略题目细节——不是不聪明，是太快了。',p:'课堂表现：积极活跃，通常第一个举手，但偶尔答非所问。作业习惯：正确率尚可，但经常"跳步骤"。考试模式：简单题因粗心失分，难题反而能做。',e:'优势预判：理解能力强，在新概念学习中会很快上手。风险预判：审题跳步习惯在综合题中会被放大。',w:'该生容易出现"会做但做错"的反复，根源是审题和步骤问题而非知识问题。家长不必因粗心批评，而是帮助建立审题规范。',pl:[{t:'发挥概念优势',d:'课堂上多让其回答概念理解类问题。',c:'#4299E1'},{t:'强制规范步骤',d:'要求每道题写出完整步骤，初期可单独检查。',c:'#48BB78'},{t:'审题专项训练',d:'设计"条件圈画"专项训练。',c:'#9F7AEA'},{t:'精细化审题',d:'每道题读两遍：通读→圈画条件。',c:'#FC8181'},{t:'长期方向',d:'培养好规范习惯后，往综合能力方向深度发展。',c:'#ED8936'}],pa:'先肯定：孩子对物理的理解力很强，一点就通。然后引导：孩子的问题不是"不认真"，而是"太快了"。回家让他把题目关键条件圈出来讲给你听。'},
-  B:{o:'该生属于规范执行者（B型）。审题习惯和数学运用能力扎实，做题规范、步骤清晰。但思维灵活性偏弱，面对新题型或非常规情境易卡住。',p:'课堂表现：认真听讲、笔记工整，较少主动提问。作业习惯：质量高步骤完整，但有"套模板"倾向。考试模式：常规题型稳定，新题型失分较多。',e:'优势预判：规范的步骤习惯在新知识学习中依然有效。风险预判：非常规题型会构成挑战，心理上先怯了连简单变式也会出错。',w:'该生在刚接触新题型时可能因"没见过"而挫败，这时最需要鼓励和方法而非加练。',pl:[{t:'巩固规范优势',d:'肯定其规范优点，鼓励保持。',c:'#9F7AEA'},{t:'新题型渐进训练',d:'从"微变式"开始过渡到大变式。',c:'#FC8181'},{t:'一题多练',d:'每周1-2道一题多解，拓展思维路径。',c:'#4299E1'},{t:'限时训练',d:'适当限时训练，提升陌生题型下的信心。',c:'#ED8936'},{t:'长期方向',d:'夯实基础，中考基础题和中档题全拿满。',c:'#48BB78'}],pa:'先肯定：学习态度非常好，作业认真步骤规范。然后引导：孩子不是不努力，而是面对新东西容易紧张。遇到不会的题让孩子说"这道题和以前做的哪道有点像？哪里不一样？"'},
-  C:{o:'该生属于快速扫描者（C型）。思维灵活、信息抓取快。但知识体系相对碎片化，概念深度不足——表面都会，一深挖就露馅。',p:'课堂表现：反应快，常在老师没说完时举手，但回答不完整。作业习惯：完成快但马虎。考试模式：前半程不错，后半程知识"串不起来"。',e:'优势预判：灵活性强，面对新知识有天然适应优势。风险预判：知识链条环环相扣，如果还是"学一个丢一个"，到综合阶段会吃力。',w:'该生容易"前几讲轻松→中间吃力→后面跟不上"，根因是知识没有连接成网。需在知识串联上重点干预。',pl:[{t:'强制知识串联',d:'每讲结束后画出知识结构图，并与前面所学连接。',c:'#48BB78'},{t:'深度追问',d:'每次回答都追问"为什么"。',c:'#4299E1'},{t:'慢审题训练',d:'每道题读两遍再动笔。',c:'#9F7AEA'},{t:'综合题渐进',d:'从单一知识点过渡到综合题。',c:'#ED8936'},{t:'长期方向',d:'解决碎片化后，有潜力成为又快又准的高手。',c:'#FC8181'}],pa:'先肯定：孩子反应快、脑子灵活。然后引导：问题是"学得快、忘得也快"。每周让孩子画一张知识图，把概念之间的联系画出来。'},
-  D:{o:'该生属于记忆驱动者（D型）。记忆能力强，公式和典型题型掌握好。但对物理概念本质理解不足——"记了但没真懂"。',p:'课堂表现：认真记笔记，较少提问。作业习惯：完成度高但"照着例题套"。考试模式：记忆类不错，理解类和综合类失分多。',e:'优势预判：公式记忆力在初期是优势。风险预判：到了多概念综合阶段，"公式太多不知道选哪个"的困境会出现。',w:'该生在进入综合计算阶段时最易出现成绩滑坡——这是从"记忆到理解"的转型关键期。',pl:[{t:'从记忆转向理解',d:'每讲完新课让学生用自己的话复述概念和推导过程。',c:'#4299E1'},{t:'概念辨析训练',d:'设计概念对比题，每两周一次。',c:'#9F7AEA'},{t:'公式推导专项',d:'每个公式独立完成推导。',c:'#48BB78'},{t:'多场景应用',d:'同一概念在不同场景的应用训练。',c:'#ED8936'},{t:'长期方向',d:'打好基础，中考基础和中等题全拿分。',c:'#FC8181'}],pa:'先肯定：孩子非常认真，愿意下功夫记公式。然后引导：少问"记住了什么"，多问"今天学的公式是怎么来的"。'},
-  E:{o:'该生属于缓慢建构者（E型）。各维度得分暂时偏低，处于"地基搭建期"。但有一个重要特点：真正理解后不易遗忘。',p:'课堂表现：安静但认真。作业习惯：完成周期长。考试模式：分数集中在低位，存在畏难心理。',e:'优势预判："慢"可能是优势——只要打好地基，后劲会显现。风险预判：如果因畏难而放弃，将错失最佳窗口。',w:'该生最需要信心重建。刚开始跟上了（哪怕比别人慢），后面难度曲线会更平缓。需给予重点关注和及时鼓励。',pl:[{t:'查漏补缺先行',d:'针对最薄弱的1-2个概念做专门辅导。',c:'#4299E1'},{t:'新知识重点跟踪',d:'每节课后单独检查理解情况。',c:'#48BB78'},{t:'动手操作辅助',d:'通过实验视频让物理变直观。',c:'#9F7AEA'},{t:'小目标建信心',d:'设置跳一跳够得着的目标，每次达成给予肯定。',c:'#FC8181'},{t:'长期方向',d:'适合慢节奏高复现的学习方式。',c:'#ED8936'}],pa:'先肯定：孩子虽然暂时成绩不理想但还在坚持学。然后引导：不给太大压力。每天问"今天听懂了一个什么概念？讲给我听听。"'},
+  A:{o:'该生属于直觉建构者（A型）。概念理解力和模型建构能力突出，对物理原理有天然的直觉。但在审题习惯上较弱，容易因"思路太快"而忽略题目细节——不是不聪明，是太快了。',p:'课堂表现：积极活跃，通常第一个举手，但偶尔答非所问。作业习惯：正确率尚可，但经常"跳步骤"。考试模式：简单题因粗心失分，难题反而能做。',e:'电学预判：概念理解力强，学习电路原理会很快上手。风险在于：电路题中漏看一个条件就会全盘出错——审题跳步在电学综合题中会被放大。',w:'该生容易出现"会做但做错"的反复，根源是审题和步骤问题而非知识问题。家长不必因粗心批评，而是帮助建立审题规范。',pl:[{t:'发挥概念优势',d:'课堂上多让其回答概念理解类问题。',c:'#4299E1'},{t:'强制规范步骤',d:'要求每道题写出完整步骤，初期可单独检查。',c:'#48BB78'},{t:'审题专项训练',d:'设计"条件圈画"专项训练。',c:'#9F7AEA'},{t:'精细化审题',d:'每道题读两遍：通读→圈画条件。',c:'#FC8181'},{t:'长期方向',d:'培养好规范习惯后，往综合能力方向深度发展。',c:'#ED8936'}],pa:'先肯定：孩子对物理的理解力很强，一点就通。然后引导：孩子的问题不是"不认真"，而是"太快了"。回家让他把题目关键条件圈出来讲给你听。'},
+  B:{o:'该生属于规范执行者（B型）。审题习惯和数学运用能力扎实，做题规范、步骤清晰。但思维灵活性偏弱，面对新题型或非常规情境易卡住。',p:'课堂表现：认真听讲、笔记工整，较少主动提问。作业习惯：质量高步骤完整，但有"套模板"倾向。考试模式：常规题型稳定，新题型失分较多。',e:'电学预判：规范的步骤习惯依然有效，电路图规范和公式代入准确是优势。风险在于：非常规电路或开放性电学问题会构成挑战——因"没见过"而先怯了。',w:'该生在刚接触新题型时可能因"没见过"而挫败，这时最需要鼓励和方法而非加练。',pl:[{t:'巩固规范优势',d:'肯定其规范优点，鼓励保持。',c:'#9F7AEA'},{t:'新题型渐进训练',d:'从"微变式"开始过渡到大变式。',c:'#FC8181'},{t:'一题多练',d:'每周1-2道一题多解，拓展思维路径。',c:'#4299E1'},{t:'限时训练',d:'适当限时训练，提升陌生题型下的信心。',c:'#ED8936'},{t:'长期方向',d:'夯实基础，中考基础题和中档题全拿满。',c:'#48BB78'}],pa:'先肯定：学习态度非常好，作业认真步骤规范。然后引导：孩子不是不努力，而是面对新东西容易紧张。遇到不会的题让孩子说"这道题和以前做的哪道有点像？哪里不一样？"'},
+  C:{o:'该生属于快速扫描者（C型）。思维灵活、信息抓取快。但知识体系相对碎片化，概念深度不足——表面都会，一深挖就露馅。',p:'课堂表现：反应快，常在老师没说完时举手，但回答不完整。作业习惯：完成快但马虎。考试模式：前半程不错，后半程知识"串不起来"。',e:'电学预判：灵活性强，面对电学新概念适应快。风险在于：电学知识链比力学更线性（电路→电流→电压→欧姆定律一环扣一环），知识碎片化的问题在电学中会被放大。',w:'该生容易"前几讲轻松→中间吃力→后面跟不上"，根因是知识没有连接成网。需在知识串联上重点干预。',pl:[{t:'强制知识串联',d:'每讲结束后画出知识结构图，并与前面所学连接。',c:'#48BB78'},{t:'深度追问',d:'每次回答都追问"为什么"。',c:'#4299E1'},{t:'慢审题训练',d:'每道题读两遍再动笔。',c:'#9F7AEA'},{t:'综合题渐进',d:'从单一知识点过渡到综合题。',c:'#ED8936'},{t:'长期方向',d:'解决碎片化后，有潜力成为又快又准的高手。',c:'#FC8181'}],pa:'先肯定：孩子反应快、脑子灵活。然后引导：问题是"学得快、忘得也快"。每周让孩子画一张知识图，把概念之间的联系画出来。'},
+  D:{o:'该生属于记忆驱动者（D型）。记忆能力强，公式和典型题型掌握好。但对物理概念本质理解不足——"记了但没真懂"。',p:'课堂表现：认真记笔记，较少提问。作业习惯：完成度高但"照着例题套"。考试模式：记忆类不错，理解类和综合类失分多。',e:'电学预判：公式记忆能力强，电学公式（I=U/R、P=UI等）初期能靠记忆掌握。风险在于：电学公式数量多且形式相似，不追问"为什么"会导致遇到多公式选择时完全混乱。',w:'该生在进入电学综合阶段时最易出现成绩滑坡——公式记了很多但不知道选哪个，这是从"记忆到理解"的转型关键期。',pl:[{t:'从记忆转向理解',d:'每讲完新课让学生用自己的话复述概念和推导过程。',c:'#4299E1'},{t:'概念辨析训练',d:'设计概念对比题，每两周一次。',c:'#9F7AEA'},{t:'公式推导专项',d:'每个公式独立完成推导。',c:'#48BB78'},{t:'多场景应用',d:'同一概念在不同场景的应用训练。',c:'#ED8936'},{t:'长期方向',d:'打好基础，中考基础和中等题全拿分。',c:'#FC8181'}],pa:'先肯定：孩子非常认真，愿意下功夫记公式。然后引导：少问"记住了什么"，多问"今天学的公式是怎么来的"。'},
+  E:{o:'该生属于缓慢建构者（E型）。各维度得分暂时偏低，处于"地基搭建期"。但有一个重要特点：真正理解后不易遗忘。',p:'课堂表现：安静但认真。作业习惯：完成周期长。考试模式：分数集中在低位，存在畏难心理。',e:'电学预判：电学知识链条比力学更线性（逐步递进），对"缓慢但扎实"的学习风格反而是弯道超车的机会。风险在于：如果因畏难而放弃，将错失最佳窗口期。',w:'该生最需要信心重建。刚开始跟上了（哪怕比别人慢），后面难度曲线会更平缓。需给予重点关注和及时鼓励。',pl:[{t:'查漏补缺先行',d:'针对最薄弱的1-2个概念做专门辅导。',c:'#4299E1'},{t:'新知识重点跟踪',d:'每节课后单独检查理解情况。',c:'#48BB78'},{t:'动手操作辅助',d:'通过实验视频让物理变直观。',c:'#9F7AEA'},{t:'小目标建信心',d:'设置跳一跳够得着的目标，每次达成给予肯定。',c:'#FC8181'},{t:'长期方向',d:'适合慢节奏高复现的学习方式。',c:'#ED8936'}],pa:'先肯定：孩子虽然暂时成绩不理想但还在坚持学。然后引导：不给太大压力。每天问"今天听懂了一个什么概念？讲给我听听。"'},
 };
 
 // ===== 从 Vercel API 同步学生数据 =====
@@ -367,15 +411,16 @@ function normalizeData(raw){
   }
   const type = raw.t || raw.type;
   const date = raw.d || raw.date || new Date().toLocaleDateString('zh-CN');
-  // weakness 可能是 [[qi,oi],...] 或完整对象数组
+  // weakness 可能是 [[qi,oi],...]、[[qi,oi,text],...] 或完整对象数组
   let weaknesses = raw.w || raw.weaknesses || [];
   if (Array.isArray(weaknesses) && weaknesses.length && Array.isArray(weaknesses[0])) {
-    weaknesses = weaknesses.map(([qi, oi]) => {
+    weaknesses = weaknesses.map(item => {
+      const qi = item[0], oi = item[1], weaknessText = item[2] || '';
       const q = QUESTIONS[qi];
       const o = q && q.opts[oi];
       if (!q || !o) return null;
       const dm = DIMS.find(d => d.key === q.dim);
-      return {dim: q.dim, label: dm ? dm.label : '', qText: q.text, optLabel: o.label, weakness: ''};
+      return {dim: q.dim, label: dm ? dm.label : '', qText: q.text, optLabel: o.label, weakness: weaknessText};
     }).filter(Boolean);
   }
   return {name, scores, type, date, weaknesses};
@@ -457,13 +502,13 @@ function showReport(id){
   $('reportTitle').innerHTML=`${t.e} ${s.name} · ${t.n}（综合 ${avg} 分）`;
 
   const dimTags = DIMS.map(d => {
-    const lvl = sc[d.key] >= 68 ? '优势' : (sc[d.key] >= 40 ? '中等' : '薄弱');
+    const lvl = sc[d.key] >= 70 ? '优势' : (sc[d.key] >= 45 ? '中等' : '薄弱');
     return '<span class="dt" style="background:' + d.color + '">' + d.icon + ' ' + d.label + ' ' + sc[d.key] + '分</span>';
   }).join('');
 
   const bars = DIMS.map(d => {
-    const lvl = sc[d.key] >= 68 ? '优势' : (sc[d.key] >= 40 ? '中等' : '薄弱');
-    const lc = sc[d.key] >= 68 ? '#48BB78' : (sc[d.key] >= 40 ? '#ED8936' : '#FC8181');
+    const lvl = sc[d.key] >= 70 ? '优势' : (sc[d.key] >= 45 ? '中等' : '薄弱');
+    const lc = sc[d.key] >= 70 ? '#48BB78' : (sc[d.key] >= 45 ? '#ED8936' : '#FC8181');
     return '<div class="di"><div class="di-h"><span class="di-label">' + d.icon + ' ' + d.label + '</span><span class="di-val">' + sc[d.key] + '分 <span class="di-lvl" style="background:' + lc + '15;color:' + lc + '">' + lvl + '</span></span></div><div class="di-b"><div class="di-f" style="width:' + sc[d.key] + '%;background:' + d.color + '"></div></div></div>';
   }).join('');
 
@@ -473,7 +518,8 @@ function showReport(id){
       s.weaknesses.map(w => {
         const dm = DIMS.find(dd => dd.key === w.dim);
         const c = dm ? dm.color : '#A0AEC0';
-        return '<tr><td><span class="badge" style="background:' + c + '">' + (dm ? dm.icon : '') + ' ' + (w.label || w.dim) + '</span></td><td><div class="qt2">' + (w.qText || '') + '</div><div class="qt-wrong">✘ 选了 ' + (w.optLabel || '') + '</div></td><td><div class="wb">' + (w.weakness || '') + '</div></td></tr>';
+        const weaknessDisplay = w.weakness ? '<div class="wb">' + w.weakness + '</div>' : '<div class="wb" style="color:#A0AEC0;font-style:italic">（详细分析见学生端报告）</div>';
+        return '<tr><td><span class="badge" style="background:' + c + '">' + (dm ? dm.icon : '') + ' ' + (w.label || w.dim) + '</span></td><td><div class="qt2">' + (w.qText || '') + '</div><div class="qt-wrong">✘ 选了 ' + (w.optLabel || '') + '</div></td><td>' + weaknessDisplay + '</td></tr>';
       }).join('') + '</tbody></table></div>';
   } else {
     wt = '<div class="wt-empty">✅ 该生全部答对或未记录错题数据</div>';
@@ -483,11 +529,11 @@ function showReport(id){
 
   $('reportBody').innerHTML = '<div class="report-inner">' +
     '<div class="report-header"><div class="rh-name">' + t.e + ' ' + s.name + '</div><div class="rh-meta"><span class="rh-type">' + t.n + '（' + s.type + '型）</span>' + s.date + '</div><div class="rh-score"><span>' + avg + '</span>综合得分</div></div>' +
-    '<div class="rs"><h4>📊 五大能力维度</h4><div class="dim-tags">' + dimTags + '</div><div class="di-group">' + bars + '</div></div>' +
+    '<div class="rs"><h4>📊 五维度解读</h4><div class="dim-tags">' + dimTags + '</div><div class="di-group">' + bars + '</div></div>' +
     '<div class="rs"><h4>📋 诊断概述</h4><div class="rs-body"><p>' + te.o + '</p></div></div>' +
-    '<div class="rs"><h4>🔍 各题弱点分析</h4>' + wt + '</div>' +
+    '<div class="rs"><h4>🔍 力学能力诊断</h4>' + wt + '</div>' +
     '<div class="rs"><h4>🧠 学习方式画像</h4><div class="rs-body"><p>' + te.p + '</p></div></div>' +
-    '<div class="rs"><h4>⚡ 后续学习预判</h4><div class="rs-body"><p>' + te.e + '</p></div><div class="warn-box"><div class="wtt">⚠️ 需要关注</div><p>' + te.w + '</p></div></div>' +
+    '<div class="rs"><h4>⚡ 电学学习预判</h4><div class="rs-body"><p>' + te.e + '</p></div><div class="warn-box"><div class="wtt">⚠️ 需要关注</div><p>' + te.w + '</p></div></div>' +
     '<div class="rs"><h4>📅 教学培养方案</h4><div class="pg2">' + plans + '</div></div>' +
     '<div class="rs"><h4>💬 家校共育建议</h4><div class="rs-body"><p>' + te.pa + '</p></div></div>' +
     '<div class="act-bar-report"><button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ 打印报告</button> <button class="btn btn-ghost btn-sm" onclick="closeModal(\'reportModal\')">关闭</button></div>' +

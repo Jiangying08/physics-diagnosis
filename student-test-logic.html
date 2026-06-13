@@ -144,8 +144,8 @@
 <body>
 <div class="container">
 
-  <h1 class="page-title">📋 诊断测试 · 题目与判型逻辑</h1>
-  <p class="page-sub">高途初三物理 · 共 <strong>12</strong> 道题 · <strong>5</strong> 个能力维度 · <strong>5</strong> 种学员类型</p>
+  <h1 class="page-title">🎉 趣味诊断 · 题目与判型逻辑</h1>
+  <p class="page-sub">高途初三物理 · 共 <strong>16</strong> 道题 · <strong>5</strong> 个能力维度 · <strong>5</strong> 种学员类型 · <strong>4</strong> 种思维模式</p>
 
   <!-- tabs -->
   <div class="tabs">
@@ -153,11 +153,12 @@
     <div class="tab" onclick="switchTab('dimensions',this)">📊 维度定义</div>
     <div class="tab" onclick="switchTab('types',this)">🏷️ 学员类型</div>
     <div class="tab" onclick="switchTab('algorithm',this)">⚙️ 判型算法</div>
+    <div class="tab" onclick="switchTab('report',this)">📋 报告逻辑</div>
   </div>
 
   <!-- ===== Panel: 题目列表 ===== -->
   <div id="panel-questions" class="panel active">
-    <div class="section-title">📝 题目与评分标准 <span class="badge">12 题</span></div>
+    <div class="section-title">📝 题目与评分标准 <span class="badge">16 题（含4道情景判断）</span></div>
     <p style="font-size:13px;color:#718096;margin-bottom:16px">
       每题 4 个选项：<span class="highlight">3 分</span> = 正确（理解到位）、<span class="highlight">1 分</span> = 部分正确（有思路但不够严谨）、<span class="highlight">0 分</span> = 错误（概念/方法有误）
     </p>
@@ -258,19 +259,23 @@
       <span class="keyword">function</span> detType(scores) {<br>
       <span style="padding-left:20px;display:inline-block">const { concept, model, math, reading, flexible } = scores;</span><br>
       <span style="padding-left:20px;display:inline-block">const avg = (concept + model + math + reading + flexible) / 5;</span><br><br>
+      <span style="padding-left:20px;display:inline-block">const wc = [concept, model, math, reading, flexible].filter(v => v &lt; 45).length;</span><br>
       <br>
-      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 1 优先级：全面薄弱 → E 缓慢建构者</span><br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 1 优先级：3个及以上维度薄弱（&lt;45）→ E 缓慢建构者</span><br>
+      <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (wc &gt;= 3) <span class="keyword">return</span> <span class="string">'E'</span>;</span><br><br>
+      <br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 2 优先级：平均分全面薄弱 → E 缓慢建构者</span><br>
       <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (avg &lt; 45) <span class="keyword">return</span> <span class="string">'E'</span>;</span><br><br>
       <br>
-      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 2 优先级：灵活但概念/建模偏低 → C 快速扫描者</span><br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 3 优先级：灵活但概念/建模偏低 → C 快速扫描者</span><br>
       <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (flexible &gt;= <span class="number">60</span> &amp;&amp; concept &lt;= flexible - <span class="number">15</span> &amp;&amp; model &lt;= flexible - <span class="number">15</span>)</span><br>
       <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'C'</span>;</span><br><br>
       <br>
-      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 3 优先级：概念+建模突出，审题偏低 → A 直觉建构者</span><br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 4 优先级：概念+建模突出，审题偏低 → A 直觉建构者</span><br>
       <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (concept &gt;= <span class="number">55</span> &amp;&amp; model &gt;= <span class="number">55</span> &amp;&amp; concept + model &gt;= <span class="number">120</span> &amp;&amp; reading &lt;= concept - <span class="number">10</span>)</span><br>
       <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'A'</span>;</span><br><br>
       <br>
-      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 4 优先级：数学+审题突出，灵活偏低 → B 规范执行者</span><br>
+      <span class="comment" style="padding-left:20px;display:inline-block">// 🥇 第 5 优先级：数学+审题突出，灵活偏低 → B 规范执行者</span><br>
       <span style="padding-left:20px;display:inline-block"><span class="keyword">if</span> (math &gt;= <span class="number">55</span> &amp;&amp; reading &gt;= <span class="number">55</span> &amp;&amp; math + reading &gt;= <span class="number">120</span> &amp;&amp; flexible &lt;= math - <span class="number">10</span>)</span><br>
       <span style="padding-left:40px;display:inline-block"><span class="keyword">return</span> <span class="string">'B'</span>;</span><br><br>
       <br>
@@ -304,11 +309,12 @@
     <div class="flow-box">
       <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.8">
         <div>🥇 <strong>主规则</strong>（按顺序匹配，命中即返回）</div>
-        <div style="padding-left:20px">① <span class="code-inline">avg &lt; 45</span> → <span class="highlight">E 缓慢建构者</span></div>
-        <div style="padding-left:20px">② <span class="code-inline">flexible ≥ 60</span> 且概念/模型都 ≤ flexible−15 → <span class="highlight">C 快速扫描者</span></div>
-        <div style="padding-left:20px">③ <span class="code-inline">concept ≥ 55</span>、<span class="code-inline">model ≥ 55</span>、concept+model ≥ 120、reading ≤ concept−10 → <span class="highlight">A 直觉建构者</span></div>
-        <div style="padding-left:20px">④ <span class="code-inline">math ≥ 55</span>、<span class="code-inline">reading ≥ 55</span>、math+reading ≥ 120、flexible ≤ math−10 → <span class="highlight">B 规范执行者</span></div>
-        <div style="padding-left:20px">⑤ <span class="code-inline">math ≥ 50</span> 且 concept ≤ math−15 → <span class="highlight">D 记忆驱动者</span></div>
+        <div style="padding-left:20px">① <span class="code-inline">wc ≥ 3</span>（半数及以上维度 &lt;45）→ <span class="highlight">E 缓慢建构者</span></div>
+        <div style="padding-left:20px">② <span class="code-inline">avg &lt; 45</span> → <span class="highlight">E 缓慢建构者</span></div>
+        <div style="padding-left:20px">③ <span class="code-inline">flexible ≥ 60</span> 且概念/模型都 ≤ flexible−15 → <span class="highlight">C 快速扫描者</span></div>
+        <div style="padding-left:20px">④ <span class="code-inline">concept ≥ 55</span>、<span class="code-inline">model ≥ 55</span>、concept+model ≥ 120、reading ≤ concept−10 → <span class="highlight">A 直觉建构者</span></div>
+        <div style="padding-left:20px">⑤ <span class="code-inline">math ≥ 55</span>、<span class="code-inline">reading ≥ 55</span>、math+reading ≥ 120、flexible ≤ math−10 → <span class="highlight">B 规范执行者</span></div>
+        <div style="padding-left:20px">⑥ <span class="code-inline">math ≥ 50</span> 且 concept ≤ math−15 → <span class="highlight">D 记忆驱动者</span></div>
         <br>
         <div>🥈 <strong>备选规则</strong>（主规则未命中时）</div>
         <div style="padding-left:20px">⑥ concept+model 之和最大 → <span class="highlight">A</span></div>
@@ -318,6 +324,181 @@
         <br>
         <div>🥉 <strong>兜底</strong></div>
         <div style="padding-left:20px">⑩ <span class="code-inline">avg &lt; 55</span> → <span class="highlight">E</span>；否则 → <span class="highlight">A</span></div>
+      </div>
+    </div>
+  </div>
+  <!-- ===== Panel: 报告逻辑 ===== -->
+  <div id="panel-report" class="panel">
+    <div class="section-title">📋 报告生成流程 <span class="badge">Step 1→4</span></div>
+    <div class="flow-box">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">计算得分与判型</div>
+          <div class="step-desc">各维度百分制得分 → <span class="code-inline">detType(scores)</span> 判定学员类型 A~E（判型算法详见 ⚙️ 判型算法面板）。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num green">2</div>
+        <div class="step-content">
+          <div class="step-title">收集错题薄弱点</div>
+          <div class="step-desc">遍历 12 道题，对每道答错的题（<span class="code-inline">score &lt; 3</span> 且 <span class="code-inline">weakness</span> 不为空），记录为三元组 <span class="code-inline">[题号, 选项索引, weakness文本]</span>。<br>这些个性化内容会追加到"需要加强"部分以及错题回顾中。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num orange">3</div>
+        <div class="step-content">
+          <div class="step-title">生成报告各部分</div>
+          <div class="step-desc">并行渲染：①个性化总结横幅 ②类型卡片（优势/薄弱/行动清单）③雷达图 ④错题回顾 ⑤初三衔接建议 ⑥日期水印。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num purple">4</div>
+        <div class="step-content">
+          <div class="step-title">编码分享 + 云端同步</div>
+          <div class="step-desc">将 <span class="code-inline">{n:姓名, s:五维得分数组, t:类型, d:日期, w:错题三元组}</span> 编码为 Base64 分享码，同时通过 Vercel API 自动同步到 GitHub Issues，教师端可实时查看。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">① 个性化总结横幅</div>
+    <div class="flow-box">
+      <p style="font-size:13px;color:#4A5568;line-height:1.7;margin-bottom:10px">根据答对题数和维度强弱，生成三段式鼓励文案：</p>
+      <div class="algo-box" style="font-size:12px">
+        <span class="comment">// 输入：scores（五维得分）, state.ans（答题记录）</span><br>
+        <span class="comment">// 输出：summary（HTML 文案）</span><br><br>
+        <span style="padding-left:0;display:inline-block"><span class="keyword">if</span> (correctCount &gt;= <span class="number">10</span>)</span><br>
+        <span style="padding-left:20px;display:inline-block">→ <span class="string">"你答对了 X/Y 道题，总体表现不错！{最强维度}是你的强项"</span></span><br>
+        <span style="padding-left:0;display:inline-block"><span class="keyword">else if</span> (correctCount &gt;= <span class="number">7</span>)</span><br>
+        <span style="padding-left:20px;display:inline-block">→ <span class="string">"答对了 X/Y 道题，基础还不错！但还有提升空间"</span></span><br>
+        <span style="padding-left:0;display:inline-block"><span class="keyword">else</span></span><br>
+        <span style="padding-left:20px;display:inline-block">→ <span class="string">"答对了 X/Y 道题，别灰心！这只是帮你找到薄弱点"</span></span><br><br>
+        <span class="comment">// 尾部追加：如有薄弱维度（&lt;45分）→ 标注最弱维度</span><br>
+        <span style="padding-left:0;display:inline-block"><span class="keyword">if</span> (存在 &lt;45 分的维度)</span><br>
+        <span style="padding-left:20px;display:inline-block">→ 追加 <span class="string">"最需要关注的是「{维度}」（仅{X}分）"</span></span><br>
+        <span style="padding-left:0;display:inline-block"><span class="keyword">else if</span> (&gt;=2 个维度 &gt;=68)</span><br>
+        <span style="padding-left:20px;display:inline-block">→ 追加 <span class="string">"继续保持，初三你也可以很稳！"</span></span>
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:#718096;line-height:1.7">
+        <strong>维度分级阈值：</strong>
+        <span class="highlight" style="background:#C6F6D5;color:#276749">≥70 分 = 优势（strong）</span> &nbsp;
+        <span class="highlight" style="background:#FEFCBF;color:#7B5E2E">45~69 分 = 中等（mid）</span> &nbsp;
+        <span class="highlight" style="background:#FED7D7;color:#C53030">&lt;45 分 = 薄弱（weak）</span>
+      </div>
+    </div>
+
+    <div class="section-title">② 错题回顾</div>
+    <div class="flow-box">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">筛选错题</div>
+          <div class="step-desc">遍历 12 道题，选出 <span class="code-inline">op.score &lt; 3</span> 且 <span class="code-inline">op.weakness</span> 不为空的选项。每个错题生成三元组 <span class="code-inline">[qi, oi, weaknessText]</span>。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num green">2</div>
+        <div class="step-content">
+          <div class="step-title">逐题渲染</div>
+          <div class="step-desc">每道错题展示：题号 + 题目原文（去除 emoji）、维度标签（带颜色）、你选的选项、正确答案选项、该选项对应的 <span class="code-inline">weakness</span> 描述。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num orange">3</div>
+        <div class="step-content">
+          <div class="step-title">维度错误统计</div>
+          <div class="step-desc">按维度汇总错题数，展示错误率标签，如 <span class="highlight" style="background:#FED7D7;color:#C53030">🧠1/3错</span> <span class="highlight" style="background:#FED7D7;color:#C53030">🔧2/3错</span>。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">③ 初三衔接建议</div>
+    <div class="flow-box">
+      <p style="font-size:13px;color:#4A5568;line-height:1.7;margin-bottom:10px">基于最薄弱的维度，给出对应的初三学习建议：</p>
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">定位最弱维度</div>
+          <div class="step-desc">在所有 <span class="code-inline">score &lt; 68</span> 的维度中取分最低的作为主建议维度。如没有 &lt;68 的维度则不展示该模块。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num green">2</div>
+        <div class="step-content">
+          <div class="step-title">匹配建议模板</div>
+          <div class="step-desc">从 <span class="code-inline">CHU3_ADVICE</span> 中取出对应维度的建议内容（标签 + 标题 + 详情 HTML），直接渲染为绿色卡片。</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num orange">3</div>
+        <div class="step-content">
+          <div class="step-title">多薄弱维度处理</div>
+          <div class="step-desc">如有 ≥2 个薄弱维度（score &lt; 40），在主要建议下方附加第二个维度的建议，使用橙色边框卡片表示"同时也要关注"。</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;background:#F7FAFC;border-radius:8px;padding:12px 14px">
+        <div style="font-size:12px;font-weight:600;margin-bottom:6px;color:#2B6CB0">📁 CHU3_ADVICE 数据模板（5 个维度各一条）</div>
+        <div style="font-size:11px;color:#4A5568;line-height:1.7">
+          <span class="code-inline">concept</span> → 初三概念更抽象，需要加强概念理解<br>
+          <span class="code-inline">model</span> → 电路图和受力分析是核心，模型建构需强化<br>
+          <span class="code-inline">math</span> → 初三计算量翻倍，数学运用需提前准备<br>
+          <span class="code-inline">reading</span> → 综合题题干更长，审题习惯需调整<br>
+          <span class="code-inline">flexible</span> → 压轴题考知识串联，思维灵活度需提升
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">④ 分享码编码格式</div>
+    <div class="algo-box" style="font-size:12px">
+      <span class="comment">// 学生端生成分享码（16题，含4道情景判断）</span><br>
+      <span class="keyword">const</span> shareData = {<br>
+      <span style="padding-left:16px;display:inline-block">n: <span class="string">"张三"</span>,        <span class="comment">// 姓名</span></span><br>
+      <span style="padding-left:16px;display:inline-block">s: [72, 65, 48, 80, 55], <span class="comment">// 五维得分 [concept, model, math, reading, flexible]</span></span><br>
+      <span style="padding-left:16px;display:inline-block">t: <span class="string">"A"</span>,              <span class="comment">// 判型结果 A~E</span></span><br>
+      <span style="padding-left:16px;display:inline-block">d: <span class="string">"2026/6/13"</span>,      <span class="comment">// 测试日期</span></span><br>
+      <span style="padding-left:16px;display:inline-block">w: [               <span class="comment">// 错题列表（三元组）</span></span><br>
+      <span style="padding-left:32px;display:inline-block">[3, 0, <span class="string">"混淆了惯性和力的概念"</span>],</span><br>
+      <span style="padding-left:32px;display:inline-block">[6, 2, <span class="string">"不理解排水法测体积"</span>]</span><br>
+      <span style="padding-left:16px;display:inline-block">]</span><br>
+      };<br>
+      <span class="keyword">const</span> code = btoa(encodeURIComponent(JSON.stringify(shareData)));<br><br>
+      <span class="comment">// 教师端解析</span><br>
+      <span class="keyword">const</span> raw = JSON.parse(decodeURIComponent(atob(code)));<br>
+      <span class="comment">// → normalizeData(raw) 转换为 {name, scores, type, date, weaknesses}</span>
+    </div>
+
+    <div class="section-title">⑤ 学习方式情景判断（Q13~Q16）</div>
+    <div class="flow-box">
+      <p style="font-size:13px;color:#4A5568;line-height:1.7;margin-bottom:10px">4道情景判断题不直接考查物理知识，而是通过真实学习场景的选择，诊断学生的思维模式偏好：</p>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.8">
+        <div><span class="code-inline">Q13 → 模型建构</span> · 做题习惯诊断（遇到条件多的复杂题怎么做）</div>
+        <div><span class="code-inline">Q14 → 概念理解</span> · 错题处理诊断（做错题后通常怎么做）</div>
+        <div><span class="code-inline">Q15 → 数学运用</span> · 学习方式诊断（怎样才算掌握了一个公式）</div>
+        <div><span class="code-inline">Q16 → 思维灵活</span> · 实验思维诊断（实验数据和别人不一样怎么做）</div>
+      </div>
+      <div style="margin-top:10px;padding:10px 12px;background:#F7FAFC;border-radius:8px;font-size:12px;line-height:1.7">
+        <strong>四种思维模式映射：</strong><br>
+        <span class="highlight" style="background:#C6F6D5;color:#276749">建模型</span> → 系统规范的模型思维，偏向通过画图、列模型解决问题<br>
+        <span class="highlight" style="background:#EBF4FF;color:#2B6CB0">理解型</span> → 深度理解优先，追求概念层面的彻底搞懂<br>
+        <span class="highlight" style="background:#FEFCBF;color:#7B5E2E">直觉型</span> → 反应快、凭感觉，但容易忽略细节<br>
+        <span class="highlight" style="background:#FFF5F5;color:#C53030">应试型</span> → 记忆驱动、依赖模板，遇到新题型容易卡住
+      </div>
+      <div style="margin-top:8px;font-size:12px;color:#718096">
+        <strong>积分规则：</strong>每题各选项按学习有效性赋分（3分/2分/1分/0分），分数累加到对应维度中，参与判型计算。4题覆盖4种不同思维场景，综合判断学生的元认知倾向。
+      </div>
+    </div>
+
+    <div class="section-title">📡 数据同步架构</div>
+    <div class="flow-box">
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.8">
+        <div>1. 学生完成测试 → <span class="code-inline">compute()</span> 生成报告并渲染</div>
+        <div>2. 分享码编码 → 展示在页面供复制给老师</div>
+        <div>3. <span class="code-inline">submitToGitHub(shareData)</span> → POST 到 <span class="highlight">Vercel API (/api/submit)</span></div>
+        <div style="padding-left:20px">↳ API 将数据写入 GitHub Issues（label: student-result）</div>
+        <div>4. 教师端点击「同步云端」→ <span class="code-inline">syncFromGitHub()</span> → GET <span class="highlight">Vercel API (/api/list)</span></div>
+        <div style="padding-left:20px">↳ 读取所有 Issues → <span class="code-inline">normalizeData()</span> → 存入 localStorage</div>
+        <div>5. 教师也可直接导入学生分享码 → 手动 <span class="code-inline">importCode()</span> 解析</div>
+        <div style="margin-top:4px;font-size:12px;color:#A0AEC0">💡 分享码和云端同步两条路径互补：分享码即时，云端同步批量。</div>
       </div>
     </div>
   </div>
@@ -335,30 +516,113 @@ const DIMS = [
 ];
 
 const QUESTIONS = [
-  {dim:'concept',text:'关于声音的产生与传播，以下说法正确的是？',
-    opts:[{label:'A',text:'声音在真空中传播速度最快',score:0,weak:'声学概念错误——真空不能传声'},{label:'B',text:'声音是由物体振动产生的',score:3,weak:null},{label:'C',text:'只要物体振动，我们就一定能听到声音',score:0,weak:'忽略了人耳听觉频率范围和传声介质'},{label:'D',text:'声音在固体中传播比在空气中慢',score:1,weak:'混淆了不同介质中的声速——固体传声比空气快'}]},
-  {dim:'concept',text:'关于物态变化，以下说法正确的是？',
-    opts:[{label:'A',text:'晶体在熔化过程中吸收热量，但温度保持不变',score:3,weak:null},{label:'B',text:'液体蒸发需要达到一定温度才能发生',score:0,weak:'混淆了蒸发和沸腾——蒸发在任何温度下都能发生'},{label:'C',text:'冰在熔化过程中温度会逐渐升高',score:0,weak:'晶体熔化特点理解错误——冰是晶体，熔化时吸热但温度不变'},{label:'D',text:'夏天冰箱拿出饮料瓶外壁"出汗"，是瓶子漏了',score:0,weak:'对液化现象不理解——是水蒸气遇冷瓶壁液化'}]},
-  {dim:'concept',text:'关于光的反射和折射，以下说法正确的是？',
-    opts:[{label:'A',text:'光在发生漫反射时，不遵循光的反射定律',score:0,weak:'漫反射的每一条光线都遵循反射定律'},{label:'B',text:'光从空气斜射入水中时，折射角小于入射角',score:3,weak:null},{label:'C',text:'光在真空中的传播速度是 3×10⁵m/s',score:1,weak:'数量级记错——光速是 3×10⁸m/s'},{label:'D',text:'凸透镜对光有发散作用',score:0,weak:'凸透镜会聚、凹透镜发散'}]},
-  {dim:'model',text:'用水平推力推地面上的木箱，木箱没动。木箱在水平方向受力情况是？',
-    opts:[{label:'A',text:'推力 > 静摩擦力',score:0,weak:'若推力大于摩擦力，木箱会加速运动'},{label:'B',text:'推力 = 静摩擦力',score:3,weak:null},{label:'C',text:'推力 < 静摩擦力',score:0,weak:'若推力小于摩擦力，物体会反向运动'},{label:'D',text:'木箱没动所以不受摩擦力',score:1,weak:'有推力且静止，必有静摩擦力平衡'}]},
-  {dim:'model',text:'一块木块静止在粗糙斜面上，它受到的摩擦力方向是？',
-    opts:[{label:'A',text:'沿斜面向上',score:3,weak:null},{label:'B',text:'沿斜面向下',score:0,weak:'木块有下滑趋势，摩擦阻碍下滑应向上'},{label:'C',text:'垂直斜面向上',score:1,weak:'混淆了支持力和摩擦力'},{label:'D',text:'水平向左',score:0,weak:'无法建立斜面模型'}]},
-  {dim:'model',text:'在"探究凸透镜成像规律"实验中，当物距 u > 2f 时，成像情况是？',
-    opts:[{label:'A',text:'成正立、放大的虚像',score:0,weak:'u>2f时成倒立缩小实像'},{label:'B',text:'成倒立、缩小的实像',score:3,weak:null},{label:'C',text:'成倒立、放大的实像',score:1,weak:'混淆了 f<u<2f 和 u>2f'},{label:'D',text:'不成像',score:0,weak:'不同物距成像性质不同，但都能成像'}]},
-  {dim:'math',text:'一个质量为 500g 的物体，体积为 200cm³，它的密度是？',
-    opts:[{label:'A',text:'2.5 g/cm³',score:3,weak:null},{label:'B',text:'0.4 g/cm³',score:1,weak:'公式记反了——ρ=m/V'},{label:'C',text:'250 g/cm³',score:0,weak:'单位处理失误'},{label:'D',text:'100,000 g/cm³',score:0,weak:'计算能力严重不足'}]},
-  {dim:'math',text:'一个 60kg 的人站立，每只脚与地面接触约 200cm²，g=10N/kg。他对地面的压强约为？',
-    opts:[{label:'A',text:'1.5×10⁴ Pa',score:3,weak:null},{label:'B',text:'3.0×10⁴ Pa',score:1,weak:'只算了一只脚的面积'},{label:'C',text:'1.5×10³ Pa',score:0,weak:'单位换算错误'},{label:'D',text:'3.0×10³ Pa',score:0,weak:'对压强公式理解有误'}]},
-  {dim:'math',text:'甲速是乙的 2 倍，乙时间是甲的 3 倍。甲、乙路程之比是？',
-    opts:[{label:'A',text:'2 : 3',score:3,weak:null},{label:'B',text:'3 : 2',score:1,weak:'比例推导不严谨'},{label:'C',text:'1 : 6',score:0,weak:'未正确运用 s=vt 推导'},{label:'D',text:'6 : 1',score:0,weak:'错误理解"乙时间是甲的3倍"'}]},
-  {dim:'reading',text:'题目："质量为 2kg 的物体放在水平桌面上，用 5N 的拉力使其做匀速直线运动"，求摩擦力。解题关键是什么？',
-    opts:[{label:'A',text:'质量 2kg',score:0,weak:'被数字吸引忽略关键信息'},{label:'B',text:'"匀速直线运动"意味着合力为零',score:3,weak:null},{label:'C',text:'水平拉力 5N',score:1,weak:'匀速条件下才能推出摩擦力'},{label:'D',text:'水平桌面',score:0,weak:'被无关背景信息干扰'}]},
-  {dim:'reading',text:'题目："1kg 物体从高处由静止开始下落，不计空气阻力，g=10N/kg"，求 2s 后下落距离。解题关键是什么？',
-    opts:[{label:'A',text:'质量 1kg',score:0,weak:'质量不影响下落快慢'},{label:'B',text:'"由静止开始"即初速度为零',score:3,weak:null},{label:'C',text:'g=10N/kg',score:1,weak:'不是本题的"关键条件"'},{label:'D',text:'不计空气阻力',score:1,weak:'漏了更关键的初速度条件'}]},
-  {dim:'flexible',text:'冬天室外说话呼出"白气"而夏天看不到。以下解释最合理的是？',
-    opts:[{label:'A',text:'冬天温度低，呼出的水蒸气遇冷液化成小水滴',score:3,weak:null},{label:'B',text:'冬天呼出的气体温度比夏天高',score:0,weak:'人体体温恒定，呼出气体温度差异不大'},{label:'C',text:'夏天没有水蒸气呼出',score:0,weak:'人呼吸时都会呼出水蒸气'},{label:'D',text:'冬天呼出的气体成分与夏天不同',score:1,weak:'成分没变，变化的是外部环境温度'}]},
+  // ===== 🧠 概念理解 × 3 =====
+  {dim:'concept',text:'🎧 你和同桌一起听歌一人戴一只耳机，同桌能听到你耳机里的声音吗？',
+    opts:[
+      {label:'A',text:'不能——耳机声音很小，只有自己能听到',score:1,weakness:'声音确实会减弱，但本质上是因为声波向四周传播'},
+      {label:'B',text:'能听到一点点——耳机振膜振动带动空气，声波向四周传开',score:3,weakness:null},
+      {label:'C',text:'不能——耳机线把声音都传到耳朵里了，不会漏出来',score:0,weakness:'混淆了电信号和声音的传播'},
+      {label:'D',text:'能听到——耳机线会导电把声音传过去',score:0,weakness:'对耳机工作原理完全误解'}]},
+  {dim:'concept',text:'🥤 夏天从冰箱拿出冰可乐放桌上，一会儿瓶壁外面出现一层小水珠。这水珠从哪来的？',
+    opts:[
+      {label:'A',text:'冰箱里太冷，冰霜附在瓶子上带出来了',score:0,weakness:'混淆了冰霜和液化现象'},
+      {label:'B',text:'瓶壁温度低，空气中的水蒸气遇冷液化成小水滴',score:3,weakness:null},
+      {label:'C',text:'瓶子漏了，可乐渗出来了',score:0,weakness:'对液化现象完全没有概念'},
+      {label:'D',text:'空气中的水遇到冰可乐被"冻"出来的',score:1,weakness:'知道和温度有关，但混淆了凝固和液化'}]},
+  {dim:'concept',text:'📸 你用手机后置摄像头拍远处，镜头里像是倒的，但照片里是正的。为什么？',
+    opts:[
+      {label:'A',text:'手机摄像头不是凸透镜，所以不会成倒像',score:0,weakness:'手机摄像头就是凸透镜'},
+      {label:'B',text:'凸透镜成倒立实像，手机软件自动把照片翻转成正的',score:3,weakness:null},
+      {label:'C',text:'拍远处成倒像，拍近处成正像，照片里就是实际成像',score:1,weakness:'对凸透镜成像规律理解不完整'},
+      {label:'D',text:'眼睛看到的是正的，摄像头拍到的也是正的',score:0,weakness:'没有理解凸透镜成像原理'}]},
+
+  // ===== 🔧 模型建构 × 3 =====
+  {dim:'model',text:'🚌 你坐公交站着玩手机没扶扶手，司机急刹车，你整个人向前倾。这是因为：',
+    opts:[
+      {label:'A',text:'刹车时车产生了一个向前的"推力"把我推向前',score:0,weakness:'混淆了惯性和力的概念'},
+      {label:'B',text:'刹车前我和车一起向前运动，车减速时我因惯性保持向前运动',score:3,weakness:null},
+      {label:'C',text:'人的重心在前面，所以刹车时会往前倒',score:1,weakness:'有生活经验但未建立物理模型'},
+      {label:'D',text:'地面突然变滑了，脚站不稳',score:0,weakness:'完全错误的归因'}]},
+  {dim:'model',text:'🥛 你用吸管喝酸奶，酸奶在吸管里上升。把它推上来的"主力"是：',
+    opts:[
+      {label:'A',text:'嘴巴的吸力把酸奶吸上来了',score:0,weakness:'"吸力"不是物理概念——本质是气压差'},
+      {label:'B',text:'吸时口腔气压减小，外界大气压把酸奶压上来了',score:3,weakness:null},
+      {label:'C',text:'吸管里有毛细现象，酸奶自己往上爬',score:1,weakness:'毛细现象存在但这不是主要原因'},
+      {label:'D',text:'酸奶很稀，自己就能流上来',score:0,weakness:'没有理解吸管喝饮料的物理原理'}]},
+  {dim:'model',text:'🔬 小明想测一块不规则石块的密度。他用天平测出石块质量为156g，再将石块放入装有200mL水的量筒中，水面升高到260mL。该石块的密度最接近？',
+    opts:[
+      {label:'A',text:'2.6 g/cm³',score:3,weakness:null},
+      {label:'B',text:'0.6 g/cm³',score:1,weakness:'知道ρ=m/V但误用了水的总体积——不理解排水法测体积'},
+      {label:'C',text:'7.8 g/cm³',score:0,weakness:'对实验测量原理完全不清楚'},
+      {label:'D',text:'0.26 g/cm³',score:0,weakness:'计算错误或单位混乱'}]},
+
+  // ===== 📐 数学运用 × 2 =====
+  {dim:'math',text:'🧍 一个质量为50kg的中学生双脚站在水平地面上，每只脚与地面的接触面积约为200cm²。该同学对水平地面的压强约为？（g=10N/kg）',
+    opts:[
+      {label:'A',text:'1.25×10⁴ Pa',score:3,weakness:null},
+      {label:'B',text:'2.5×10⁴ Pa',score:1,weakness:'公式用对了但只算了一只脚的面积——注意是双脚站立'},
+      {label:'C',text:'1.25×10³ Pa',score:0,weakness:'单位换算错误——200cm²=0.02m²，不是0.2m²'},
+      {label:'D',text:'2.5×10³ Pa',score:0,weakness:'公式和单位换算都有错误'}]},
+  {dim:'math',text:'🏃 体育中考 1000m，小红第一圈 400m 用时 80s。她想用 200s 跑完全程，剩下 600m 需保持平均速度多少 m/s？',
+    opts:[
+      {label:'A',text:'3 m/s',score:0,weakness:'速度计算失误'},
+      {label:'B',text:'5 m/s',score:3,weakness:null},
+      {label:'C',text:'6 m/s',score:1,weakness:'只算了总路程÷总时间，没有分段计算'},
+      {label:'D',text:'2.5 m/s',score:0,weakness:'混淆了路程和时间的关系'}]},
+
+  // ===== 🔍 审题习惯 × 2 =====
+  {dim:'reading',text:'🔬 题目："用弹簧测力计沿水平方向拉物体，在水平桌面上做匀速直线运动，测力计示数为2N。若将拉力增大到3N继续拉动，物体受到的滑动摩擦力大小为多少？"解题关键是什么？',
+    opts:[
+      {label:'A',text:'拉力增大到3N，摩擦力也增大到3N',score:1,weakness:'知道摩擦力和拉力有关，但混淆了二力平衡和滑动摩擦力的决定因素'},
+      {label:'B',text:'匀速时f=2N，滑动摩擦力大小与拉力无关，仍为2N',score:3,weakness:null},
+      {label:'C',text:'不知道物体质量无法判断',score:0,weakness:'被无关条件误导——摩擦力与质量无直接关系'},
+      {label:'D',text:'3N是最大拉力，摩擦力应小于3N',score:0,weakness:'对滑动摩擦力概念理解有误'}]},
+  {dim:'reading',text:'🔢 题目："汽车以 72km/h 从 A→B 行驶 10 分钟，再以 60km/h 从 B→C 行驶 15 分钟。求全程平均速度。"最容易忽略的是？',
+    opts:[
+      {label:'A',text:'72km/h 和 60km/h 不一样，需要分别算路程',score:1,weakness:'注意到了分段但忽略了更关键的单位问题'},
+      {label:'B',text:'速度单位 km/h，时间单位分钟——需先统一单位',score:3,weakness:null},
+      {label:'C',text:'求平均速度用总路程÷总时间',score:0,weakness:'公式正确但没回答"最容易忽略什么"'},
+      {label:'D',text:'先算 72+60 再除以 2 得平均速度',score:0,weakness:'这是错误算法'}]},
+
+  // ===== 💡 思维灵活 × 2 =====
+  {dim:'flexible',text:'💧 洗完手后，小高用力甩手，手上的水珠就被甩掉了。以下解释最合理的是？',
+    opts:[
+      {label:'A',text:'手突然停止，水珠由于惯性继续向前运动而被甩出',score:3,weakness:null},
+      {label:'B',text:'手给了水珠一个向外的推力',score:1,weakness:'有物理直觉但混淆了惯性和力的概念——手停止后不再施力'},
+      {label:'C',text:'水珠受到离心力的作用被甩出',score:0,weakness:'"离心力"不是真实存在的力，是惯性的一种表现'},
+      {label:'D',text:'水珠和手之间存在斥力',score:0,weakness:'对力的概念完全理解错误'}]},
+  {dim:'flexible',text:'🧊 在一杯装满水的杯子中，有一块冰浮在水面上。当冰块完全熔化后（不计蒸发），杯中的水会不会溢出？',
+    opts:[
+      {label:'A',text:'不会溢出——冰排开水的体积等于冰熔化成水的体积',score:3,weakness:null},
+      {label:'B',text:'会溢出——冰变成水体积变大了',score:1,weakness:'知道冰熔化成水体积会变化，但忽略了浮力原理'},
+      {label:'C',text:'水面会下降',score:0,weakness:'对浮力和质量守恒都没有理解'},
+      {label:'D',text:'无法确定',score:0,weakness:'缺乏应用物理原理分析问题的思路'}]},
+
+  // ===== 🧠 学习方式情景判断 × 4 =====
+  {dim:'reading',text:'📝 做物理计算题时，题目条件很多、数字也比较复杂，你会怎么做？',
+    opts:[
+      {label:'A',text:'先把已知条件列出来，判断属于哪种物理模型，再列式计算',score:3,weakness:null,mode:'建模型'},
+      {label:'B',text:'快速扫一眼题目，感觉有思路就马上开始算',score:1,weakness:'反应快但容易漏看条件——建议养成先列条件再动笔的习惯',mode:'直觉型'},
+      {label:'C',text:'翻课本找同类型的例题，照着例题的步骤来',score:0,weakness:'熟题有效但遇到新题型会卡住——不能只依赖模板',mode:'应试型'},
+      {label:'D',text:'逐字读题，先想清楚整个物理过程再动笔',score:2,weakness:'理解全面但有时耗时过长——理解后可以加快列式速度',mode:'理解型'}]},
+  {dim:'concept',text:'📝 作业发下来发现有题目做错了，你通常会怎么做？',
+    opts:[
+      {label:'A',text:'看一遍正确答案，看懂了就觉得自己会了',score:1,weakness:'"看懂"不等于"会做"——要动手重做一遍才能真正检验',mode:'直觉型'},
+      {label:'B',text:'把正确解法抄到错题本上，记住下次别再错',score:0,weakness:'只记答案不究根源——换个问法还是容易错',mode:'应试型'},
+      {label:'C',text:'重新分析错在哪一步，把正确的物理过程图画出来',score:3,weakness:null,mode:'建模型'},
+      {label:'D',text:'想想相关概念哪里没搞懂，回头翻课本重新理解一遍',score:2,weakness:'深度理解是好事，但也要注意效率——结合错题定位针对性更强',mode:'理解型'}]},
+  {dim:'math',text:'📝 学完一个物理公式后，你觉得怎样才算真正掌握了？',
+    opts:[
+      {label:'A',text:'能背出公式，做题时知道什么时候套用',score:0,weakness:'停留在记忆层面——题目一变就不知道用哪个公式了',mode:'应试型'},
+      {label:'B',text:'能独立把公式推导一遍，理解每个符号的含义和单位',score:3,weakness:null,mode:'理解型'},
+      {label:'C',text:'能把这个公式对应到具体的物理场景中，知道它解决什么问题',score:2,weakness:'联系实际是好习惯，但也要注意公式的适用条件和单位',mode:'建模型'},
+      {label:'D',text:'做几道不同类型的题巩固一下，会做题就行',score:1,weakness:'做题巩固没错，但做完要总结——想想这几道题考的是同一个公式吗',mode:'直觉型'}]},
+  {dim:'flexible',text:'📝 物理实验课上，你的实验数据和其他同学明显不一样，你会怎么做？',
+    opts:[
+      {label:'A',text:'可能是自己操作有误，重新做一遍看看',score:3,weakness:null,mode:'建模型'},
+      {label:'B',text:'看看别人的数据，改成和他们一样的',score:0,weakness:'追求"正确答案"而放弃探究——实验的目的是过程而非结果',mode:'应试型'},
+      {label:'C',text:'主动分析可能是什么原因导致了差异',score:2,weakness:'分析差异是科学探究精神，但如果能再动手验证一下自己的分析会更完整',mode:'理解型'},
+      {label:'D',text:'直接问老师怎么做才对',score:1,weakness:'请教老师是好事，但先自己思考原因收获会更大',mode:'直觉型'}]},
 ];
 
 const TYPES = {
@@ -401,7 +665,7 @@ function renderQuestions() {
         let cls = 'wrong', label = '0 分 ✘';
         if (o.score === 3) { cls = 'correct'; label = '3 分 ✓'; }
         else if (o.score === 1) { cls = 'partial'; label = '1 分 △'; }
-        const wk = o.weak ? `<span class="wk">↳ ${o.weak}</span>` : '';
+        const wk = o.weakness ? `<span class="wk">↳ ${o.weakness}</span>` : '';
         return `<div class="opt"><span class="lb">${o.label}.</span><span>${o.text}</span><span class="sc ${cls}">${label}</span>${wk}</div>`;
       }).join('')}</div>
     </div>`;
